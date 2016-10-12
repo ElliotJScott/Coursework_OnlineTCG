@@ -11,10 +11,12 @@ namespace CourseworkServer
     {
 
         TcpClient tcpClient; //The tcpclient used for receiving data from the end user
-        string ip; //The ip address for the client
+        public string ip; //The ip address for the client
         public int id; //The unique identifier for this particular client connected to the server
         public const int bufferSize = 10000; //The size of the buffer
         byte[] buffer = new byte[bufferSize]; //The buffer that data is written into when data is received from the end user
+        public event OnConnect DisconnectEvent;
+        public event OnDataReceived DataReceivedEvent;
 
         public Client(TcpClient c, int i)
         {
@@ -37,6 +39,7 @@ namespace CourseworkServer
             {
                 d[i] = buffer[i];
             }
+
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null);
         }
 
@@ -46,6 +49,11 @@ namespace CourseworkServer
             {
                 tcpClient.GetStream().BeginWrite(b, 0, b.Length, null, null);
             }
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            else return id == ((Client)obj).id;
         }
     }
 }

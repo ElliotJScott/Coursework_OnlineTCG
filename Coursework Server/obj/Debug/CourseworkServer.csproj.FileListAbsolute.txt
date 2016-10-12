@@ -10,3 +10,6 @@ C:\Users\Robert\Documents\Visual Studio 2015\Projects\Coursework Server\obj\Debu
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe.config
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.exe
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.pdb
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.csprojResolveAssemblyReference.cache
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.pdb

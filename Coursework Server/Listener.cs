@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,18 +10,26 @@ namespace CourseworkServer
 {
     class Listener
     {
-        TcpListener listener;
+        public TcpListener listener;
+        public event OnConnect userAdded;
         public Listener()
         {
-            listener = new TcpListener(System.Net.IPAddress.Any, 1337);
+            listener = new TcpListener(IPAddress.Any, 1337);
             listener.Start();
             listener.BeginAcceptTcpClient(AcceptClient, null);
         }
         public void AcceptClient(IAsyncResult a)
         {
             TcpClient client = listener.EndAcceptTcpClient(a);
-            Server.server.connectedClients.Add(new Client(client, id));
+            Client cl = new Client(client, Server.server.getAvailableID());
+
+            if (userAdded != null)
+            {
+                userAdded(cl, this);
+            }
+            Server.server.connectedClients.Add(cl);
             listener.BeginAcceptTcpClient(AcceptClient, null);
         }
+
     }
 }
