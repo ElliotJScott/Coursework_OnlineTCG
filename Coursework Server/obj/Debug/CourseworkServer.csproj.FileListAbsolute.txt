@@ -13,3 +13,6 @@ C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkSe
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.csprojResolveAssemblyReference.cache
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.pdb
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe.config
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.exe
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.pdb
