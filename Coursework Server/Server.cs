@@ -57,7 +57,7 @@ namespace CourseworkServer
                 }
                 if (!idTaken) return i;
             }
-            throw new Exception("An unexpected error has occurred");
+            throw new Exception("An unexpected error has occurred. The program will now terminate");
         }
         private void listener_userAdded(object sender, Client user)
         {
