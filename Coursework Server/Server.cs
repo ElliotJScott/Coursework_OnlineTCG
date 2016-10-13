@@ -22,6 +22,7 @@ namespace CourseworkServer
         static void Main(string[] args)
         {
             server = new Server();
+            Console.WriteLine("Server online");
             while (true)
             {
                 Thread.Sleep(1000);
