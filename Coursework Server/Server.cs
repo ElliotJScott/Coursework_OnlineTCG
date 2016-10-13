@@ -74,14 +74,8 @@ namespace CourseworkServer
             connectedClients.Remove(user);
         }
 
-        private void user_DataReceived(Client sender, byte[] data)
+        private void user_DataReceived(Client destination, byte[] data)
         {
-            writeStream.Position = 0;
-
-
-            writer.Write(sender.id);
-            writer.Write(sender.ip);
-            data = CombineData(data, writeStream);
             //SendData(data, sender);
         }
 
@@ -101,23 +95,5 @@ namespace CourseworkServer
             return result;
         }
 
-        private byte[] CombineData(byte[] data, MemoryStream ms)
-        {
-            byte[] result = GetDataFromMemoryStream(ms);
-
-            byte[] combinedData = new byte[data.Length + result.Length];
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                combinedData[i] = data[i];
-            }
-
-            for (int j = data.Length; j < data.Length + result.Length; j++)
-            {
-                combinedData[j] = result[j - data.Length];
-            }
-
-            return combinedData;
-        }
     }
 }
