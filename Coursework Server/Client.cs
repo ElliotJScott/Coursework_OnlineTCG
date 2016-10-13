@@ -55,5 +55,9 @@ namespace CourseworkServer
             if (obj == null) return false;
             else return id == ((Client)obj).id;
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

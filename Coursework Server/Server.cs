@@ -33,9 +33,10 @@ namespace CourseworkServer
 
         public Server()
         {
+            Console.WriteLine("Initialising Server");
             listener = new Listener();
             connectedClients = new List<Client>();
-
+            Console.WriteLine("Initialising writers and readers");
             readStream = new MemoryStream();
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
@@ -44,6 +45,7 @@ namespace CourseworkServer
 
         public int getAvailableID()
         {
+            Console.WriteLine("Searching for available ID for new connection");
             for (int i = 0; i <= connectedClients.Count; i++)
             {
                 bool idTaken = false;
@@ -61,7 +63,7 @@ namespace CourseworkServer
         }
         private void listener_userAdded(object sender, Client user)
         {
-
+            Console.WriteLine("Adding user to list of users");
             user.DataReceivedEvent += new OnDataReceived(user_DataReceived);
             user.DisconnectEvent += new OnConnect(user_UserDisconnected);
 
@@ -70,7 +72,7 @@ namespace CourseworkServer
 
         private void user_UserDisconnected(Client user, object sender)
         {
-
+            Console.WriteLine("Removing user");
             connectedClients.Remove(user);
         }
 
