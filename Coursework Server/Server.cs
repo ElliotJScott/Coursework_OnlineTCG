@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace CourseworkServer
 {
@@ -25,6 +22,7 @@ namespace CourseworkServer
         static void Main(string[] args)
         {
             server = new Server();
+            Console.WriteLine("Server online");
             while (true)
             {
                 Thread.Sleep(1000);
@@ -33,9 +31,10 @@ namespace CourseworkServer
 
         public Server()
         {
+            Console.WriteLine("Initialising Server");
             listener = new Listener();
             connectedClients = new List<Client>();
-
+            Console.WriteLine("Initialising writers and readers");
             readStream = new MemoryStream();
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
@@ -44,6 +43,7 @@ namespace CourseworkServer
 
         public int getAvailableID()
         {
+            Console.WriteLine("Searching for available ID for new connection");
             for (int i = 0; i <= connectedClients.Count; i++)
             {
                 bool idTaken = false;
@@ -57,11 +57,11 @@ namespace CourseworkServer
                 }
                 if (!idTaken) return i;
             }
-            throw new Exception("An unexpected error has occurred");
+            throw new Exception("An unexpected error has occurred. The program will now terminate");
         }
         private void listener_userAdded(object sender, Client user)
         {
-
+            Console.WriteLine("Adding user to list of users");
             user.DataReceivedEvent += new OnDataReceived(user_DataReceived);
             user.DisconnectEvent += new OnConnect(user_UserDisconnected);
 
@@ -70,18 +70,12 @@ namespace CourseworkServer
 
         private void user_UserDisconnected(Client user, object sender)
         {
-
+            Console.WriteLine("Removing user");
             connectedClients.Remove(user);
         }
 
-        private void user_DataReceived(Client sender, byte[] data)
+        private void user_DataReceived(Client destination, byte[] data)
         {
-            writeStream.Position = 0;
-
-
-            writer.Write(sender.id);
-            writer.Write(sender.ip);
-            data = CombineData(data, writeStream);
             //SendData(data, sender);
         }
 
@@ -101,23 +95,5 @@ namespace CourseworkServer
             return result;
         }
 
-        private byte[] CombineData(byte[] data, MemoryStream ms)
-        {
-            byte[] result = GetDataFromMemoryStream(ms);
-
-            byte[] combinedData = new byte[data.Length + result.Length];
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                combinedData[i] = data[i];
-            }
-
-            for (int j = data.Length; j < data.Length + result.Length; j++)
-            {
-                combinedData[j] = result[j - data.Length];
-            }
-
-            return combinedData;
-        }
     }
 }

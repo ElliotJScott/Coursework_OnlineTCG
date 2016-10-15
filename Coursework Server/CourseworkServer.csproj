@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Listener.cs" />
     <Compile Include="Client.cs" />
+    <Compile Include="Protocols.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
