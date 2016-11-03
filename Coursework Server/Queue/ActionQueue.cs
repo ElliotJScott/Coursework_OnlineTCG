@@ -13,6 +13,18 @@ namespace CourseworkServer
         public ActionQueue()
         {
             Console.WriteLine("Queue set up");
+            BeginDelegating();
+        }
+        public void BeginDelegating()
+        {
+            while (true)
+            {
+                if (priorityItems.Count != 0)
+                {
+                    ActionItem a = priorityItems.ElementAt(0);
+                    bool b = Server.
+                }
+            }
         }
     }
 }

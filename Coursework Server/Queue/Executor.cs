@@ -8,11 +8,15 @@ namespace CourseworkServer
 {
     class Executor
     {
-        bool occupied;
+        public bool occupied;
+        public ActionItem currentItem = null;
         public Executor()
         {
             Console.WriteLine("Creating executor");
             occupied = false;
+        }
+        public void Execute() 
+        {
         }
     }
 }

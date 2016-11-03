@@ -43,11 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionItem.cs" />
-    <Compile Include="ActionQueue.cs" />
-    <Compile Include="Delegator.cs" />
-    <Compile Include="Executor.cs" />
-    <Compile Include="Listener.cs" />
+    <Compile Include="Queue\ActionItem.cs" />
+    <Compile Include="Queue\ActionQueue.cs" />
+    <Compile Include="Queue\Delegator.cs" />
+    <Compile Include="Queue\Executor.cs" />
+    <Compile Include="Queue\Listener.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Protocols.cs" />

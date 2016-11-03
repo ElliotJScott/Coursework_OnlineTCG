@@ -10,9 +10,10 @@ namespace CourseworkServer
 
     class Server
     {
-        Thread[] executionThreads = new Thread[4];
-        Executor[] executors = new Executor[4];
+        public const int executionThreads = 10;
+        public Executor[] executors = new Executor[executionThreads];
         public Listener listener;
+        public Delegator delegator;
         public static Server server;
         public List<Client> connectedClients;
         public const int port = 1337;
@@ -42,10 +43,9 @@ namespace CourseworkServer
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
             writer = new BinaryWriter(writeStream);
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < executionThreads; i++)
             {
                 executors[i] = new Executor();
-                executionThreads[i] = new Thread()
             }
         }
 
