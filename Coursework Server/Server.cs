@@ -43,6 +43,7 @@ namespace CourseworkServer
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
             writer = new BinaryWriter(writeStream);
+            delegator = new Delegator();
             for (int i = 0; i < executionThreads; i++)
             {
                 executors[i] = new Executor();
