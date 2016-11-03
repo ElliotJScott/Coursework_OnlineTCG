@@ -17,6 +17,9 @@ namespace CourseworkServer
         }
         public void Execute() 
         {
+            occupied = true;
+            //Execution code
+            occupied = false;
         }
     }
 }

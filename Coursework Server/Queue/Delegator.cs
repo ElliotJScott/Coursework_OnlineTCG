@@ -26,7 +26,7 @@ namespace CourseworkServer
                 if (e.occupied == false)
                 {
                     e.currentItem = a;
-                    Thread t = new Thread(new ThreadStart(e.Execute)); //put something in here later
+                    Thread t = new Thread(new ThreadStart(e.Execute));
                     t.Start();
                     Console.WriteLine("Successfully delegated ActionItem " + a.ToString());
                     return true;

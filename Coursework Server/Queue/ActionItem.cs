@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace CourseworkServer
 {
+    enum Priority //If needed add a third priority for really important things and maybe a low priority for unimportant things
+    {
+        standard,
+        high
+    }
     class ActionItem
     {
-        int priority;
+        public Priority priority;
         int operand;
-        byte[] data = new byte[128]; //Probably change this to object or something
+        object data;
+        public ActionItem(int op, object d, Priority p = Priority.standard)
+        {
+            operand = op;
+            data = d;
+            priority = p;
+        }
     }
 }
