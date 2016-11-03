@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseworkClient", "CourseworkClient\CourseworkClient\CourseworkClient.csproj", "{CB564F4D-311F-4B95-82D7-2EFCD10EDEDB}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "CourseworkClientContent", "CourseworkClient\CourseworkClientContent\CourseworkClientContent.contentproj", "{23247F19-3FAC-49F7-A3EF-92B0FC9E712A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB564F4D-311F-4B95-82D7-2EFCD10EDEDB}.Debug|x86.ActiveCfg = Debug|x86
+		{CB564F4D-311F-4B95-82D7-2EFCD10EDEDB}.Debug|x86.Build.0 = Debug|x86
+		{CB564F4D-311F-4B95-82D7-2EFCD10EDEDB}.Release|x86.ActiveCfg = Release|x86
+		{CB564F4D-311F-4B95-82D7-2EFCD10EDEDB}.Release|x86.Build.0 = Release|x86
+		{23247F19-3FAC-49F7-A3EF-92B0FC9E712A}.Debug|x86.ActiveCfg = Debug|x86
+		{23247F19-3FAC-49F7-A3EF-92B0FC9E712A}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
