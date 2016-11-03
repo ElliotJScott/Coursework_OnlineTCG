@@ -10,6 +10,8 @@ namespace CourseworkServer
 
     class Server
     {
+        Thread[] executionThreads = new Thread[4];
+        Executor[] executors = new Executor[4];
         public Listener listener;
         public static Server server;
         public List<Client> connectedClients;
@@ -21,6 +23,7 @@ namespace CourseworkServer
 
         static void Main(string[] args)
         {
+            
             server = new Server();
             Console.WriteLine("Server online");
             while (true)
@@ -39,6 +42,11 @@ namespace CourseworkServer
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
             writer = new BinaryWriter(writeStream);
+            for (int i = 0; i < 4; i++)
+            {
+                executors[i] = new Executor();
+                executionThreads[i] = new Thread()
+            }
         }
 
         public int getAvailableID()
