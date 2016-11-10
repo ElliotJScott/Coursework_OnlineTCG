@@ -30,8 +30,9 @@ namespace CourseworkClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.IsFullScreen = true;
-
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
+         
         }
 
         protected override void Initialize()
@@ -56,8 +57,7 @@ namespace CourseworkClient
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Bisque);
-
+            GraphicsDevice.Clear(Color.LightGoldenrodYellow);
             base.Draw(gameTime);
         }
         public string ComputeHash(string s)
