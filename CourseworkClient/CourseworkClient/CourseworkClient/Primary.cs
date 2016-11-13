@@ -51,7 +51,7 @@ namespace CourseworkClient
 
         protected override void Update(GameTime gameTime)
         {
-            Window.Title = this.ComputeHash(new Random().Next().ToString());
+            Window.Title = ComputeHash(new Random().Next().ToString());
             base.Update(gameTime);
         }
 
