@@ -58,7 +58,7 @@ namespace CourseworkServer
                     items.Add(a);
                     return;
                 default:
-                    throw new ArgumentException("Something's gone very wrong here");                    
+                    throw new ArgumentException("Something's gone very wrong here: " + a.ToString());                    
             }
         }
     }

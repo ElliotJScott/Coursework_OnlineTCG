@@ -14,13 +14,17 @@ namespace CourseworkServer
     class ActionItem
     {
         public Priority priority;
-        int operand;
+        int operation;
         object data;
         public ActionItem(int op, object d, Priority p = Priority.standard)
         {
-            operand = op;
+            operation = op;
             data = d;
             priority = p;
+        }
+        public override string ToString()
+        {
+            return String.Format("ActionItem: Priority = %s | Operation = %d | Data = %d", priority.ToString(), operation, data); 
         }
     }
 }
