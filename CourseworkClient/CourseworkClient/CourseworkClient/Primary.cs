@@ -53,7 +53,8 @@ namespace CourseworkClient
 
         protected override void Update(GameTime gameTime)
         {
-            Window.Title = keypresshandler.NewTypedString(test, 50);
+            test = keypresshandler.NewTypedString(test, 50);
+            Window.Title = test;
             //Window.Title = ComputeHash(new Random().Next().ToString());
             base.Update(gameTime);
         }
