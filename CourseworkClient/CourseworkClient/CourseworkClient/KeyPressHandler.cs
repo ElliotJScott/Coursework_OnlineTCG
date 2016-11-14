@@ -11,13 +11,13 @@ namespace CourseworkClient
         KeyboardState oldKeyboardState;
         const int ASCII_A = 'A';
         const int ASCII_Z = 'Z';
-        Dictionary[] dictionary = { new Dictionary(Keys.OemBackslash, '\\', '|'),
+        Dictionary[] dictionary = { new Dictionary(Keys.OemPipe, '\\', '|'),
             new Dictionary(Keys.OemComma, ',', '<'),
             new Dictionary(Keys.OemPeriod, '.', '>'),
             new Dictionary(Keys.OemSemicolon, ';', ':'),
             new Dictionary(Keys.OemQuestion, '/', '?'),
-            new Dictionary(Keys.OemQuotes, '\'', '@'),
-            new Dictionary(Keys.OemTilde, '#', '~'),
+            new Dictionary(Keys.OemTilde, '\'', '@'),
+            new Dictionary(Keys.OemQuotes, '#', '~'),
             new Dictionary(Keys.D1, '1', '!'),
             new Dictionary(Keys.D2, '2', '"'),
             new Dictionary(Keys.D3, '3', '£'),
@@ -31,10 +31,11 @@ namespace CourseworkClient
             new Dictionary(Keys.OemOpenBrackets, '[', '{'),
             new Dictionary(Keys.OemCloseBrackets, ']', '}'),
             new Dictionary(Keys.OemMinus, '-', '_'),
-            new Dictionary(Keys.OemPlus, '=', '+')
+            new Dictionary(Keys.OemPlus, '=', '+'),
+            new Dictionary(Keys.Space, ' ', ' ')
         };
 
-        string NewTypedString(string initstring, int maxLength)
+        public string NewTypedString(string initstring, int maxLength)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
             Keys[] newKeys = currentKeyboardState.GetPressedKeys();
