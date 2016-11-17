@@ -19,6 +19,8 @@ namespace CourseworkClient
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         HMACMD5 hasher = new HMACMD5();
+        string test = "fff";
+        KeyPressHandler keypresshandler = new KeyPressHandler();
         static void Main(string[] args)
         {
             using (Primary game = new Primary())
@@ -51,7 +53,9 @@ namespace CourseworkClient
 
         protected override void Update(GameTime gameTime)
         {
-            Window.Title = this.ComputeHash(new Random().Next().ToString());
+            test = keypresshandler.NewTypedString(test, 50);
+            Window.Title = test;
+            //Window.Title = ComputeHash(new Random().Next().ToString());
             base.Update(gameTime);
         }
 
