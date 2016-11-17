@@ -6,11 +6,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CourseworkClient
 {
-    class KeyPressHandler
+    public class KeyPressHandler
     {
         KeyboardState oldKeyboardState;
         const int ASCII_A = 'A';
         const int ASCII_Z = 'Z';
+        List<KeyPressTimer> timers = new List<KeyPressTimer>();
+        #region dict
         Dictionary[] dictionary = { new Dictionary(Keys.OemPipe, '\\', '|'),
             new Dictionary(Keys.OemComma, ',', '<'),
             new Dictionary(Keys.OemPeriod, '.', '>'),
@@ -34,22 +36,38 @@ namespace CourseworkClient
             new Dictionary(Keys.OemPlus, '=', '+'),
             new Dictionary(Keys.Space, ' ', ' ')
         };
+        #endregion
 
         public string NewTypedString(string initstring, int maxLength)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
             Keys[] newKeys = currentKeyboardState.GetPressedKeys();
+            Keys[] oldKeys = oldKeyboardState.GetPressedKeys();
             bool shift = false;
             if (currentKeyboardState.IsKeyDown(Keys.LeftShift) || currentKeyboardState.IsKeyDown(Keys.RightShift)) shift = true;
-            foreach (Keys key in oldKeyboardState.GetPressedKeys())
+            foreach (Keys key in newKeys)
             {
-                if (!newKeys.Contains(key))
+                if (!oldKeys.Contains(key))
                 {
                     if (key == Keys.Back)
                     {
                         if (initstring.Length > 0) initstring = initstring.Substring(0, initstring.Length - 1);
                     }
                     else if (initstring.Length < maxLength) initstring += OnKeyDownType(key, shift);
+                    timers.Add(new KeyPressTimer(key));
+                }
+                else
+                {
+                    int index = GetIndexOfTimer(key);
+                    timers[index]++;
+                }
+            }
+            foreach (Keys key in oldKeys)
+            {
+                if (!newKeys.Contains(key))
+                {
+                    int index = GetIndexOfTimer(key);
+                    timers.RemoveAt(index);
                 }
             }
             oldKeyboardState = currentKeyboardState;
@@ -65,6 +83,14 @@ namespace CourseworkClient
                 if (d.key == key) return shift ? d.shiftCharacter.ToString() : d.character.ToString();
             return "";
         }
+        int GetIndexOfTimer(Keys k)
+        {
+            for (int i = 0; i < timers.Count; i++)
+            {
+                if (timers[i].key == k) return i;
+            }
+            return -1;
+        }
 
     }
     class Dictionary
@@ -77,6 +103,22 @@ namespace CourseworkClient
             key = k;
             character = c;
             shiftCharacter = sc;
+        }
+    }
+    class KeyPressTimer
+    {
+        public int timer;
+        public Keys key;
+        public KeyPressTimer(Keys k)
+        {
+            key = k;
+            timer = 0;
+        }
+        public static implicit operator int(KeyPressTimer k) => k.timer;
+        public static KeyPressTimer operator ++(KeyPressTimer k)
+        {
+            k.timer++;
+            return k;
         }
     }
     
