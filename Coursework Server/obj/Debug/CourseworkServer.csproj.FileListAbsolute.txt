@@ -19,3 +19,5 @@ C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServ
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.csprojResolveAssemblyReference.cache
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.pdb
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB.mdf
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB_log.ldf
