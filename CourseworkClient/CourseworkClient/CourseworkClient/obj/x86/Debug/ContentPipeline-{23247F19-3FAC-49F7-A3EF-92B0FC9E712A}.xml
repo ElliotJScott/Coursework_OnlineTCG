@@ -8,7 +8,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\16x9 Background.xnb</Output>
-      <Time>2016-11-14T20:16:11.9622255+00:00</Time>
+      <Time>2016-11-19T22:10:50.6871848+00:00</Time>
     </Item>
     <Item>
       <Source>4x3 Background.png</Source>
@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\4x3 Background.xnb</Output>
-      <Time>2016-11-14T20:16:11.9652324+00:00</Time>
+      <Time>2016-11-19T12:31:38.7752616+00:00</Time>
     </Item>
     <Item>
       <Source>TextFieldBox.png</Source>
@@ -35,7 +35,16 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Mainfont.xnb</Output>
-      <Time>2016-11-18T18:14:05.1724744+00:00</Time>
+      <Time>2016-11-19T20:33:12.8509075+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Title.png</Source>
+      <Name>Title</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Title.xnb</Output>
+      <Time>2016-11-19T22:04:01.0402895+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

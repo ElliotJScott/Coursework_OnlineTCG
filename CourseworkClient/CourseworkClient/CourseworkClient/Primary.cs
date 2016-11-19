@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Security.Cryptography;
 using System.Text;
+using CourseworkClient.Gui;
 
 namespace CourseworkClient
 {
@@ -27,8 +28,12 @@ namespace CourseworkClient
         public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
         Texture2D loginScreenBackground;
+        public Texture2D textFieldTexture;
+        public Texture2D title;
         public SpriteFont mainFont;
         public static Primary game;
+        public Form currentForm;
+
 
         static void Main(string[] args)
         {
@@ -39,41 +44,47 @@ namespace CourseworkClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1600;
             Window.Title = "Hearthclone";
 
         }
 
         protected override void Initialize()
         {
+            IsMouseVisible = true;
             ratio = CalculateRatio();
             base.Initialize();
         }
         protected override void LoadContent()
         {
             loginScreenBackground = LoadLoadingScreenBackground();
+            textFieldTexture = Content.Load<Texture2D>("TextFieldBox");
+            currentForm = new LoginScreenForm(loginScreenBackground);
+            //currentForm.formItems.Add(new TextField(new Rectangle(100, 100, 300, 30), 20));
+            //currentForm.formItems.Add(new TextField(new Rectangle(100, 200, 300, 30), 15, "", true));
             spriteBatch = new SpriteBatch(GraphicsDevice);
             mainFont = Content.Load<SpriteFont>("Mainfont");
+            title = Content.Load<Texture2D>("Title");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            Window.Title = keypresshandler.NewTypedString(Window.Title, 50);
+            currentForm.Update();
             base.Update(gameTime);
+            keypresshandler.UpdateOldState();
+            GuiItem.UpdateOldState();
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.LightGoldenrodYellow);
             spriteBatch.Begin();
-            spriteBatch.Draw(loginScreenBackground, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
-            for (int i = 0; i < keypresshandler.timers.Count; i++)
-            {
-                spriteBatch.DrawString(mainFont, keypresshandler.timers[i].ToString(), new Vector2(100, 50 + (i * 50)), Color.Black);
-            }
+            currentForm.Draw(spriteBatch);
             spriteBatch.End();
+
             base.Draw(gameTime);
+            
         }
         public string ComputeHash(string s)
         {

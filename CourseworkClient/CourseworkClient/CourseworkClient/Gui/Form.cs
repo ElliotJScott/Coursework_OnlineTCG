@@ -7,22 +7,19 @@ using System.Text;
 
 namespace CourseworkClient.Gui
 {
-    public class Form
+    public abstract class Form
     {
-        Texture2D background;
-        List<GuiItem> formItems = new List<GuiItem>();
+        public Texture2D background;
+        public List<GuiItem> formItems = new List<GuiItem>();
 
-        public Form(Texture2D tex)
-        {
-            background = tex;
-        }
-        public void Update()
+        public virtual void Update()
         {
             foreach (GuiItem g in formItems) g.Update();
         }
-        public void Draw(SpriteBatch sb)
+        public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(background, new Rectangle(0, 0, background.Width, background.Height), Color.White);
+            sb.Draw(background, new Rectangle(0, 0, Primary.game.GraphicsDevice.Viewport.Width, Primary.game.GraphicsDevice.Viewport.Height), Color.White);
+            foreach (GuiItem g in formItems) g.Draw(sb);
         }
     }
 }

@@ -4,24 +4,26 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CourseworkClient
 {
-    abstract class GuiItem
+    public abstract class GuiItem
     {
-        MouseState oldState = new MouseState();
+        public static MouseState oldState = new MouseState();
         public Rectangle boundingBox;
         public Texture2D texture;
         public bool Clicked(Vector2 mp)
         {
             MouseState newState = Mouse.GetState();
             bool b = new Rectangle((int)mp.X, (int)mp.Y, 1, 1).Intersects(boundingBox) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
-            oldState = newState;
             return b;
         }
         public bool DeClicked(Vector2 mp)
         {
             MouseState newState = Mouse.GetState();
-            bool b = !(new Rectangle((int)mp.X, (int)mp.Y, 1, 1).Intersects(boundingBox)) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
-            oldState = newState;
+            bool b = (!(new Rectangle((int)mp.X, (int)mp.Y, 1, 1).Intersects(boundingBox))) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
             return b;
+        }
+        public static void UpdateOldState()
+        {
+            oldState = Mouse.GetState();
         }
         public abstract void Update();
         public abstract void Draw(SpriteBatch sb);

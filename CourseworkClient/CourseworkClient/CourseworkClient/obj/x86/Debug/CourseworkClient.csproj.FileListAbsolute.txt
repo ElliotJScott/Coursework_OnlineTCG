@@ -34,3 +34,4 @@ C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Course
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\4x3 Background.xnb
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\TextFieldBox.xnb
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Mainfont.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Title.xnb
