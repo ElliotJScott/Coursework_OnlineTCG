@@ -11,7 +11,8 @@ namespace CourseworkClient
         KeyboardState oldKeyboardState;
         const int ASCII_A = 'A';
         const int ASCII_Z = 'Z';
-        List<KeyPressTimer> timers = new List<KeyPressTimer>();
+        const int timerDelay = 35;
+        public List<KeyPressTimer> timers = new List<KeyPressTimer>();
         #region dict
         Dictionary[] dictionary = { new Dictionary(Keys.OemPipe, '\\', '|'),
             new Dictionary(Keys.OemComma, ',', '<'),
@@ -60,6 +61,14 @@ namespace CourseworkClient
                 {
                     int index = GetIndexOfTimer(key);
                     timers[index]++;
+                    if (timers[index] > timerDelay && initstring.Length < maxLength)
+                    {
+                        if (key == Keys.Back)
+                        {
+                            if (initstring.Length > 0) initstring = initstring.Substring(0, initstring.Length - 1);
+                        }
+                        else initstring += OnKeyDownType(key, shift);
+                    }
                 }
             }
             foreach (Keys key in oldKeys)
@@ -105,7 +114,7 @@ namespace CourseworkClient
             shiftCharacter = sc;
         }
     }
-    class KeyPressTimer
+    public class KeyPressTimer
     {
         public int timer;
         public Keys key;
@@ -119,6 +128,10 @@ namespace CourseworkClient
         {
             k.timer++;
             return k;
+        }
+        public override string ToString()
+        {
+            return key.ToString() + ": " + timer;
         }
     }
     

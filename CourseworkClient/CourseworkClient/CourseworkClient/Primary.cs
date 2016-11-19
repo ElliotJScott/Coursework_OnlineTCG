@@ -19,21 +19,21 @@ namespace CourseworkClient
         SixteenByNine,
         Other
     }
-    public class Primary : Microsoft.Xna.Framework.Game
+    public class Primary : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         HMACMD5 hasher = new HMACMD5();
-        KeyPressHandler keypresshandler = new KeyPressHandler();
+        public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
         Texture2D loginScreenBackground;
+        public SpriteFont mainFont;
+        public static Primary game;
 
         static void Main(string[] args)
         {
-            using (Primary game = new Primary())
-            {
-                game.Run();
-            }
+            game = new Primary();
+            game.Run();
         }
         public Primary()
         {
@@ -42,7 +42,7 @@ namespace CourseworkClient
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
             Window.Title = "Hearthclone";
-            
+
         }
 
         protected override void Initialize()
@@ -54,11 +54,12 @@ namespace CourseworkClient
         {
             loginScreenBackground = LoadLoadingScreenBackground();
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            mainFont = Content.Load<SpriteFont>("Mainfont");
         }
 
         protected override void Update(GameTime gameTime)
         {
-
+            Window.Title = keypresshandler.NewTypedString(Window.Title, 50);
             base.Update(gameTime);
         }
 
@@ -67,6 +68,10 @@ namespace CourseworkClient
             GraphicsDevice.Clear(Color.LightGoldenrodYellow);
             spriteBatch.Begin();
             spriteBatch.Draw(loginScreenBackground, new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height), Color.White);
+            for (int i = 0; i < keypresshandler.timers.Count; i++)
+            {
+                spriteBatch.DrawString(mainFont, keypresshandler.timers[i].ToString(), new Vector2(100, 50 + (i * 50)), Color.Black);
+            }
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -82,11 +87,11 @@ namespace CourseworkClient
         }
         public ScreenRatio CalculateRatio()
         {
-            if ((double)(3 * GraphicsDevice.Viewport.Width) / (4 * GraphicsDevice.Viewport.Height) == 1d)
+            if ((3d * GraphicsDevice.Viewport.Width) / (4d * GraphicsDevice.Viewport.Height) == 1d)
             {
                 return ScreenRatio.FourByThree;
             }
-            else if ((double)(9 * GraphicsDevice.Viewport.Width) / (16 * GraphicsDevice.Viewport.Height) == 1d)
+            else if ((9d * GraphicsDevice.Viewport.Width) / (16d * GraphicsDevice.Viewport.Height) == 1d)
             {
                 return ScreenRatio.SixteenByNine;
             }
@@ -104,6 +109,6 @@ namespace CourseworkClient
             }
             throw new InvalidOperationException("Something is very wrong here");
         }
-        
+
     }
 }
