@@ -30,6 +30,7 @@ namespace CourseworkClient
         Texture2D loginScreenBackground;
         public Texture2D textFieldTexture;
         public Texture2D title;
+        public Texture2D buttonTexture;
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
@@ -60,12 +61,14 @@ namespace CourseworkClient
         {
             loginScreenBackground = LoadLoadingScreenBackground();
             textFieldTexture = Content.Load<Texture2D>("TextFieldBox");
+            buttonTexture = Content.Load<Texture2D>("ButtonIcon");
             currentForm = new LoginScreenForm(loginScreenBackground);
             //currentForm.formItems.Add(new TextField(new Rectangle(100, 100, 300, 30), 20));
             //currentForm.formItems.Add(new TextField(new Rectangle(100, 200, 300, 30), 15, "", true));
             spriteBatch = new SpriteBatch(GraphicsDevice);
             mainFont = Content.Load<SpriteFont>("Mainfont");
             title = Content.Load<Texture2D>("Title");
+            
         }
 
         protected override void Update(GameTime gameTime)

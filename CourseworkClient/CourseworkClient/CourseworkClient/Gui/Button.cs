@@ -12,24 +12,33 @@ namespace CourseworkClient.Gui
     {
         public string buttonText;
         public abstract void OnPress();
+        bool previouslyClicked = false;
         public override void Update()
         {
-            if (Clicked(new Vector2(Mouse.GetState().X, Mouse.GetState().Y))) OnPress();
+            MouseState currentState = Mouse.GetState();
+            if (Clicked(new Vector2(currentState.X, currentState.Y)))
+            {
+                OnPress();
+                previouslyClicked = true;
+            }
+            else if (currentState.LeftButton == ButtonState.Released && oldState.LeftButton == ButtonState.Pressed && previouslyClicked) previouslyClicked = false;
         }
+        
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, boundingBox, Color.White);
-            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), Color.Black);
+            sb.Draw(texture, boundingBox, previouslyClicked? Color.Orange : Color.White);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), previouslyClicked? Color.White : Color.Black);
         }
     }
     class FormChangeButton : Button
     {
         Form newForm;
-        public FormChangeButton(Texture2D tex, string text, Form form)
+        public FormChangeButton(Rectangle rect, string text, Form form)
         {
-            texture = tex;
+            texture = Primary.game.buttonTexture;
             buttonText = text;
             newForm = form;
+            boundingBox = rect;
         }
 
         public override void OnPress()
@@ -41,9 +50,20 @@ namespace CourseworkClient.Gui
 
     class TransmissionButton : Button
     {
+        string transmissionString;
+        public TransmissionButton(Rectangle rect, string text)
+        {
+            texture = Primary.game.buttonTexture;
+            buttonText = text;
+            boundingBox = rect;
+        }
+        public void SetTransmissionString(string s)
+        {
+            transmissionString = s;
+        }
         public override void OnPress()
         {
-
+            //Transmit
         }
     }
     class ExitButton : Button
