@@ -49,6 +49,11 @@ namespace CourseworkClient
             sb.Draw(texture, boundingBox, Color.White);
             sb.DrawString(Primary.game.mainFont, (!hideText ? text : new string('●', text.Length)) + (drawBar ? "|" : ""), new Vector2(boundingBox.X + 5, boundingBox.Y), Color.Black);
             sb.DrawString(Primary.game.mainFont, ToString(), new Vector2(boundingBox.X + boundingBox.Width, boundingBox.Y), Color.Black);
+            if (caption != null && caption != "")
+            {
+                sb.Draw(Primary.game.textFieldInfoTab, new Rectangle(boundingBox.X, boundingBox.Y - Primary.game.textFieldInfoTab.Height, Primary.game.textFieldInfoTab.Width, Primary.game.textFieldInfoTab.Height), Color.White);
+                sb.DrawString(Primary.game.mainFont, caption, new Vector2(boundingBox.X, boundingBox.Y - Primary.game.textFieldInfoTab.Height), Color.Black);
+            }
         }
         public override string ToString() => "TextField: " + selected + "|" + text + "|" + maxLength + "|" + hideText + "|" + drawBarTimer;
 

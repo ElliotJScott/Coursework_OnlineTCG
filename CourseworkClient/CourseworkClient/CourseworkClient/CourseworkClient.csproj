@@ -74,8 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gui\Button.cs" />
-    <Compile Include="Gui\CreateAccountButton.cs" />
+    <Compile Include="Gui\CreateAccountForm.cs" />
     <Compile Include="Gui\Form.cs" />
+    <Compile Include="Gui\FormBuilder.cs" />
     <Compile Include="Gui\GuiItem.cs" />
     <Compile Include="Gui\LoginScreenForm.cs" />
     <Compile Include="KeyPressHandler.cs" />

@@ -32,18 +32,19 @@ namespace CourseworkClient.Gui
     }
     class FormChangeButton : Button
     {
-        Form newForm;
-        public FormChangeButton(Rectangle rect, string text, Form form)
+        FormChangeButtonTypes type;
+        public FormChangeButton(Rectangle rect, string text, FormChangeButtonTypes f)
         {
+            type = f;
             texture = Primary.game.buttonTexture;
-            buttonText = text;
-            newForm = form;
+            buttonText = text;            
             boundingBox = rect;
         }
+        
 
         public override void OnPress()
         {
-            Primary.game.currentForm = newForm;
+            Primary.game.currentForm = FormBuilder.BuildNewForm(type);
         }
 
     }

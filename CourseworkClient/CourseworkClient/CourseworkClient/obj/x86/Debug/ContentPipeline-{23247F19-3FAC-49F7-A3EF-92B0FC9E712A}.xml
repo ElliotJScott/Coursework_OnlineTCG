@@ -55,6 +55,15 @@
       <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Mainfont.xnb</Output>
       <Time>2016-11-24T09:52:27.1354083+00:00</Time>
     </Item>
+    <Item>
+      <Source>InfoTab.png</Source>
+      <Name>InfoTab</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InfoTab.xnb</Output>
+      <Time>2016-11-24T10:52:31.945595+00:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <ContentProjectGUID>{23247F19-3FAC-49F7-A3EF-92B0FC9E712A}</ContentProjectGUID>
