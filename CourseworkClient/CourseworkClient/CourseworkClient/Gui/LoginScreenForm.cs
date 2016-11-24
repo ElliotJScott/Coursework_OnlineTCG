@@ -13,7 +13,7 @@ namespace CourseworkClient.Gui
             formItems.Add(new TextField(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.textFieldTexture.Width) / 2, -30 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), Primary.game.textFieldTexture.Width, Primary.game.textFieldTexture.Height), 15, "Username"));
             formItems.Add(new TextField(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.textFieldTexture.Width) / 2, 30 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), Primary.game.textFieldTexture.Width, 30), 15, "Password", true));
             formItems.Add(new TransmissionButton(new Rectangle(1, 1, 100, 100),"Log In")); //Change this null when i have the thing
-            formItems.Add(new);
+            //formItems.Add(new);
         }
         public override void Update()
         {
