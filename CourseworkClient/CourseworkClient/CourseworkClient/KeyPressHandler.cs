@@ -11,7 +11,8 @@ namespace CourseworkClient
         KeyboardState oldKeyboardState;
         const int ASCII_A = 'A';
         const int ASCII_Z = 'Z';
-        List<KeyPressTimer> timers = new List<KeyPressTimer>();
+        const int timerDelay = 35;
+        public List<KeyPressTimer> timers = new List<KeyPressTimer>();
         #region dict
         Dictionary[] dictionary = { new Dictionary(Keys.OemPipe, '\\', '|'),
             new Dictionary(Keys.OemComma, ',', '<'),
@@ -37,6 +38,7 @@ namespace CourseworkClient
             new Dictionary(Keys.Space, ' ', ' ')
         };
         #endregion
+        public bool HasKeyBeenPressed(Keys k) => oldKeyboardState.IsKeyUp(k) && Keyboard.GetState().IsKeyDown(k);
 
         public string NewTypedString(string initstring, int maxLength)
         {
@@ -60,6 +62,14 @@ namespace CourseworkClient
                 {
                     int index = GetIndexOfTimer(key);
                     timers[index]++;
+                    if (timers[index] > timerDelay && initstring.Length < maxLength)
+                    {
+                        if (key == Keys.Back)
+                        {
+                            if (initstring.Length > 0) initstring = initstring.Substring(0, initstring.Length - 1);
+                        }
+                        else initstring += OnKeyDownType(key, shift);
+                    }
                 }
             }
             foreach (Keys key in oldKeys)
@@ -70,17 +80,17 @@ namespace CourseworkClient
                     timers.RemoveAt(index);
                 }
             }
-            oldKeyboardState = currentKeyboardState;
             return initstring;
-            
+
         }
         string OnKeyDownType(Keys key, bool shift)
         {
             string keyname = key.ToString();
             char[] chars = keyname.ToCharArray();
             if (chars.Length == 1 && chars[0] >= ASCII_A && chars[0] <= ASCII_Z) return shift ? chars[0].ToString() : chars[0].ToString().ToLower();
-            else foreach (Dictionary d in dictionary)
-                if (d.key == key) return shift ? d.shiftCharacter.ToString() : d.character.ToString();
+            else
+                foreach (Dictionary d in dictionary)
+                    if (d.key == key) return shift ? d.shiftCharacter.ToString() : d.character.ToString();
             return "";
         }
         int GetIndexOfTimer(Keys k)
@@ -91,8 +101,12 @@ namespace CourseworkClient
             }
             return -1;
         }
-
+        public void UpdateOldState()
+        {
+            oldKeyboardState = Keyboard.GetState();
+        }
     }
+
     class Dictionary
     {
         public Keys key;
@@ -105,7 +119,7 @@ namespace CourseworkClient
             shiftCharacter = sc;
         }
     }
-    class KeyPressTimer
+    public class KeyPressTimer
     {
         public int timer;
         public Keys key;
@@ -114,12 +128,16 @@ namespace CourseworkClient
             key = k;
             timer = 0;
         }
-        public static implicit operator int(KeyPressTimer k) => k.timer;
+        public static implicit operator int (KeyPressTimer k) => k.timer;
         public static KeyPressTimer operator ++(KeyPressTimer k)
         {
             k.timer++;
             return k;
         }
+        public override string ToString()
+        {
+            return key.ToString() + ": " + timer;
+        }
     }
-    
+
 }
