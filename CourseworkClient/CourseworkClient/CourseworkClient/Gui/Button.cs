@@ -30,25 +30,21 @@ namespace CourseworkClient.Gui
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), previouslyClicked? Color.White : Color.Black);
         }
     }
-    enum Forms
-    {
-        LogInForm,
-        CreateAccountForm
-    }
     class FormChangeButton : Button
     {
-        Forms newForm;
-        public FormChangeButton(Rectangle rect, string text, Forms form)
+        FormChangeButtonTypes type;
+        public FormChangeButton(Rectangle rect, string text, FormChangeButtonTypes f)
         {
+            type = f;
             texture = Primary.game.buttonTexture;
-            buttonText = text;
-            newForm = form;
+            buttonText = text;            
             boundingBox = rect;
         }
+        
 
         public override void OnPress()
         {
-            //Add form creation code here
+            Primary.game.currentForm = FormBuilder.BuildNewForm(type);
         }
 
     }

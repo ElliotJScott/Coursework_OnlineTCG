@@ -27,10 +27,11 @@ namespace CourseworkClient
         HMACMD5 hasher = new HMACMD5();
         public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
-        Texture2D loginScreenBackground;
+        public Texture2D loginScreenBackground;
         public Texture2D textFieldTexture;
         public Texture2D title;
         public Texture2D buttonTexture;
+        public Texture2D textFieldInfoTab;
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
@@ -46,7 +47,7 @@ namespace CourseworkClient
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferWidth = 1200;
             Window.Title = "Hearthclone";
 
         }
@@ -62,12 +63,11 @@ namespace CourseworkClient
             loginScreenBackground = LoadLoadingScreenBackground();
             textFieldTexture = Content.Load<Texture2D>("TextFieldBox");
             buttonTexture = Content.Load<Texture2D>("ButtonIcon");
-            currentForm = new LoginScreenForm(loginScreenBackground);
-            //currentForm.formItems.Add(new TextField(new Rectangle(100, 100, 300, 30), 20));
-            //currentForm.formItems.Add(new TextField(new Rectangle(100, 200, 300, 30), 15, "", true));
+            currentForm = new LoginScreenForm();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             mainFont = Content.Load<SpriteFont>("Mainfont");
             title = Content.Load<Texture2D>("Title");
+            textFieldInfoTab = Content.Load<Texture2D>("InfoTab");
             
         }
 
