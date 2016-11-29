@@ -14,6 +14,7 @@ namespace CourseworkServer
         public Executor[] executors = new Executor[executionThreads];
         public Listener listener;
         public Delegator delegator;
+        public DatabaseHandler dbHandler = new DatabaseHandler();
         public static Server server;
         public List<Client> connectedClients;
         public const int port = 1337;
@@ -29,7 +30,7 @@ namespace CourseworkServer
             Console.WriteLine("Server online");
             while (true)
             {
-                Thread.Sleep(1000);
+                server.ExecuteCommand(Console.ReadLine());
             }
         }
 
@@ -82,7 +83,31 @@ namespace CourseworkServer
             Console.WriteLine("Removing user");
             connectedClients.Remove(user);
         }
-
+        private void ExecuteCommand(string s)
+        {
+            string[] splitted = s.Split(' ');
+            switch (splitted[0])
+            {
+                case "/sendSQL":
+                    string genericSQLString = "";
+                    for (int i = 1; i < splitted.Length; i++) genericSQLString += splitted[i];
+                    try
+                    {
+                        Console.WriteLine(dbHandler.ExecuteGenericSQL(genericSQLString));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error encountered: " + e);
+                    }
+                    break;
+                case "/help":
+                    Console.WriteLine("/sendSQL <String> : Executes a SQL command and prints the output to the console if relevant");
+                    break;
+                default:
+                    Console.WriteLine("Command not found. Enter /help for all commands");
+                    break;
+            }
+        }
         private void user_DataReceived(Client destination, byte[] data)
         {
             //SendData(data, sender);
