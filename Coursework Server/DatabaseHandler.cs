@@ -11,12 +11,11 @@ namespace CourseworkServer
     {
         public object ExecuteGenericSQL(string input)
         {
-            return null;
+            throw new NotImplementedException();
         }
         public bool CheckLoginCredentials(string username, string passwordHash)
         {
-            //checking code goes in here
-            return true; //Remove this later
+            throw new NotImplementedException();
         }
     }
 }

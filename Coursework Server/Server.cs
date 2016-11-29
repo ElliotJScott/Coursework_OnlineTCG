@@ -22,10 +22,30 @@ namespace CourseworkServer
         MemoryStream writeStream;
         BinaryReader reader;
         BinaryWriter writer;
+        static bool laptopConnection;
+        const string laptopConnectionString = "";
+        const string desktopConnectionString = "";
 
         static void Main(string[] args)
         {
-            
+            #region Change this before hand-in
+            Console.WriteLine("Use Laptop or Desktop connection string? L/D");
+            switch (Console.Read())
+            {
+                case 'l':
+                case 'L':
+                    laptopConnection = true;
+                    break;
+                case 'd':
+                case 'D':
+                    laptopConnection = false;
+                    break;
+                default:
+                    Console.WriteLine("Invalid input");
+                    Main(args);
+                    break;
+            }
+            #endregion
             server = new Server();
             Console.WriteLine("Server online");
             while (true)
