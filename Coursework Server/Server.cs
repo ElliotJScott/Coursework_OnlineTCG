@@ -125,10 +125,14 @@ namespace CourseworkServer
                     if (b) Console.WriteLine("Credentials valid");
                     else Console.WriteLine("Invalid credentials");
                     break;
+                case "/close":
+                    Environment.Exit(0);
+                    break;
                 case "/help":
                     Console.WriteLine("/sendSQL <String> : Executes a SQL command and prints the output to the console if relevant");
                     Console.WriteLine("/checkCredentials <Username> <PasswordHash> : Checks to see if the given user exists in the DB");
                     Console.WriteLine("/help : Prints all usable commands to the console");
+                    Console.WriteLine("/close : Exits the program safely");
                     break;
                 default:
                     Console.WriteLine("Command not found. Enter /help for all commands");

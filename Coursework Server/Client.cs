@@ -18,7 +18,7 @@ namespace CourseworkServer
         {
             tcpClient = c;
             ip = c.Client.RemoteEndPoint.ToString();
-            c.NoDelay = true;
+            tcpClient.NoDelay = true;
             id = i;
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null); //Listen for new data and call the DataReceived method when data has been received
         }
