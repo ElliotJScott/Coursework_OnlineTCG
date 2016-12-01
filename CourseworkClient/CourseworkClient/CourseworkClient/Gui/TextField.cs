@@ -7,7 +7,7 @@ namespace CourseworkClient
     class TextField : GuiItem
     {
         public bool selected = false;
-        string text = "";
+        public string text = "";
         readonly int maxLength;
         bool drawBar = false;
         readonly bool hideText;

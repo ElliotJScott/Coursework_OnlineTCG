@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net.Sockets;
 
 namespace CourseworkServer
@@ -13,12 +14,16 @@ namespace CourseworkServer
         byte[] buffer = new byte[bufferSize]; //The buffer that data is written into when data is received from the end user
         public event OnConnect DisconnectEvent;
         public event OnDataReceived DataReceivedEvent;
+        public MemoryStream memoryStream;
+        public BinaryReader binaryReader;
 
         public Client(TcpClient c, int i)
         {
+            memoryStream = new MemoryStream();
+            binaryReader = new BinaryReader(memoryStream);
             tcpClient = c;
             ip = c.Client.RemoteEndPoint.ToString();
-            c.NoDelay = true;
+            tcpClient.NoDelay = true;
             id = i;
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null); //Listen for new data and call the DataReceived method when data has been received
         }
@@ -51,8 +56,11 @@ namespace CourseworkServer
             for (int i = 0; i < length; i++)
             {
                 d[i] = buffer[i];
+                Console.WriteLine(d[i]);
             }
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null);
+            DataReceivedEvent?.Invoke(this, d);
+
         }
 
         public void SendData(byte[] b)
