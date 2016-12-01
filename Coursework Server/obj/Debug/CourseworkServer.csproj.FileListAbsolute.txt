@@ -21,3 +21,5 @@ C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServ
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.pdb
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB.mdf
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB_log.ldf
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB.mdf
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB_log.ldf

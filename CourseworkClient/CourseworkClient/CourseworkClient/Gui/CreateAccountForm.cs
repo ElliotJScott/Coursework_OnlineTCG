@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,18 @@ namespace CourseworkClient.Gui
         public override void Update()
         {
             base.Update();
-
+            if (Primary.game.keypresshandler.HasKeyBeenPressed(Keys.Tab))
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (((TextField)formItems[i]).selected)
+                    {
+                        ((TextField)formItems[i]).selected = false;
+                        ((TextField)formItems[(i+1)%3]).selected = true;
+                        break;
+                    }
+                }
+            }
         }
         public override void Draw(SpriteBatch sb)
         {

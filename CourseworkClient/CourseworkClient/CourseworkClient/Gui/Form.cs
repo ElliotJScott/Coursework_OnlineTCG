@@ -20,6 +20,7 @@ namespace CourseworkClient.Gui
         {
             sb.Draw(background, new Rectangle(0, 0, Primary.game.GraphicsDevice.Viewport.Width, Primary.game.GraphicsDevice.Viewport.Height), Color.White);
             foreach (GuiItem g in formItems) g.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, Primary.game.connected ? "Connected" : "Not connected", new Vector2(0, Primary.game.GraphicsDevice.Viewport.Height - 20), Color.Black);
         }
     }
 }

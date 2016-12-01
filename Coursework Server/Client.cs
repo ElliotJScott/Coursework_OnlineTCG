@@ -22,20 +22,36 @@ namespace CourseworkServer
             id = i;
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null); //Listen for new data and call the DataReceived method when data has been received
         }
+        public void Disconnect()
+        {
+            DisconnectEvent(this, this);
+        }
         public void DataReceived(IAsyncResult a)
         {
             int length = 0; //The number of bytes of data that were received from the end user
-
-            lock (tcpClient.GetStream())
+            try
             {
-                length = tcpClient.GetStream().EndRead(a); //Get the number of bytes read
+                lock (tcpClient.GetStream())
+                {
+                    length = tcpClient.GetStream().EndRead(a); //Get the number of bytes read
+                }
+
+            }
+            catch
+            {
+                Console.WriteLine("Error reading data");
             }
             byte[] d = new byte[length]; //An array to write the bytes into from the buffer where they were before. The buffer is used as the number of bytes needed is uncertain but now it is known.
+            if (length == 0)
+            {
+                Disconnect();
+                Console.WriteLine("Client {0}:  {1}\n{2}", ip, "Bad data", "Disconnecting");
+                return;
+            }
             for (int i = 0; i < length; i++)
             {
                 d[i] = buffer[i];
             }
-
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null);
         }
 
