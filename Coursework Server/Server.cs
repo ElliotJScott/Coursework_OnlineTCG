@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Threading;
 
 namespace CourseworkServer
 {
     public delegate void OnConnect(Client user, object sender);
-    public delegate void OnDataReceived(Client user, byte[] data);
+    public delegate void OnDataReceived(Client sender, Client destination, byte[] data);
 
     class Server
     {
@@ -23,8 +25,9 @@ namespace CourseworkServer
         BinaryReader reader;
         BinaryWriter writer;
         static bool laptopConnection;
-        const string laptopConnectionString = "";
-        const string desktopConnectionString = "";
+        const string laptopConnectionString = ""; //Enter this later
+        const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
+        public static string connectionString;
 
         static void Main(string[] args)
         {
@@ -34,10 +37,12 @@ namespace CourseworkServer
             {
                 case 'l':
                 case 'L':
+                    connectionString = laptopConnectionString;
                     laptopConnection = true;
                     break;
                 case 'd':
                 case 'D':
+                    connectionString = desktopConnectionString;
                     laptopConnection = false;
                     break;
                 default:
@@ -64,6 +69,7 @@ namespace CourseworkServer
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
             writer = new BinaryWriter(writeStream);
+            listener.userAdded += new OnConnect(listener_userAdded);
             delegator = new Delegator();
             for (int i = 0; i < executionThreads; i++)
             {
@@ -89,7 +95,7 @@ namespace CourseworkServer
             }
             throw new Exception("An unexpected error has occurred. The program will now terminate");
         }
-        private void listener_userAdded(object sender, Client user)
+        public void listener_userAdded(Client user, object sender)
         {
             Console.WriteLine("Adding user to list of users");
             user.DataReceivedEvent += new OnDataReceived(user_DataReceived);
@@ -98,7 +104,7 @@ namespace CourseworkServer
             connectedClients.Add(user);
         }
 
-        private void user_UserDisconnected(Client user, object sender)
+        public void user_UserDisconnected(Client user, object sender)
         {
             Console.WriteLine("Removing user");
             connectedClients.Remove(user);
@@ -108,25 +114,46 @@ namespace CourseworkServer
             string[] splitted = s.Split(' ');
             switch (splitted[0])
             {
-                case "/sendSQL":
+                case "/sql":
                     string genericSQLString = "";
-                    for (int i = 1; i < splitted.Length; i++) genericSQLString += splitted[i];
+                    for (int i = 1; i < splitted.Length; i++) genericSQLString += " " + splitted[i];
                     try
                     {
-                        Console.WriteLine(dbHandler.ExecuteGenericSQL(genericSQLString));
+                        Console.WriteLine(dbHandler.DoSQLCommand(genericSQLString.Trim()) + " row(s) affected");
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Error encountered: " + e);
                     }
                     break;
+                case "/sqlQuery":
+                    string sqlQuery = "";
+                    for (int i = 1; i < splitted.Length; i++) sqlQuery += " " + splitted[i];
+                    try
+                    {
+                        DataTable table = dbHandler.DoSQLQuery(sqlQuery);
+                        foreach (DataRow row in table.Rows)
+                        {
+                            for (int i = 0; i < table.Columns.Count; i++)
+                            {
+                                Console.Write(row[i].ToString() + " ");
+                            }
+                            Console.WriteLine();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Error encountered: " + e);
+                    }
+                    break;
+                    
                 case "/checkCredentials":
                     bool b = dbHandler.CheckLoginCredentials(splitted[1], splitted[2]);
                     if (b) Console.WriteLine("Credentials valid");
                     else Console.WriteLine("Invalid credentials");
                     break;
                 case "/help":
-                    Console.WriteLine("/sendSQL <String> : Executes a SQL command and prints the output to the console if relevant");
+                    Console.WriteLine("/sql <command> : Executes the command given and prints the number of rows affected");
                     Console.WriteLine("/checkCredentials <Username> <PasswordHash> : Checks to see if the given user exists in the DB");
                     Console.WriteLine("/help : Prints all usable commands to the console");
                     break;
@@ -135,8 +162,9 @@ namespace CourseworkServer
                     break;
             }
         }
-        private void user_DataReceived(Client destination, byte[] data)
+        private void user_DataReceived(Client sender, Client destination, byte[] data)
         {
+            Protocol p = (Protocol)data[0];
             //SendData(data, sender);
         }
 

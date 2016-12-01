@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Media;
 using System.Security.Cryptography;
 using System.Text;
 using CourseworkClient.Gui;
+using System.IO;
+using System.Net.Sockets;
 
 namespace CourseworkClient
 {
@@ -35,6 +37,15 @@ namespace CourseworkClient
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
+        TcpClient client;
+        MemoryStream readMemoryStream, writeMemoryStream;
+        BinaryReader binaryReader;
+        BinaryWriter binaryWriter;
+        const string ip = "127.0.0.1";
+        const int port = 1337;
+        const int bufferSize = 2048;
+        byte[] readBuffer;
+        public bool connected = false;
 
 
         static void Main(string[] args)
@@ -54,8 +65,16 @@ namespace CourseworkClient
 
         protected override void Initialize()
         {
+            client = new TcpClient();
+            client.NoDelay = true;
+            readBuffer = new byte[bufferSize];
+            readMemoryStream = new MemoryStream();
+            writeMemoryStream = new MemoryStream();
+            binaryReader = new BinaryReader(readMemoryStream);
+            binaryWriter = new BinaryWriter(writeMemoryStream);
             IsMouseVisible = true;
             ratio = CalculateRatio();
+            connected = ConnectClient();
             base.Initialize();
         }
         protected override void LoadContent()
@@ -123,6 +142,52 @@ namespace CourseworkClient
             }
             throw new InvalidOperationException("Something is very wrong here");
         }
+        public bool ConnectClient()
+        {
+            try
+            {
+                client.Connect(ip, port);
+                client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
+            }
+            catch {
+                return false;
+            }
+            return true;
+        }
+        private void StreamReceived(IAsyncResult ar)
+        {
+            int bytesRead = 0;
+            try
+            {
+                bytesRead = client.GetStream().EndRead(ar);
+                
+            }
+            catch
+            {
+            }
+            byte[] data = new byte[bytesRead];
+            for (int i = 0; i < bytesRead; i++)
+                data[i] = readBuffer[i];
+            ProcessData(data);
+            client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
+        }
+        private void ProcessData(byte[] data)
+        {
+            readMemoryStream.SetLength(0);
+            readMemoryStream.Position = 0;
 
+            readMemoryStream.Write(data, 0, data.Length);
+            readMemoryStream.Position = 0;
+            Protocol p;
+            p = (Protocol)binaryReader.ReadByte();
+            //Console.WriteLine(p);
+            HandleData(p);
+
+        }
+
+        private void HandleData(Protocol p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -7,7 +7,8 @@ namespace CourseworkServer
     class Listener
     {
         public TcpListener listener;
-        public event OnConnect userAddedEvent;
+        public event OnConnect userAdded;
+
         public Listener()
         {
             listener = new TcpListener(IPAddress.Any, 1337);
@@ -18,8 +19,9 @@ namespace CourseworkServer
         {
             TcpClient client = listener.EndAcceptTcpClient(a);
             Client cl = new Client(client, Server.server.getAvailableID());
-            userAddedEvent?.Invoke(cl, this);
             Server.server.connectedClients.Add(cl);
+            if (userAdded != null)
+                userAdded(cl, this);
             listener.BeginAcceptTcpClient(AcceptClient, null);
         }
 
