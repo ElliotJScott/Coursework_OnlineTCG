@@ -8,7 +8,7 @@ using System.Threading;
 namespace CourseworkServer
 {
     public delegate void OnConnect(Client user, object sender);
-    public delegate void OnDataReceived(Client sender, Client destination, byte[] data);
+    public delegate void OnDataReceived(Client sender, byte[] data);
 
     class Server
     {
@@ -25,11 +25,11 @@ namespace CourseworkServer
         BinaryReader reader;
         BinaryWriter writer;
         static bool laptopConnection;
-        const string laptopConnectionString = ""; //Enter this later
+        const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True"; //Enter this later
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
         public static string connectionString;
 
-        static void Main(string[] args)
+            static void Main(string[] args)
         {
             #region Change this before hand-in
             Console.WriteLine("Use Laptop or Desktop connection string? L/D");
@@ -166,10 +166,19 @@ namespace CourseworkServer
                     break;
             }
         }
-        private void user_DataReceived(Client sender, Client destination, byte[] data)
+        private void user_DataReceived(Client sender, byte[] data)
         {
             Protocol p = (Protocol)data[0];
+            Console.WriteLine(p);
+            foreach (byte b in data) Console.Write(" " + b);
             //SendData(data, sender);
+            char[] chars = new char[data.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                chars[i] = (char)data[i];
+            }
+            string s = new string(chars);
+            Console.WriteLine(s); 
         }
 
         private byte[] GetDataFromMemoryStream(MemoryStream ms)

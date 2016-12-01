@@ -7,6 +7,7 @@
         LogIn,
         CreateAccount,
         BadCredentials,
-        GoodCredentials
+        GoodCredentials,
+        UsernameTaken
     }
 }

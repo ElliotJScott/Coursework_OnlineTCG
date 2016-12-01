@@ -92,6 +92,8 @@ namespace CourseworkClient.Gui
             else
             {
                 ((CreateAccountForm)Primary.game.currentForm).errorMessageText = "";
+                string stringToWrite = ((TextField)((CreateAccountForm)Primary.game.currentForm).formItems[0]).text + "|" + Primary.game.ComputeHash(((TextField)((CreateAccountForm)Primary.game.currentForm).formItems[1]).text);
+                Primary.game.WriteDataToStream(Protocol.CreateAccount, stringToWrite);
             }
 
             //throw new NotImplementedException();

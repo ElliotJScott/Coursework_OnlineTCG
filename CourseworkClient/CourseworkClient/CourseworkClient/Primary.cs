@@ -174,15 +174,20 @@ namespace CourseworkClient
         }
         private void ProcessData(byte[] data)
         {
-            readMemoryStream.SetLength(0);
-            readMemoryStream.Position = 0;
+            try
+            {
+                readMemoryStream.SetLength(0);
+                readMemoryStream.Position = 0;
 
-            readMemoryStream.Write(data, 0, data.Length);
-            readMemoryStream.Position = 0;
-            Protocol p;
-            p = (Protocol)binaryReader.ReadByte();
-            //Console.WriteLine(p);
-            HandleData(p);
+                readMemoryStream.Write(data, 0, data.Length);
+                readMemoryStream.Position = 0;
+                Protocol p;
+                p = (Protocol)binaryReader.ReadByte();
+                HandleData(p);
+            }
+            finally
+            {         
+            }
 
         }
 
@@ -239,7 +244,6 @@ namespace CourseworkClient
                 SendData(GetDataFromMemoryStream(writeMemoryStream));
                 writeMemoryStream.Position = 0;
                 binaryWriter.Write((byte)p);
-                Thread.Sleep(1);
 
             }
 
@@ -248,20 +252,15 @@ namespace CourseworkClient
         {
             writeMemoryStream.Position = 0;
             binaryWriter.Write((byte)p);
-            int ticker = 0;
             foreach (int e in o)
             {
-                ticker++;
+
                 binaryWriter.Write(e);
-                if (ticker == 1)
-                {
-                    Console.WriteLine(e);
-                    ticker = 0;
-                    SendData(GetDataFromMemoryStream(writeMemoryStream));
-                    writeMemoryStream.Position = 0;
-                    binaryWriter.Write((byte)p);
-                    Thread.Sleep(5);
-                }
+
+                SendData(GetDataFromMemoryStream(writeMemoryStream));
+                writeMemoryStream.Position = 0;
+                binaryWriter.Write((byte)p);
+
             }
         }
     }
