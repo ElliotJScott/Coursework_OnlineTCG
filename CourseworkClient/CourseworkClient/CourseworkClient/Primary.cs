@@ -13,6 +13,7 @@ using System.Text;
 using CourseworkClient.Gui;
 using System.IO;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace CourseworkClient
 {
@@ -57,8 +58,8 @@ namespace CourseworkClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 800;
             Window.Title = "Hearthclone";
 
         }
@@ -87,7 +88,7 @@ namespace CourseworkClient
             mainFont = Content.Load<SpriteFont>("Mainfont");
             title = Content.Load<Texture2D>("Title");
             textFieldInfoTab = Content.Load<Texture2D>("InfoTab");
-            
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -106,7 +107,7 @@ namespace CourseworkClient
             spriteBatch.End();
 
             base.Draw(gameTime);
-            
+
         }
         public string ComputeHash(string s)
         {
@@ -149,7 +150,8 @@ namespace CourseworkClient
                 client.Connect(ip, port);
                 client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
             }
-            catch {
+            catch
+            {
                 return false;
             }
             return true;
@@ -160,7 +162,6 @@ namespace CourseworkClient
             try
             {
                 bytesRead = client.GetStream().EndRead(ar);
-                
             }
             catch
             {
@@ -188,6 +189,80 @@ namespace CourseworkClient
         private void HandleData(Protocol p)
         {
             throw new NotImplementedException();
+        }
+        private byte[] GetDataFromMemoryStream(MemoryStream ms)
+        {
+            byte[] result;
+            lock (ms)
+            {
+                int bytesWritten = (int)ms.Position;
+                result = new byte[bytesWritten];
+
+                ms.Position = 0;
+                ms.Read(result, 0, bytesWritten);
+            }
+
+            return result;
+        }
+        public void SendData(byte[] b)
+        {
+            try
+            {
+                lock (client.GetStream())
+                {
+                    client.GetStream().BeginWrite(b, 0, b.Length, null, null);
+                }
+            }
+            catch
+            {
+                ////Console.WriteLine("Error sending data");
+            }
+        }
+        public void WriteDataToStream(Protocol p)
+        {
+
+
+            writeMemoryStream.Position = 0;
+            binaryWriter.Write((byte)p);
+            SendData(GetDataFromMemoryStream(writeMemoryStream));
+
+
+
+        }
+        public void WriteDataToStream(Protocol p, params string[] o)
+        {
+            writeMemoryStream.Position = 0;
+            binaryWriter.Write((byte)p);
+            foreach (string e in o)
+            {
+                binaryWriter.Write(e);
+                SendData(GetDataFromMemoryStream(writeMemoryStream));
+                writeMemoryStream.Position = 0;
+                binaryWriter.Write((byte)p);
+                Thread.Sleep(1);
+
+            }
+
+        }
+        public void WriteDataToStream(Protocol p, params int[] o)
+        {
+            writeMemoryStream.Position = 0;
+            binaryWriter.Write((byte)p);
+            int ticker = 0;
+            foreach (int e in o)
+            {
+                ticker++;
+                binaryWriter.Write(e);
+                if (ticker == 1)
+                {
+                    Console.WriteLine(e);
+                    ticker = 0;
+                    SendData(GetDataFromMemoryStream(writeMemoryStream));
+                    writeMemoryStream.Position = 0;
+                    binaryWriter.Write((byte)p);
+                    Thread.Sleep(5);
+                }
+            }
         }
     }
 }

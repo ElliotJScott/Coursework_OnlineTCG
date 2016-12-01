@@ -22,5 +22,6 @@ namespace CourseworkClient.Gui
             foreach (GuiItem g in formItems) g.Draw(sb);
             sb.DrawString(Primary.game.mainFont, Primary.game.connected ? "Connected" : "Not connected", new Vector2(0, Primary.game.GraphicsDevice.Viewport.Height - 20), Color.Black);
         }
+        public abstract int GetFormID();
     }
 }

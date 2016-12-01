@@ -5,10 +5,15 @@ using System.Text;
 
 namespace CourseworkClient
 {
-    enum Protocol
+    public enum Protocol
     {
-        Connected,
-        Disconnected
-        
+        Connect,
+        Disconnect,
+        LogIn,
+        CreateAccount,
+        BadCredentials,
+        GoodCredentials,
+        UsernameTaken
+
     }
 }

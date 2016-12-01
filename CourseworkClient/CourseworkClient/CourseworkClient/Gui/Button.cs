@@ -49,7 +49,7 @@ namespace CourseworkClient.Gui
 
     }
 
-    class TransmissionButton : Button
+    abstract class TransmissionButton : Button
     {
         string transmissionString;
         public TransmissionButton(Rectangle rect, string text)
@@ -58,13 +58,54 @@ namespace CourseworkClient.Gui
             buttonText = text;
             boundingBox = rect;
         }
+
         public void SetTransmissionString(string s)
         {
             transmissionString = s;
         }
+
+    }
+    class CreateAccountButton : TransmissionButton
+    {
+        public CreateAccountButton(Rectangle rect, string text) : base(rect, text)
+        {
+            texture = Primary.game.buttonTexture;
+            buttonText = text;
+            boundingBox = rect;
+        }
+
         public override void OnPress()
         {
-            //Transmit
+            for (int i = 0; i < 3; i++)
+            {
+                if (((TextField)((CreateAccountForm)Primary.game.currentForm).formItems[i]).text == "")
+                {
+                    ((CreateAccountForm)Primary.game.currentForm).errorMessageText = "Field cannot be empty";
+                    return;
+                }
+            }
+            if (!((CreateAccountForm)Primary.game.currentForm).PasswordsMatch())
+            {
+                ((CreateAccountForm)Primary.game.currentForm).errorMessageText = "Passwords do not match";
+                return;
+            }
+            else
+            {
+                ((CreateAccountForm)Primary.game.currentForm).errorMessageText = "";
+            }
+
+            //throw new NotImplementedException();
+        }
+    }
+    class LogInButton : TransmissionButton
+    {
+        public LogInButton(Rectangle rect, string text) : base(rect, text)
+        {
+        }
+
+        public override void OnPress()
+        {
+            throw new NotImplementedException();
         }
     }
     class ExitButton : Button
