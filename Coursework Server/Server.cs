@@ -12,10 +12,9 @@ namespace CourseworkServer
 
     class Server
     {
-        public const int executionThreads = 10;
-        public Executor[] executors = new Executor[executionThreads];
+
         public Listener listener;
-        public Delegator delegator;
+        public ActionQueue queue = new ActionQueue();
         public DatabaseHandler dbHandler = new DatabaseHandler();
         public static Server server;
         public List<Client> connectedClients;
@@ -70,11 +69,6 @@ namespace CourseworkServer
             reader = new BinaryReader(readStream);
             writer = new BinaryWriter(writeStream);
             listener.userAdded += new OnConnect(listener_userAdded);
-            delegator = new Delegator();
-            for (int i = 0; i < executionThreads; i++)
-            {
-                executors[i] = new Executor();
-            }
         }
 
         public int getAvailableID()
@@ -148,9 +142,9 @@ namespace CourseworkServer
                     break;
                     
                 case "/checkCredentials":
-                    bool b = dbHandler.CheckLoginCredentials(splitted[1], splitted[2]);
-                    if (b) Console.WriteLine("Credentials valid");
-                    else Console.WriteLine("Invalid credentials");
+                    //bool b = dbHandler.CheckLoginCredentials(splitted[1], splitted[2]);
+                    //if (b) Console.WriteLine("Credentials valid");
+                    //else Console.WriteLine("Invalid credentials");
                     break;
                 case "/close":
                     Environment.Exit(0);
@@ -169,6 +163,7 @@ namespace CourseworkServer
         private void user_DataReceived(Client sender, byte[] data)
         {
             Protocol p = (Protocol)data[0];
+            
             Console.WriteLine(p);
             foreach (byte b in data) Console.Write(" " + b);
             //SendData(data, sender);
@@ -179,6 +174,16 @@ namespace CourseworkServer
             }
             string s = new string(chars);
             Console.WriteLine(s); 
+            
+            switch (p)
+            {
+                case Protocol.CreateAccount:
+                    queue.Enqueue(new ActionItem(Operation.AddNewAccount, s, sender));
+                    break;
+                case Protocol.LogIn:
+                    queue.Enqueue(new ActionItem(Operation.CheckCredentials, s, sender));
+                    break;
+            }
         }
 
         private byte[] GetDataFromMemoryStream(MemoryStream ms)

@@ -11,20 +11,27 @@ namespace CourseworkServer
         standard,
         high
     }
+    public enum Operation
+    {
+        AddNewAccount,
+        CheckCredentials
+    }
     class ActionItem
     {
         public Priority priority;
-        int operation;
-        object data;
-        public ActionItem(int op, object d, Priority p = Priority.standard)
+        public Operation operation;
+        public object data;
+        public Client sender;
+        public ActionItem(Operation op, object d, Client c, Priority p = Priority.standard)
         {
+            sender = c;
             operation = op;
             data = d;
             priority = p;
         }
         public override string ToString()
         {
-            return String.Format("ActionItem: Priority = %s | Operation = %d | Data = %d", priority.ToString(), operation, data); 
+            return string.Format("ActionItem: Priority = %s | Operation = %s | Data = %d", priority.ToString(), operation.ToString(), data); 
         }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace CourseworkClient
+﻿namespace CourseworkClient
 {
     public enum Protocol
     {
@@ -13,7 +8,8 @@ namespace CourseworkClient
         CreateAccount,
         BadCredentials,
         GoodCredentials,
-        UsernameTaken
+        UsernameTaken,
+        AddToQueue
 
     }
 }

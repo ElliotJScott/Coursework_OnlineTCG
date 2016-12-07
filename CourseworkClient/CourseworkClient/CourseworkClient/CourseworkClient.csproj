@@ -67,19 +67,25 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Friend.cs" />
+    <Compile Include="FriendManager.cs" />
+    <Compile Include="Gui\Forms\MainMenuForm.cs" />
+    <Compile Include="Gui\Forms\OptionsMenuForm.cs" />
+    <Compile Include="Gui\NumericalTextField.cs" />
     <Compile Include="Protocols.cs" />
     <Compile Include="Gui\Button.cs" />
-    <Compile Include="Gui\CreateAccountForm.cs" />
-    <Compile Include="Gui\Form.cs" />
-    <Compile Include="Gui\FormBuilder.cs" />
+    <Compile Include="Gui\Forms\CreateAccountForm.cs" />
+    <Compile Include="Gui\Forms\Form.cs" />
+    <Compile Include="Gui\Forms\FormBuilder.cs" />
     <Compile Include="Gui\GuiItem.cs" />
-    <Compile Include="Gui\LoginScreenForm.cs" />
+    <Compile Include="Gui\Forms\LoginScreenForm.cs" />
     <Compile Include="KeyPressHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Primary.cs" />

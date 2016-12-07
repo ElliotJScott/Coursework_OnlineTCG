@@ -62,7 +62,6 @@
     <Compile Include="DatabaseHandler.cs" />
     <Compile Include="Queue\ActionItem.cs" />
     <Compile Include="Queue\ActionQueue.cs" />
-    <Compile Include="Queue\Delegator.cs" />
     <Compile Include="Queue\Executor.cs" />
     <Compile Include="Queue\Listener.cs" />
     <Compile Include="Client.cs" />

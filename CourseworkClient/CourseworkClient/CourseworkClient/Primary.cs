@@ -47,7 +47,7 @@ namespace CourseworkClient
         const int bufferSize = 2048;
         byte[] readBuffer;
         public bool connected = false;
-
+        public int connectTimer = 0;
 
         static void Main(string[] args)
         {
@@ -66,6 +66,9 @@ namespace CourseworkClient
 
         protected override void Initialize()
         {
+            if (File.Exists("Test.txt")) System.Windows.Forms.MessageBox.Show("Test");
+            else File.Create("Test.txt");
+
             client = new TcpClient();
             client.NoDelay = true;
             readBuffer = new byte[bufferSize];
@@ -75,7 +78,7 @@ namespace CourseworkClient
             binaryWriter = new BinaryWriter(writeMemoryStream);
             IsMouseVisible = true;
             ratio = CalculateRatio();
-            connected = ConnectClient();
+            new Thread(new ThreadStart(ConnectClient)).Start();
             base.Initialize();
         }
         protected override void LoadContent()
@@ -97,6 +100,15 @@ namespace CourseworkClient
             base.Update(gameTime);
             keypresshandler.UpdateOldState();
             GuiItem.UpdateOldState();
+            if (!connected)
+            {
+                if (connectTimer++ == 100)
+                {
+
+                    new Thread(new ThreadStart(ConnectClient)).Start();
+                    connectTimer = 0;
+                }
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -111,13 +123,17 @@ namespace CourseworkClient
         }
         public string ComputeHash(string s)
         {
-            byte[] b = hasher.ComputeHash(Encoding.UTF8.GetBytes(s));
-            string output = "";
-            foreach (byte e in b)
+            int l = 16;
+            char[] f = s.ToCharArray();
+            string o = "";
+            for (int i = 0; i < l; i++)
             {
-                output += e.ToString("x0");
+                int r = f[i % f.Length];
+
+                o += ((r ^ i) % 16).ToString("X"); ;
             }
-            return output;
+            return o;
+
         }
         public ScreenRatio CalculateRatio()
         {
@@ -143,18 +159,34 @@ namespace CourseworkClient
             }
             throw new InvalidOperationException("Something is very wrong here");
         }
-        public bool ConnectClient()
+        public void ConnectClient()
         {
             try
             {
                 client.Connect(ip, port);
                 client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
+                try
+                {
+                    if (currentForm.GetType() == typeof(CreateAccountForm))
+                    {
+                        ((CreateAccountForm)currentForm).errorMessageText = "";
+                    }
+                    else
+                    {
+                        ((LoginScreenForm)currentForm).errorMessageText = "";
+                    }
+                }
+                catch (NullReferenceException e)
+                {
+                }
+                
             }
             catch
             {
-                return false;
+                connected = false;
+                return;
             }
-            return true;
+            connected = true;
         }
         private void StreamReceived(IAsyncResult ar)
         {
@@ -170,7 +202,20 @@ namespace CourseworkClient
             for (int i = 0; i < bytesRead; i++)
                 data[i] = readBuffer[i];
             ProcessData(data);
-            client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
+            try
+            {
+                client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
+            }
+            catch
+            {
+                connected = false;
+                ExitGame();
+            }
+        }
+        public void ExitGame()
+        {
+            System.Windows.Forms.MessageBox.Show("Game has encountered issue. Closing now");
+            Environment.Exit(0);
         }
         private void ProcessData(byte[] data)
         {
@@ -185,7 +230,7 @@ namespace CourseworkClient
                 p = (Protocol)binaryReader.ReadByte();
                 HandleData(p);
             }
-            finally
+            catch
             {         
             }
 
@@ -193,7 +238,22 @@ namespace CourseworkClient
 
         private void HandleData(Protocol p)
         {
-            throw new NotImplementedException();
+            switch (p)
+            {
+                case Protocol.UsernameTaken:
+                    ((CreateAccountForm)currentForm).errorMessageText = "Username taken";
+                    break;
+                case Protocol.BadCredentials:
+                    ((LoginScreenForm)currentForm).errorMessageText = "Username or Password is incorrect";
+                    break;
+                case Protocol.GoodCredentials:
+                    currentForm = new MainMenuForm();
+                    break;
+                default:
+                    ExitGame();
+                    break;
+
+            }
         }
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {

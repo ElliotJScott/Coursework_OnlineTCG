@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace CourseworkServer
 {
     class ActionQueue
-    {       
+    {
         List<ActionItem> items = new List<ActionItem>();
         List<ActionItem> priorityItems = new List<ActionItem>();
         public ActionQueue()
@@ -24,28 +24,25 @@ namespace CourseworkServer
                 if (priorityItems.Count != 0)
                 {
                     ActionItem a = priorityItems.ElementAt(0);
-                    if (!Server.server.delegator.Delegate(a))
-                    {
-                        priorityItems.RemoveAt(0);
-                    }
-                    else Console.WriteLine("No threads available to delegate to. Consider adding more threads.");
+                    Execute(a);
+                    items.RemoveAt(0);
+
                 }
-                else
+                else if (items.Count != 0)
                 {
                     ActionItem a = items.ElementAt(0);
-                    if (!Server.server.delegator.Delegate(a))
-                    {
-                        items.RemoveAt(0);
-                    }
-                    else
-                    {
-                        Console.WriteLine("No threads available to delegate to. Consider adding more threads.");
-                        Console.WriteLine("Upgrading priority of current item");
-                        items.RemoveAt(0);
-                        priorityItems.Add(a);
-                    }
+                    Execute(a);
+                    items.RemoveAt(0);
+                    
                 }
             }
+        }
+        public void Execute(ActionItem i)
+        {
+            Executor e = new Executor();
+            e.currentItem = i;
+            Thread t = new Thread(new ThreadStart(e.Execute));
+            t.Start();
         }
         public void Enqueue(ActionItem a)
         {

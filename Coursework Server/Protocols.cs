@@ -8,6 +8,7 @@
         CreateAccount,
         BadCredentials,
         GoodCredentials,
-        UsernameTaken
+        UsernameTaken,
+        AddToQueue
     }
 }

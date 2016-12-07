@@ -10,6 +10,13 @@ namespace CourseworkClient.Gui
 {
     abstract class Button : GuiItem
     {
+        public Button(Rectangle rect, string text)
+        {
+            texture = Primary.game.buttonTexture;
+            buttonText = text;
+            boundingBox = rect;
+        }
+        public Button() { }
         public string buttonText;
         public abstract void OnPress();
         bool previouslyClicked = false;
@@ -49,30 +56,9 @@ namespace CourseworkClient.Gui
 
     }
 
-    abstract class TransmissionButton : Button
+    class CreateAccountButton : Button
     {
-        string transmissionString;
-        public TransmissionButton(Rectangle rect, string text)
-        {
-            texture = Primary.game.buttonTexture;
-            buttonText = text;
-            boundingBox = rect;
-        }
-
-        public void SetTransmissionString(string s)
-        {
-            transmissionString = s;
-        }
-
-    }
-    class CreateAccountButton : TransmissionButton
-    {
-        public CreateAccountButton(Rectangle rect, string text) : base(rect, text)
-        {
-            texture = Primary.game.buttonTexture;
-            buttonText = text;
-            boundingBox = rect;
-        }
+        public CreateAccountButton(Rectangle rect, string text) : base(rect, text) { }
 
         public override void OnPress()
         {
@@ -99,19 +85,28 @@ namespace CourseworkClient.Gui
             //throw new NotImplementedException();
         }
     }
-    class LogInButton : TransmissionButton
+     
+    class LogInButton : Button
     {
-        public LogInButton(Rectangle rect, string text) : base(rect, text)
-        {
-        }
-
+        public LogInButton(Rectangle rect, string text) : base(rect, text) { }
         public override void OnPress()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < 2; i++)
+            {
+                if (((TextField)((LoginScreenForm)Primary.game.currentForm).formItems[i]).text == "")
+                {
+                    ((LoginScreenForm)Primary.game.currentForm).errorMessageText = "Field cannot be empty";
+                    return;
+                }
+            }
+             ((LoginScreenForm)Primary.game.currentForm).errorMessageText = "";
+            string stringToWrite = ((TextField)((LoginScreenForm)Primary.game.currentForm).formItems[0]).text + "|" + Primary.game.ComputeHash(((TextField)((LoginScreenForm)Primary.game.currentForm).formItems[1]).text);
+            Primary.game.WriteDataToStream(Protocol.LogIn, stringToWrite);
         }
     }
     class ExitButton : Button
     {
+        public ExitButton(Rectangle rect, string text) : base(rect, text) { }
         public override void OnPress()
         {
             Primary.game.Exit();
