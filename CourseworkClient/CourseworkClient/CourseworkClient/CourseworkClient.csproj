@@ -76,16 +76,17 @@
   <ItemGroup>
     <Compile Include="Friend.cs" />
     <Compile Include="FriendManager.cs" />
-    <Compile Include="Gui\Forms\MainMenuForm.cs" />
-    <Compile Include="Gui\Forms\OptionsMenuForm.cs" />
+    <Compile Include="Gui\MainMenuForm.cs" />
+    <Compile Include="Gui\OptionsMenuForm.cs" />
+    <Compile Include="Gui\QueueSelectForm.cs" />
     <Compile Include="Gui\NumericalTextField.cs" />
     <Compile Include="Protocols.cs" />
     <Compile Include="Gui\Button.cs" />
-    <Compile Include="Gui\Forms\CreateAccountForm.cs" />
-    <Compile Include="Gui\Forms\Form.cs" />
-    <Compile Include="Gui\Forms\FormBuilder.cs" />
+    <Compile Include="Gui\CreateAccountForm.cs" />
+    <Compile Include="Gui\Form.cs" />
+    <Compile Include="Gui\FormBuilder.cs" />
     <Compile Include="Gui\GuiItem.cs" />
-    <Compile Include="Gui\Forms\LoginScreenForm.cs" />
+    <Compile Include="Gui\LoginScreenForm.cs" />
     <Compile Include="KeyPressHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Primary.cs" />

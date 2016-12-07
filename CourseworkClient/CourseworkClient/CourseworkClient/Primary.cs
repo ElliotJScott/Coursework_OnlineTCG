@@ -38,6 +38,7 @@ namespace CourseworkClient
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
+        public FriendManager friendManager; 
         TcpClient client;
         MemoryStream readMemoryStream, writeMemoryStream;
         BinaryReader binaryReader;
@@ -66,8 +67,6 @@ namespace CourseworkClient
 
         protected override void Initialize()
         {
-            if (File.Exists("Test.txt")) System.Windows.Forms.MessageBox.Show("Test");
-            else File.Create("Test.txt");
 
             client = new TcpClient();
             client.NoDelay = true;
@@ -79,6 +78,7 @@ namespace CourseworkClient
             IsMouseVisible = true;
             ratio = CalculateRatio();
             new Thread(new ThreadStart(ConnectClient)).Start();
+            //friendManager = new FriendManager();
             base.Initialize();
         }
         protected override void LoadContent()
@@ -171,14 +171,12 @@ namespace CourseworkClient
                     {
                         ((CreateAccountForm)currentForm).errorMessageText = "";
                     }
-                    else
+                    else if(currentForm.GetType() == typeof(LoginScreenForm))
                     {
                         ((LoginScreenForm)currentForm).errorMessageText = "";
                     }
                 }
-                catch (NullReferenceException e)
-                {
-                }
+                catch (NullReferenceException) { }
                 
             }
             catch

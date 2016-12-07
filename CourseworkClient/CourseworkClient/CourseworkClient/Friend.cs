@@ -12,7 +12,7 @@ namespace CourseworkClient
         InGame
     }
    
-    class Friend
+    public class Friend
     {
         string userName;
         public Status status;
