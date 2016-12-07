@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Friend.cs" />
     <Compile Include="FriendManager.cs" />
+    <Compile Include="Gui\ChatBox.cs" />
     <Compile Include="Gui\MainMenuForm.cs" />
     <Compile Include="Gui\OptionsMenuForm.cs" />
     <Compile Include="Gui\QueueSelectForm.cs" />

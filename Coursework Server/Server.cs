@@ -56,6 +56,10 @@ namespace CourseworkServer
 
         public Server()
         {
+            if (!File.Exists("Messages.txt"))
+            {
+                File.Create("Messages.txt");
+            }
             Console.WriteLine("Initialising Server");
             listener = new Listener();
             connectedClients = new List<Client>();
@@ -200,7 +204,14 @@ namespace CourseworkServer
 
             return result;
         }
-
+        public Status StatusOf(string s)
+        {
+            foreach (Client c in connectedClients)
+            {
+                if (c.userName == s) return c.status;
+            }
+            return Status.Offline;
+        }
 
     }
 }

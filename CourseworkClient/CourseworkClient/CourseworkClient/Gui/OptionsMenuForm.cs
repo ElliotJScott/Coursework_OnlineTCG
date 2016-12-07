@@ -13,7 +13,6 @@ namespace CourseworkClient.Gui
         {
             background = Primary.game.loginScreenBackground;
             formItems.Add(new FormChangeButton(new Rectangle(2, 2, 100, 50), "Back", FormChangeButtonTypes.OptionsToMainMenu));
-            //formItems.Add(new )
         }
         public override void Draw(SpriteBatch sb)
         {

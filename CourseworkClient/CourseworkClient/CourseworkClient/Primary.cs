@@ -49,6 +49,7 @@ namespace CourseworkClient
         byte[] readBuffer;
         public bool connected = false;
         public int connectTimer = 0;
+        public string username;
 
         static void Main(string[] args)
         {
@@ -245,11 +246,13 @@ namespace CourseworkClient
                     ((LoginScreenForm)currentForm).errorMessageText = "Username or Password is incorrect";
                     break;
                 case Protocol.GoodCredentials:
+                    username = ((TextField)(((LoginScreenForm)currentForm).formItems[0])).text;
                     currentForm = new MainMenuForm();
                     break;
                 case Protocol.FriendStatus:
                     string friendUserName = binaryReader.ReadString();
                     byte status = binaryReader.ReadByte();
+                    //Add more stuff here later
                     break;
                 default:
                     ExitGame();

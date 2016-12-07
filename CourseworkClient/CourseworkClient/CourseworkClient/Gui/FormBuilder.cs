@@ -16,6 +16,7 @@ namespace CourseworkClient.Gui
         QueueSelectToMainMenu,
         MainMenuToStore,
         StoreToMainMenu,
+        MainMenuToDeckManager
     }
     class FormBuilder
     {
@@ -37,7 +38,10 @@ namespace CourseworkClient.Gui
                     return new MainMenuForm();
                     
                 default:
-                    throw new ArgumentException("Something's gone very wrong here");
+                    System.Windows.Forms.MessageBox.Show("Uh-oh. The client just tried to go to a form that doesn't exist. That's not good");
+                    Primary.game.ExitGame();
+                    throw new Exception();
+                    
             }
             
         }

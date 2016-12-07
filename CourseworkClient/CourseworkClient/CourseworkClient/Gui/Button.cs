@@ -112,4 +112,28 @@ namespace CourseworkClient.Gui
             Primary.game.Exit();
         }
     }
+    class SendButton : Button
+    {
+        public SendButton(Rectangle rect)
+        {
+            boundingBox = rect;
+            buttonText = "Send";
+        }
+        public override void OnPress()
+        {
+            System.Windows.Forms.MessageBox.Show("Not implemented yet!");
+        }
+    }
+    class AddFriendButton : Button
+    {
+        public AddFriendButton(Rectangle rect)
+        {
+            boundingBox = rect;
+            buttonText = "Add Friend";
+        }
+        public override void OnPress()
+        {
+            System.Windows.Forms.MessageBox.Show("Not implemented yet!");
+        }
+    }
 }
