@@ -14,7 +14,8 @@ namespace CourseworkServer
     public enum Operation
     {
         AddNewAccount,
-        CheckCredentials
+        CheckCredentials,
+        CheckFriendStatus
     }
     class ActionItem
     {

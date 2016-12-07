@@ -18,17 +18,15 @@ namespace CourseworkServer
         public DatabaseHandler dbHandler = new DatabaseHandler();
         public static Server server;
         public List<Client> connectedClients;
-        public const int port = 1337;
         MemoryStream readStream;
         MemoryStream writeStream;
         BinaryReader reader;
         BinaryWriter writer;
-        static bool laptopConnection;
-        const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True"; //Enter this later
+        const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True";
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
         public static string connectionString;
 
-            static void Main(string[] args)
+        static void Main(string[] args)
         {
             #region Change this before hand-in
             Console.WriteLine("Use Laptop or Desktop connection string? L/D");
@@ -37,12 +35,10 @@ namespace CourseworkServer
                 case 'l':
                 case 'L':
                     connectionString = laptopConnectionString;
-                    laptopConnection = true;
                     break;
                 case 'd':
                 case 'D':
                     connectionString = desktopConnectionString;
-                    laptopConnection = false;
                     break;
                 default:
                     Console.WriteLine("Invalid input");
@@ -140,7 +136,7 @@ namespace CourseworkServer
                         Console.WriteLine("Error encountered: " + e);
                     }
                     break;
-                    
+
                 case "/checkCredentials":
                     //bool b = dbHandler.CheckLoginCredentials(splitted[1], splitted[2]);
                     //if (b) Console.WriteLine("Credentials valid");
@@ -163,7 +159,7 @@ namespace CourseworkServer
         private void user_DataReceived(Client sender, byte[] data)
         {
             Protocol p = (Protocol)data[0];
-            
+
             Console.WriteLine(p);
             foreach (byte b in data) Console.Write(" " + b);
             //SendData(data, sender);
@@ -173,8 +169,8 @@ namespace CourseworkServer
                 chars[i] = (char)data[i];
             }
             string s = new string(chars);
-            Console.WriteLine(s); 
-            
+            Console.WriteLine(s);
+
             switch (p)
             {
                 case Protocol.CreateAccount:
@@ -182,6 +178,9 @@ namespace CourseworkServer
                     break;
                 case Protocol.LogIn:
                     queue.Enqueue(new ActionItem(Operation.CheckCredentials, s, sender));
+                    break;
+                case Protocol.FriendStatus:
+                    queue.Enqueue(new ActionItem(Operation.CheckFriendStatus, s, sender));
                     break;
             }
         }
@@ -201,6 +200,7 @@ namespace CourseworkServer
 
             return result;
         }
+
 
     }
 }

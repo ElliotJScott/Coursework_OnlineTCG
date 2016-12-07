@@ -247,6 +247,10 @@ namespace CourseworkClient
                 case Protocol.GoodCredentials:
                     currentForm = new MainMenuForm();
                     break;
+                case Protocol.FriendStatus:
+                    string friendUserName = binaryReader.ReadString();
+                    byte status = binaryReader.ReadByte();
+                    break;
                 default:
                     ExitGame();
                     break;

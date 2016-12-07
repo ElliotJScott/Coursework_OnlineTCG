@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 
 namespace CourseworkServer
 {
+    public enum Status
+    {
+        Offline,
+        Online,
+        InGame
+    }
     public class Client
     {
-
+        public Status status = Status.Offline;
         TcpClient tcpClient; //The tcpclient used for receiving data from the end user
         public string ip; //The ip address for the client
         public int id; //The unique identifier for this particular client connected to the server
@@ -14,13 +21,11 @@ namespace CourseworkServer
         byte[] buffer = new byte[bufferSize]; //The buffer that data is written into when data is received from the end user
         public event OnConnect DisconnectEvent;
         public event OnDataReceived DataReceivedEvent;
-        public MemoryStream memoryStream;
-        public BinaryReader binaryReader;
+        public string userName = "";
+        public List<string> friends = new List<string>();
 
         public Client(TcpClient c, int i)
         {
-            memoryStream = new MemoryStream();
-            binaryReader = new BinaryReader(memoryStream);
             tcpClient = c;
             ip = c.Client.RemoteEndPoint.ToString();
             tcpClient.NoDelay = true;

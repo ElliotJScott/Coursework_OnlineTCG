@@ -9,7 +9,8 @@
         BadCredentials,
         GoodCredentials,
         UsernameTaken,
-        AddToQueue
+        AddToQueue,
+        FriendStatus
 
     }
 }
