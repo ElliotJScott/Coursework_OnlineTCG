@@ -50,10 +50,32 @@ namespace CourseworkServer
             Console.WriteLine("Server online");
             while (true)
             {
-                server.ExecuteCommand(Console.ReadLine());
+                Thread t = new Thread(new ThreadStart(ReadCommand));
+                t.Start();
+                Thread t2 = new Thread(new ThreadStart(UpdateQueues));
+                t2.Start();
+                Thread.Sleep(1000);
+                
             }
         }
+        public static int GetRangeFromTime(uint t)
+        {
+            return (int) (50 * Math.Atan((double)(t / 15) - 6) + 120);
+        }
+        public static void UpdateQueues()
+        {
+            for (int i = 0; i < server.connectedClients.Count; i++)
+            {
+                if (server.connectedClients[i].status == Status.InQueue)
+                {
 
+                }
+            }
+        }
+        public static void ReadCommand()
+        {
+            server.ExecuteCommand(Console.ReadLine());
+        }
         public Server()
         {
             if (!File.Exists("Messages.txt"))
@@ -212,6 +234,7 @@ namespace CourseworkServer
             }
             return Status.Offline;
         }
+        
 
     }
 }

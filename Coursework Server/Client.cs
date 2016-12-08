@@ -9,6 +9,7 @@ namespace CourseworkServer
     {
         Offline,
         Online,
+        InQueue,
         InGame
     }
     public class Client
@@ -23,6 +24,8 @@ namespace CourseworkServer
         public event OnDataReceived DataReceivedEvent;
         public string userName = "";
         public List<string> friends = new List<string>();
+        public int queueStatus = 0;
+        public int queuetime = 0;
 
         public Client(TcpClient c, int i)
         {
