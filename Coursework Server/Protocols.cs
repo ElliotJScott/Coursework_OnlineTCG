@@ -10,6 +10,7 @@
         GoodCredentials,
         UsernameTaken,
         AddToQueue,
-        FriendStatus
+        FriendStatus,
+        LoggedIn
     }
 }

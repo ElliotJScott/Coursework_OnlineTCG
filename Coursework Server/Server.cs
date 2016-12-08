@@ -25,6 +25,7 @@ namespace CourseworkServer
         const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True";
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
         public static string connectionString;
+        static bool isReadingForCommand = false;
 
         static void Main(string[] args)
         {
@@ -50,31 +51,50 @@ namespace CourseworkServer
             Console.WriteLine("Server online");
             while (true)
             {
-                Thread t = new Thread(new ThreadStart(ReadCommand));
-                t.Start();
+                if (!isReadingForCommand)
+                {
+                    Thread t = new Thread(new ThreadStart(ReadCommand));
+                    t.Start();
+                    isReadingForCommand = true;
+                }
                 Thread t2 = new Thread(new ThreadStart(UpdateQueues));
                 t2.Start();
                 Thread.Sleep(1000);
                 
             }
         }
-        public static int GetRangeFromTime(uint t)
+        public static int GetRangeFromTime(double t)
         {
-            return (int) (50 * Math.Atan((double)(t / 15) - 6) + 120);
+            return (int) (50 * Math.Atan((t / 15) - 6) + 120);
         }
+
         public static void UpdateQueues()
-        {
+        {          
             for (int i = 0; i < server.connectedClients.Count; i++)
             {
                 if (server.connectedClients[i].status == Status.InQueue)
                 {
+                    server.connectedClients[i].queuetime++;
+                    for (int j = 0; j < i; j++)
+                    {
+                        if (server.connectedClients[j].status == Status.InQueue)
+                        {
+                            int rangeOne = GetRangeFromTime(server.connectedClients[i].queuetime);
+                            int rangeTwo = GetRangeFromTime(server.connectedClients[i].queuetime);
+                            int range = rangeOne > rangeTwo ? rangeTwo : rangeOne;
+                            if (Math.Abs(server.connectedClients[i].elo - server.connectedClients[j].elo) <= range)
+                            {
 
+                            }
+                        }
+                    }
                 }
             }
         }
         public static void ReadCommand()
         {
             server.ExecuteCommand(Console.ReadLine());
+            isReadingForCommand = false;
         }
         public Server()
         {
@@ -93,24 +113,6 @@ namespace CourseworkServer
             listener.userAdded += new OnConnect(listener_userAdded);
         }
 
-        public int getAvailableID()
-        {
-            Console.WriteLine("Searching for available ID for new connection");
-            for (int i = 0; i <= connectedClients.Count; i++)
-            {
-                bool idTaken = false;
-                foreach (Client c in connectedClients)
-                {
-                    if (c.id == i)
-                    {
-                        idTaken = true;
-                        break;
-                    }
-                }
-                if (!idTaken) return i;
-            }
-            throw new Exception("An unexpected error has occurred. The program will now terminate");
-        }
         public void listener_userAdded(Client user)
         {
             Console.WriteLine("Adding user to list of users");
@@ -234,7 +236,22 @@ namespace CourseworkServer
             }
             return Status.Offline;
         }
-        
+        public int GetClientIndex(string s)
+        {
+            for (int i = 0; i < connectedClients.Count; i++)
+            {
+                if (connectedClients[i].userName == s) return i;
+            }
+            throw new ArgumentException(s);
+        }
+        public bool usernameInUse(string username)
+        {
+            foreach (Client c in connectedClients)
+            {
+                if (c.userName == username) return true;
+            }
+            return false;
+        }
 
     }
 }

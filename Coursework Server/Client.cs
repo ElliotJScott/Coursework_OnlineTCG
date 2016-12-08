@@ -17,7 +17,6 @@ namespace CourseworkServer
         public Status status = Status.Offline;
         TcpClient tcpClient; //The tcpclient used for receiving data from the end user
         public string ip; //The ip address for the client
-        public int id; //The unique identifier for this particular client connected to the server
         public const int bufferSize = 10000; //The size of the buffer
         byte[] buffer = new byte[bufferSize]; //The buffer that data is written into when data is received from the end user
         public event OnConnect DisconnectEvent;
@@ -26,13 +25,13 @@ namespace CourseworkServer
         public List<string> friends = new List<string>();
         public int queueStatus = 0;
         public int queuetime = 0;
+        public int elo;
 
-        public Client(TcpClient c, int i)
+        public Client(TcpClient c)
         {
             tcpClient = c;
             ip = c.Client.RemoteEndPoint.ToString();
             tcpClient.NoDelay = true;
-            id = i;
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null); //Listen for new data and call the DataReceived method when data has been received
         }
         public void Disconnect()
@@ -81,7 +80,7 @@ namespace CourseworkServer
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
-            else return id == ((Client)obj).id;
+            else return userName == ((Client)obj).userName;
         }
         public override int GetHashCode()
         {

@@ -17,6 +17,7 @@ namespace CourseworkServer
         CheckCredentials,
         CheckFriendStatus,
         AddToQueue,
+        GetPlayerElo,
     }
     class ActionItem
     {

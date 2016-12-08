@@ -254,6 +254,9 @@ namespace CourseworkClient
                     byte status = binaryReader.ReadByte();
                     //Add more stuff here later
                     break;
+                case Protocol.LoggedIn:
+                    ((LoginScreenForm)currentForm).errorMessageText = "You are already logged in on another instance.\nTest";
+                    break;
                 default:
                     ExitGame();
                     break;

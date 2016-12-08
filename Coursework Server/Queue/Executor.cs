@@ -42,14 +42,22 @@ namespace CourseworkServer
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
                         DataTable table = Server.server.dbHandler.DoSQLQuery("select * from Accounts where Username = '" + usernameAndPasswordHash[0] + "' AND PasswordHash = '" + usernameAndPasswordHash[1] + "'");
                         int numInstances = table.Rows.Count;
-                        if (numInstances == 1)
+                        if (numInstances != 1)
+                        {
+                            currentItem.sender.SendData(new byte[] { (byte)Protocol.BadCredentials });
+                        }
+                        else if (Server.server.usernameInUse(usernameAndPasswordHash[0]))
+                        {
+                            currentItem.sender.SendData(new byte[] { (byte)Protocol.LoggedIn });
+                        }
+                        else
                         {
                             currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
                             int index = Server.server.connectedClients.IndexOf(currentItem.sender);
                             Server.server.connectedClients[index].userName = usernameAndPasswordHash[0];
                             Server.server.connectedClients[index].status = Status.Online;
+                            Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerElo, null, currentItem.sender));
                         }
-                        else currentItem.sender.SendData(new byte[] { (byte)Protocol.BadCredentials });
                     }
                     break;
                 #endregion
@@ -72,6 +80,16 @@ namespace CourseworkServer
                     }
                     break;
                 #endregion
+                #region GetPlayerElo
+                case Operation.GetPlayerElo:
+                    {
+                        string username = currentItem.sender.userName;
+                        DataTable table = Server.server.dbHandler.DoSQLQuery("select elo from accounts where username = '" + username + "'");
+                        int elo = table.Rows[0].Field<int>(0);
+                        Server.server.connectedClients[Server.server.GetClientIndex(username)].elo = elo;
+                    }
+                    break;                 
+                    #endregion
             }
         }
     }

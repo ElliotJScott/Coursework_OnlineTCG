@@ -18,8 +18,7 @@ namespace CourseworkServer
         public void AcceptClient(IAsyncResult a)
         {
             TcpClient client = listener.EndAcceptTcpClient(a);
-            Client cl = new Client(client, Server.server.getAvailableID());
-            Server.server.connectedClients.Add(cl);
+            Client cl = new Client(client);
             userAdded?.Invoke(cl);
             listener.BeginAcceptTcpClient(AcceptClient, null);
         }
