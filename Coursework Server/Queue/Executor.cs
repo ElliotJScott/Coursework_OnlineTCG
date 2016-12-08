@@ -61,7 +61,17 @@ namespace CourseworkServer
                         Server.server.connectedClients[index].friends.Add(username);
                     }
                     break;
-                    #endregion
+                #endregion
+                #region AddToQueue
+                case Operation.AddToQueue:
+                    {
+                        int qs = Convert.ToInt32(((string)currentItem.data).Substring(2));
+                        int index = Server.server.connectedClients.IndexOf(currentItem.sender);
+                        Server.server.connectedClients[index].status = Status.InQueue;
+                        Server.server.connectedClients[index].queueStatus = qs;
+                    }
+                    break;
+                #endregion
             }
         }
     }

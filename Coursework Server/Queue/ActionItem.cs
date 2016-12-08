@@ -15,7 +15,8 @@ namespace CourseworkServer
     {
         AddNewAccount,
         CheckCredentials,
-        CheckFriendStatus
+        CheckFriendStatus,
+        AddToQueue,
     }
     class ActionItem
     {
@@ -29,10 +30,6 @@ namespace CourseworkServer
             operation = op;
             data = d;
             priority = p;
-        }
-        public override string ToString()
-        {
-            return string.Format("ActionItem: Priority = %s | Operation = %s | Data = %d", priority.ToString(), operation.ToString(), data); 
         }
     }
 }

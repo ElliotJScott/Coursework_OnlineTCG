@@ -33,7 +33,7 @@ namespace CourseworkClient.Gui
         
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture, boundingBox, previouslyClicked? Color.Orange : Color.White);
+            sb.Draw(texture == null?Primary.game.buttonTexture : texture, boundingBox, previouslyClicked? Color.Orange : Color.White);
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), previouslyClicked? Color.White : Color.Black);
         }
     }
@@ -85,7 +85,20 @@ namespace CourseworkClient.Gui
             //throw new NotImplementedException();
         }
     }
-     
+    class AddToQueueButton : FormChangeButton
+    {
+        int queueID;
+        public AddToQueueButton(Rectangle rect, string text, int id, FormChangeButtonTypes f = FormChangeButtonTypes.QueueSelectToMainMenu) : base(rect, text, f)
+        {
+            queueID = id;
+        }
+
+        public override void OnPress()
+        {
+            Primary.game.WriteDataToStream(Protocol.AddToQueue, queueID);
+            Primary.game.currentForm = FormBuilder.BuildNewForm(FormChangeButtonTypes.QueueSelectToMainMenu);
+        }
+    }
     class LogInButton : Button
     {
         public LogInButton(Rectangle rect, string text) : base(rect, text) { }
@@ -106,7 +119,11 @@ namespace CourseworkClient.Gui
     }
     class ExitButton : Button
     {
-        public ExitButton(Rectangle rect, string text) : base(rect, text) { }
+        public ExitButton(Rectangle rect)
+        {
+            boundingBox = rect;
+            buttonText = "Brexit";
+        }
         public override void OnPress()
         {
             Primary.game.Exit();

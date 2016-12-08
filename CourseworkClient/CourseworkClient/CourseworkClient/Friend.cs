@@ -9,6 +9,7 @@ namespace CourseworkClient
     {
         Offline,
         Online,
+        InQueue,
         InGame
     }
    
