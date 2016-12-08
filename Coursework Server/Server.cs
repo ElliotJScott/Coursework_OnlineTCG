@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace CourseworkServer
 {
-    public delegate void OnConnect(Client user, object sender);
+    public delegate void OnConnect(Client user);
     public delegate void OnDataReceived(Client sender, byte[] data);
 
     class Server
@@ -89,7 +89,7 @@ namespace CourseworkServer
             }
             throw new Exception("An unexpected error has occurred. The program will now terminate");
         }
-        public void listener_userAdded(Client user, object sender)
+        public void listener_userAdded(Client user)
         {
             Console.WriteLine("Adding user to list of users");
             user.DataReceivedEvent += new OnDataReceived(user_DataReceived);
@@ -98,7 +98,7 @@ namespace CourseworkServer
             connectedClients.Add(user);
         }
 
-        public void user_UserDisconnected(Client user, object sender)
+        public void user_UserDisconnected(Client user)
         {
             Console.WriteLine("Removing user");
             connectedClients.Remove(user);

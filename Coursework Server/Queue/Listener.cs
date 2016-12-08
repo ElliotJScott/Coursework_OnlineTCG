@@ -20,7 +20,7 @@ namespace CourseworkServer
             TcpClient client = listener.EndAcceptTcpClient(a);
             Client cl = new Client(client, Server.server.getAvailableID());
             Server.server.connectedClients.Add(cl);
-            userAdded?.Invoke(cl, this);
+            userAdded?.Invoke(cl);
             listener.BeginAcceptTcpClient(AcceptClient, null);
         }
 

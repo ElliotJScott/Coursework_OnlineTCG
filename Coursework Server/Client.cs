@@ -34,7 +34,7 @@ namespace CourseworkServer
         }
         public void Disconnect()
         {
-            DisconnectEvent(this, this);
+            DisconnectEvent(this);
         }
         public void DataReceived(IAsyncResult a)
         {
@@ -84,5 +84,18 @@ namespace CourseworkServer
         {
             return base.GetHashCode();
         }
+        public void NotifyFriendsStatus()
+        {
+            foreach (string s in friends)
+            {
+                char[] c = s.ToCharArray();
+                byte[] b = new byte[c.Length + 2];
+                b[0] = (byte)Protocol.FriendStatus;
+                for (int i = 1; i <= c.Length; i++) b[i] = (byte)c[i];
+                b[c.Length + 1] = (byte)status;
+                SendData(b);
+            }
+        }
+
     }
 }
