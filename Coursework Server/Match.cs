@@ -8,6 +8,12 @@ namespace CourseworkServer
 {
     class Match
     {
-        Client[] players = new Client[2];
+        string[] players;
+        int gameTime;
+        public Match(string player1, string player2)
+        {
+            players = new string[] { player1, player2 };
+            gameTime = 0;
+        }
     }
 }
