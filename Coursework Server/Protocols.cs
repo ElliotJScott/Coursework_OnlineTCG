@@ -11,6 +11,7 @@
         UsernameTaken,
         AddToQueue,
         FriendStatus,
-        LoggedIn
+        LoggedIn,
+        EnterMatch
     }
 }

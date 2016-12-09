@@ -95,7 +95,7 @@ namespace CourseworkServer
                 b[0] = (byte)Protocol.FriendStatus;
                 for (int i = 1; i <= c.Length; i++) b[i] = (byte)c[i];
                 b[c.Length + 1] = (byte)status;
-                SendData(b);
+                Server.server.connectedClients[Server.server.GetClientIndex(s)].SendData(b);
             }
         }
 

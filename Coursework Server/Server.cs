@@ -18,6 +18,7 @@ namespace CourseworkServer
         public DatabaseHandler dbHandler = new DatabaseHandler();
         public static Server server;
         public List<Client> connectedClients;
+        public List<Match> currentMatches = new List<Match>();
         MemoryStream readStream;
         MemoryStream writeStream;
         BinaryReader reader;
@@ -84,12 +85,39 @@ namespace CourseworkServer
                             int range = rangeOne > rangeTwo ? rangeTwo : rangeOne;
                             if (Math.Abs(server.connectedClients[i].elo - server.connectedClients[j].elo) <= range)
                             {
-
+                                CreateMatch(server.connectedClients[i], server.connectedClients[j]);
                             }
                         }
                     }
                 }
             }
+        }
+        public static void CreateMatch(Client a, Client b)
+        {
+            Match m = new Match(a.userName, b.userName);
+            server.currentMatches.Add(m);
+            a.SendData(addProtocolToArray(toByteArray(b.userName), Protocol.EnterMatch));
+            b.SendData(addProtocolToArray(toByteArray(a.userName), Protocol.EnterMatch));
+        }
+        public static byte[] addProtocolToArray(byte[] b, Protocol p)
+        {
+            byte[] e = new byte[b.Length + 1];
+            e[0] = (byte)p;
+            for (int i = 0; i < b.Length; i++)
+            {
+                e[i + 1] = b[0];
+            }
+            return e;
+        }
+        public static byte[] toByteArray(string s)
+        {
+            char[] c = s.ToCharArray();
+            byte[] b = new byte[c.Length];
+            for (int i = 0; i < c.Length; i++)
+            {
+                b[i] = (byte)c[i];
+            }
+            return b;
         }
         public static void ReadCommand()
         {
@@ -209,6 +237,9 @@ namespace CourseworkServer
                     break;
                 case Protocol.FriendStatus:
                     queue.Enqueue(new ActionItem(Operation.CheckFriendStatus, s, sender));
+                    break;
+                case Protocol.AddToQueue:
+                    queue.Enqueue(new ActionItem(Operation.AddToQueue, s, sender));
                     break;
             }
         }
