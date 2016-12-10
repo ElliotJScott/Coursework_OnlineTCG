@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace CourseworkClient
 {
     public abstract class GuiItem
     {
         public static MouseState oldState = new MouseState();
+        public List<GuiItem> subItems = new List<GuiItem>();
         public Rectangle boundingBox;
         public Texture2D texture;
         public bool Clicked(Vector2 mp)

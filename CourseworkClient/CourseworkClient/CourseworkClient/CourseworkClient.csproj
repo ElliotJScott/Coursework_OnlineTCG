@@ -81,6 +81,8 @@
     <Compile Include="Gui\OptionsMenuForm.cs" />
     <Compile Include="Gui\QueueSelectForm.cs" />
     <Compile Include="Gui\NumericalTextField.cs" />
+    <Compile Include="Gui\ScrollableTextPane.cs" />
+    <Compile Include="Gui\ScrollArrow.cs" />
     <Compile Include="Protocols.cs" />
     <Compile Include="Gui\Button.cs" />
     <Compile Include="Gui\CreateAccountForm.cs" />

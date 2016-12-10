@@ -12,9 +12,9 @@ namespace CourseworkClient.Gui
         {
             background = Primary.game.loginScreenBackground;
             //Don't put any adds here
-            formItems.Add(new TextField(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.textFieldTexture.Width) / 2, -30 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), Primary.game.textFieldTexture.Width, Primary.game.textFieldTexture.Height), 15, "Username"));
-            formItems.Add(new TextField(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.textFieldTexture.Width) / 2, 30 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), Primary.game.textFieldTexture.Width, 30), 15, "Password", true));
-            formItems.Add(new LogInButton(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.buttonTexture.Width) / 2, 80 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), 150, 30),"Log In")); //Change this null when i have the thing
+            formItems.Add(new TextField(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.textFieldTexture.Width) / 2, -30 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), Primary.game.textFieldTexture.Width, Primary.game.textFieldTexture.Height), 150, "Username"));
+            formItems.Add(new TextField(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.textFieldTexture.Width) / 2, 30 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), Primary.game.textFieldTexture.Width, 30), 30, "Password", true));
+            formItems.Add(new LogInButton(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.buttonTexture.Width) / 2, 80 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), 150, 30),"Log In"));
             formItems.Add(new FormChangeButton(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.buttonTexture.Width) / 2, 120 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), 150, 30), "Create Account", FormChangeButtonTypes.LogInToCreateAccount));
             formItems.Add(new ExitButton((new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.buttonTexture.Width) / 2, 160 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), 150, 30))));
         }

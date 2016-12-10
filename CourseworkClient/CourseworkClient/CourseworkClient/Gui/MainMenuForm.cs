@@ -17,7 +17,7 @@ namespace CourseworkClient.Gui
             formItems.Add(new FormChangeButton(new Rectangle(2, 100, 100, 50), "Play", FormChangeButtonTypes.MainMenuToQueueSelect));
             formItems.Add(new FormChangeButton(new Rectangle(2, 300, 100, 50), "Deck Manager", FormChangeButtonTypes.MainMenuToDeckManager));
             formItems.Add(new SendButton(new Rectangle(2, 400, 100, 50)));
-            formItems.Add(new ChatBox());
+            formItems.Add(new ChatBox(new Rectangle(600, 500, 200, 200)));
             formItems.Add(new AddFriendButton(new Rectangle(2, 500, 100, 50)));
         }
         

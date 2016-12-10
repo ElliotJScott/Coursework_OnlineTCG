@@ -35,6 +35,7 @@ namespace CourseworkClient
         public Texture2D title;
         public Texture2D buttonTexture;
         public Texture2D textFieldInfoTab;
+        public Texture2D greenArrowTexture, grayArrowTexture;
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
@@ -92,7 +93,8 @@ namespace CourseworkClient
             mainFont = Content.Load<SpriteFont>("Mainfont");
             title = Content.Load<Texture2D>("Title");
             textFieldInfoTab = Content.Load<Texture2D>("InfoTab");
-
+            greenArrowTexture = Content.Load<Texture2D>("Scroll Arrow");
+            grayArrowTexture = Content.Load<Texture2D>("Grayed Out Scroll Arrow");
         }
 
         protected override void Update(GameTime gameTime)
@@ -315,21 +317,6 @@ namespace CourseworkClient
 
             }
 
-        }
-        public void WriteDataToStream(Protocol p, params int[] o)
-        {
-            writeMemoryStream.Position = 0;
-            binaryWriter.Write((byte)p);
-            foreach (int e in o)
-            {
-
-                binaryWriter.Write(e);
-
-                SendData(GetDataFromMemoryStream(writeMemoryStream));
-                writeMemoryStream.Position = 0;
-                binaryWriter.Write((byte)p);
-
-            }
         }
     }
 }

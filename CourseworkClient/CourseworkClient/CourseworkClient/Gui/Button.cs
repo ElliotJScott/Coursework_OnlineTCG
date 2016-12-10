@@ -95,7 +95,7 @@ namespace CourseworkClient.Gui
 
         public override void OnPress()
         {
-            Primary.game.WriteDataToStream(Protocol.AddToQueue, queueID);
+            Primary.game.WriteDataToStream(Protocol.AddToQueue, queueID.ToString());
             Primary.game.currentForm = FormBuilder.BuildNewForm(FormChangeButtonTypes.QueueSelectToMainMenu);
         }
     }

@@ -75,13 +75,14 @@ namespace CourseworkServer
             {
                 if (server.connectedClients[i].status == Status.InQueue)
                 {
+                    Console.WriteLine(i + ": " + server.connectedClients[i].userName + " is in queue. Time: " + server.connectedClients[i].queuetime + ". Range = " + GetRangeFromTime(server.connectedClients[i].queuetime));
                     server.connectedClients[i].queuetime++;
                     for (int j = 0; j < i; j++)
                     {
                         if (server.connectedClients[j].status == Status.InQueue)
                         {
                             int rangeOne = GetRangeFromTime(server.connectedClients[i].queuetime);
-                            int rangeTwo = GetRangeFromTime(server.connectedClients[i].queuetime);
+                            int rangeTwo = GetRangeFromTime(server.connectedClients[j].queuetime);
                             int range = rangeOne > rangeTwo ? rangeTwo : rangeOne;
                             if (Math.Abs(server.connectedClients[i].elo - server.connectedClients[j].elo) <= range)
                             {
@@ -165,7 +166,7 @@ namespace CourseworkServer
                     for (int i = 1; i < splitted.Length; i++) genericSQLString += " " + splitted[i];
                     try
                     {
-                        Console.WriteLine(dbHandler.DoSQLCommand(genericSQLString.Trim()) + " row(s) affected");
+                        Console.WriteLine(dbHandler.DoParameterizedSQLCommand(genericSQLString.Trim()) + " row(s) affected");
                     }
                     catch (Exception e)
                     {
@@ -177,27 +178,26 @@ namespace CourseworkServer
                     for (int i = 1; i < splitted.Length; i++) sqlQuery += " " + splitted[i];
                     try
                     {
-                        DataTable table = dbHandler.DoSQLQuery(sqlQuery);
-                        foreach (DataRow row in table.Rows)
-                        {
-                            for (int i = 0; i < table.Columns.Count; i++)
+                        object[][] data = dbHandler.DoParameterizedSQLQuery(sqlQuery);
+                        for (int i = 0; i < data.Length; i++) { 
+                            for (int j = 0; j < data[i].Length; j++)
                             {
-                                Console.Write(row[i].ToString() + " ");
+                                Console.Write(data[i][j] + " ");
                             }
-                            Console.WriteLine();
+                        Console.WriteLine();
+                    
                         }
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("Error encountered: " + e);
                     }
+                    finally
+                    {
+                        if (reader != null) reader.Close();
+                    }
                     break;
 
-                case "/checkCredentials":
-                    //bool b = dbHandler.CheckLoginCredentials(splitted[1], splitted[2]);
-                    //if (b) Console.WriteLine("Credentials valid");
-                    //else Console.WriteLine("Invalid credentials");
-                    break;
                 case "/close":
                     Environment.Exit(0);
                     break;

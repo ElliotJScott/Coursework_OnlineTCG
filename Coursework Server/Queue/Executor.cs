@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +23,11 @@ namespace CourseworkServer
                 case Operation.AddNewAccount:
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
-                        DataTable table = Server.server.dbHandler.DoSQLQuery("select * from Accounts where Username = '" + usernameAndPasswordHash[0] + "'");
-                        int numInstances = table.Rows.Count;
-                        if (numInstances == 0)
+                        //DataTable table = Server.server.dbHandler.DoSQLQuery("select * from Accounts where Username = '" + usernameAndPasswordHash[0] + "'");
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select * from Accounts where Username = @p1", usernameAndPasswordHash[0]);                    
+                        if (data.GetLength(1) == 0)
                         {
-                            int numRowsAffectedAddAccount = Server.server.dbHandler.DoSQLCommand("INSERT INTO Accounts VALUES('" + usernameAndPasswordHash[0] + "', '" + usernameAndPasswordHash[1] + "', 1000, 0)");
+                            int numRowsAffectedAddAccount = Server.server.dbHandler.DoParameterizedSQLCommand("INSERT INTO Accounts VALUES(@p1, @p2, 1000, 0)", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
                             Console.WriteLine(numRowsAffectedAddAccount + " row(s) affected");
                         }
                         else
@@ -40,9 +41,8 @@ namespace CourseworkServer
                 case Operation.CheckCredentials:
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
-                        DataTable table = Server.server.dbHandler.DoSQLQuery("select * from Accounts where Username = '" + usernameAndPasswordHash[0] + "' AND PasswordHash = '" + usernameAndPasswordHash[1] + "'");
-                        int numInstances = table.Rows.Count;
-                        if (numInstances != 1)
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select * from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
+                        if (data.GetLength(1) == 0)
                         {
                             currentItem.sender.SendData(new byte[] { (byte)Protocol.BadCredentials });
                         }
@@ -84,8 +84,8 @@ namespace CourseworkServer
                 case Operation.GetPlayerElo:
                     {
                         string username = currentItem.sender.userName;
-                        DataTable table = Server.server.dbHandler.DoSQLQuery("select elo from accounts where username = '" + username + "'");
-                        int elo = table.Rows[0].Field<int>(0);
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select elo from accounts where username = @p1", username);
+                        int elo = (int)data[0][0];
                         Server.server.connectedClients[Server.server.GetClientIndex(username)].elo = elo;
                     }
                     break;                 
