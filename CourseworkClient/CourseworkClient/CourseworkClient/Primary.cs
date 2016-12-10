@@ -44,7 +44,7 @@ namespace CourseworkClient
         MemoryStream readMemoryStream, writeMemoryStream;
         BinaryReader binaryReader;
         BinaryWriter binaryWriter;
-        const string ip = "127.0.0.1";
+        const string ip = "192.168.1.71";
         const int port = 1337;
         const int bufferSize = 2048;
         byte[] readBuffer;

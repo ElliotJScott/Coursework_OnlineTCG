@@ -4,6 +4,6 @@ Content\TextFieldBox.xnb
 Content\Title.xnb
 Content\ButtonIcon.xnb
 Content\InfoTab.xnb
-Content\Mainfont.xnb
 Content\Scroll Arrow.xnb
 Content\Grayed Out Scroll Arrow.xnb
+Content\Mainfont.xnb
