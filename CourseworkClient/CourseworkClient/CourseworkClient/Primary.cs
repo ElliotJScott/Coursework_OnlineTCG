@@ -39,7 +39,7 @@ namespace CourseworkClient
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
-        public FriendManager friendManager; 
+        public FriendManager friendManager;
         TcpClient client;
         MemoryStream readMemoryStream, writeMemoryStream;
         BinaryReader binaryReader;
@@ -174,13 +174,13 @@ namespace CourseworkClient
                     {
                         ((CreateAccountForm)currentForm).errorMessageText = "";
                     }
-                    else if(currentForm.GetType() == typeof(LoginScreenForm))
+                    else if (currentForm.GetType() == typeof(LoginScreenForm))
                     {
                         ((LoginScreenForm)currentForm).errorMessageText = "";
                     }
                 }
                 catch (NullReferenceException) { }
-                
+
             }
             catch
             {
@@ -232,7 +232,7 @@ namespace CourseworkClient
                 HandleData(p);
             }
             catch
-            {         
+            {
             }
 
         }
@@ -259,11 +259,18 @@ namespace CourseworkClient
                 case Protocol.LoggedIn:
                     ((LoginScreenForm)currentForm).errorMessageText = "You are already logged in on another instance.\nTest";
                     break;
+                case Protocol.EnterMatch:
+                    ShowMessage("Entering match");
+                    break;
                 default:
                     ExitGame();
                     break;
 
             }
+        }
+        public static void ShowMessage(string s)
+        {
+            System.Windows.Forms.MessageBox.Show(s);
         }
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
