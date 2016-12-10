@@ -42,7 +42,7 @@ namespace CourseworkServer
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select * from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
-                        if (data.GetLength(1) == 0)
+                        if (data.Length == 0)
                         {
                             currentItem.sender.SendData(new byte[] { (byte)Protocol.BadCredentials });
                         }

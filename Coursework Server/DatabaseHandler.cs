@@ -43,7 +43,7 @@ namespace CourseworkServer
                 connection.Open();
                 for (int i = 1; i <= parameters.Length; i++)
                 {
-                    sqlCommand.Parameters.AddWithValue("@p" + i, parameters[i]);
+                    sqlCommand.Parameters.AddWithValue("@p" + i, parameters[i-1]);
                 }
                 SqlDataReader reader = sqlCommand.ExecuteReader();
                 List<object[]> objects = new List<object[]>();
@@ -71,7 +71,7 @@ namespace CourseworkServer
                     connection.Open();
                     for (int i = 1; i <= parameters.Length; i++)
                     {
-                        sqlCommand.Parameters.AddWithValue("@p" + i, parameters[i]);
+                        sqlCommand.Parameters.AddWithValue("@p" + i, parameters[i-1]);
                     }
                     return sqlCommand.ExecuteNonQuery();
                 }
