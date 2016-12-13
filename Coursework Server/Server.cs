@@ -23,6 +23,7 @@ namespace CourseworkServer
         MemoryStream writeStream;
         BinaryReader reader;
         BinaryWriter writer;
+        Random rng = new Random();
         const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True";
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
         public static string connectionString;
@@ -95,10 +96,12 @@ namespace CourseworkServer
         }
         public static void CreateMatch(Client a, Client b)
         {
-            Match m = new Match(a.userName, b.userName);
+            Match m = new Match(a, b);
             server.currentMatches.Add(m);
             a.SendData(addProtocolToArray(toByteArray(b.userName), Protocol.EnterMatch));
             b.SendData(addProtocolToArray(toByteArray(a.userName), Protocol.EnterMatch));
+            a.status = Status.InGame;
+            b.status = Status.InGame;
         }
         public static byte[] addProtocolToArray(byte[] b, Protocol p)
         {
@@ -230,7 +233,7 @@ namespace CourseworkServer
             switch (p)
             {
                 case Protocol.CreateAccount:
-                    queue.Enqueue(new ActionItem(Operation.AddNewAccount, s, sender));
+                    queue.Enqueue(new ActionItem(Operation.AddNewAccount, s, sender, Priority.high));
                     break;
                 case Protocol.LogIn:
                     queue.Enqueue(new ActionItem(Operation.CheckCredentials, s, sender));

@@ -23,12 +23,12 @@ namespace CourseworkServer
                 case Operation.AddNewAccount:
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
-                        //DataTable table = Server.server.dbHandler.DoSQLQuery("select * from Accounts where Username = '" + usernameAndPasswordHash[0] + "'");
-                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select * from Accounts where Username = @p1", usernameAndPasswordHash[0]);                    
-                        if (data.GetLength(1) == 0)
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1", usernameAndPasswordHash[0]);                    
+                        if ((int)data[0][0] == 0)
                         {
                             int numRowsAffectedAddAccount = Server.server.dbHandler.DoParameterizedSQLCommand("INSERT INTO Accounts VALUES(@p1, @p2, 1000, 0)", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
                             Console.WriteLine(numRowsAffectedAddAccount + " row(s) affected");
+                            Server.server.queue.Enqueue(new ActionItem(Operation.AddDefaultDeck, null, currentItem.sender));
                         }
                         else
                         {
@@ -41,8 +41,8 @@ namespace CourseworkServer
                 case Operation.CheckCredentials:
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
-                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select * from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
-                        if (data.Length == 0)
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
+                        if ((int)data[0][0] == 0)
                         {
                             currentItem.sender.SendData(new byte[] { (byte)Protocol.BadCredentials });
                         }
@@ -53,9 +53,8 @@ namespace CourseworkServer
                         else
                         {
                             currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
-                            int index = Server.server.connectedClients.IndexOf(currentItem.sender);
-                            Server.server.connectedClients[index].userName = usernameAndPasswordHash[0];
-                            Server.server.connectedClients[index].status = Status.Online;
+                            currentItem.sender.userName = usernameAndPasswordHash[0];
+                            currentItem.sender.status = Status.Online;
                             Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerElo, null, currentItem.sender));
                         }
                     }
@@ -65,8 +64,7 @@ namespace CourseworkServer
                 case Operation.CheckFriendStatus:
                     {
                         string username = ((string)currentItem.data).Substring(2);
-                        int index = Server.server.connectedClients.IndexOf(currentItem.sender);
-                        Server.server.connectedClients[index].friends.Add(username);
+                        currentItem.sender.friends.Add(username);
                     }
                     break;
                 #endregion
@@ -74,9 +72,9 @@ namespace CourseworkServer
                 case Operation.AddToQueue:
                     {
                         int qs = Convert.ToInt32(((string)currentItem.data).Substring(2));
-                        int index = Server.server.connectedClients.IndexOf(currentItem.sender);
-                        Server.server.connectedClients[index].status = Status.InQueue;
-                        Server.server.connectedClients[index].queueStatus = qs;
+                        currentItem.sender.status = Status.InQueue;
+                        currentItem.sender.queueStatus = qs;
+                        currentItem.sender.queuetime = 0;
                     }
                     break;
                 #endregion
@@ -86,7 +84,7 @@ namespace CourseworkServer
                         string username = currentItem.sender.userName;
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select elo from accounts where username = @p1", username);
                         int elo = (int)data[0][0];
-                        Server.server.connectedClients[Server.server.GetClientIndex(username)].elo = elo;
+                        currentItem.sender.elo = elo;
                     }
                     break;                 
                     #endregion
