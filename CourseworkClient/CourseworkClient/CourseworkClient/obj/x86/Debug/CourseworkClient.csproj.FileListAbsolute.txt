@@ -26,7 +26,6 @@ C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Course
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Microsoft.Xna.Framework.Graphics.xml
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Microsoft.Xna.Framework.GamerServices.xml
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Microsoft.Xna.Framework.Input.Touch.xml
-C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\CourseworkClient.csprojResolveAssemblyReference.cache
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\CourseworkClient.exe
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\CourseworkClient.pdb
@@ -48,3 +47,4 @@ C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Course
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Scroll Arrow.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\CourseworkClient.csprojResolveAssemblyReference.cache

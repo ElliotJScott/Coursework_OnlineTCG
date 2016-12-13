@@ -47,7 +47,7 @@ namespace CourseworkClient
         public override void Draw(SpriteBatch sb)
         {
             sb.Draw(texture, boundingBox, Color.White);
-            sb.DrawString(Primary.game.mainFont, (!hideText ? text : new string('●', text.Length)) + (drawBar ? "|" : ""), new Vector2(boundingBox.X + 5, boundingBox.Y), Color.Black);
+            sb.DrawString(Primary.game.mainFont, (!hideText ? text : new string('●', text.Length)) + (drawBar ? "|" : ""), new Vector2(boundingBox.X + 2, boundingBox.Y + 4), Color.Black);
             if (caption != null && caption != "")
             {
                 sb.Draw(Primary.game.textFieldInfoTab, new Rectangle(boundingBox.X, boundingBox.Y - Primary.game.textFieldInfoTab.Height, Primary.game.textFieldInfoTab.Width, Primary.game.textFieldInfoTab.Height), Color.White);
