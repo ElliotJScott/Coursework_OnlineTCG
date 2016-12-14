@@ -77,7 +77,7 @@ namespace CourseworkServer
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    int cardID = (int)(Server.server.dbHandler.DoParameterizedSQLQuery(" select cardid from cards where cardname = @p1", d.name)[0][0]);
+                    int cardID = (int)(Server.server.dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardname = @p1", d.name)[0][0]);
                     Server.server.dbHandler.DoParameterizedSQLCommand("insert into deckcards values(@p1, @p2, @p3)", cardID, deckIDs[i], d.number);
                 }
             }

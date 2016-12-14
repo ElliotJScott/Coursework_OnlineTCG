@@ -23,11 +23,22 @@ namespace CourseworkClient
         SixteenByNine,
         Other
     }
+    public struct CardArtItem
+    {
+        public Texture2D art;
+        public string cardName;
+        public CardArtItem(Texture2D tex, string n)
+        {
+            art = tex;
+            cardName = n;
+        }
+    }
     public class Primary : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         HMACMD5 hasher = new HMACMD5();
+        public Random rng = new Random();
         public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
         public Texture2D loginScreenBackground;
@@ -36,10 +47,15 @@ namespace CourseworkClient
         public Texture2D buttonTexture;
         public Texture2D textFieldInfoTab;
         public Texture2D greenArrowTexture, grayArrowTexture;
+        public Texture2D effectDescBox;
+        public Texture2D upgradeBigInner, upgradeSmallInner, techBigInner, techSmallInner, unitBigInner, unitSmallInner;
+        public Texture2D cardOutlineSmall, cardOutlineBig;
+        public Texture2D playSpace;
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
         public FriendManager friendManager;
+        public List<CardArtItem> cardArt = new List<CardArtItem>();
         TcpClient client;
         MemoryStream readMemoryStream, writeMemoryStream;
         BinaryReader binaryReader;
@@ -51,12 +67,14 @@ namespace CourseworkClient
         public bool connected = false;
         public int connectTimer = 0;
         public string username;
+        public int selectedDeckNum = 0;
 
         static void Main(string[] args)
         {
             game = new Primary();
             game.Run();
         }
+
         public Primary()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -85,8 +103,18 @@ namespace CourseworkClient
         }
         protected override void LoadContent()
         {
+            playSpace = Content.Load<Texture2D>("PlaySpace");
+            upgradeBigInner = Content.Load<Texture2D>("Upgrade Card Inner Big");
+            upgradeSmallInner = Content.Load<Texture2D>("Upgrade Card Inner Small");
+            techBigInner = Content.Load<Texture2D>("Tech Card Inner Big");
+            techSmallInner = Content.Load<Texture2D>("Tech Card Inner Small");
+            unitBigInner = Content.Load<Texture2D>("Unit Card Inner Big");
+            unitSmallInner = Content.Load<Texture2D>("Unit Card Inner Small");
+            cardOutlineBig = Content.Load<Texture2D>("Card Outline Big");
+            cardOutlineSmall = Content.Load<Texture2D>("Card Outline Small");
             loginScreenBackground = LoadLoadingScreenBackground();
             textFieldTexture = Content.Load<Texture2D>("TextFieldBox");
+            effectDescBox = Content.Load<Texture2D>("Effect Description Box");
             buttonTexture = Content.Load<Texture2D>("ButtonIcon");
             currentForm = new LoginScreenForm();
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -124,6 +152,16 @@ namespace CourseworkClient
             base.Draw(gameTime);
 
         }
+
+        internal Texture2D GetCardArt(string name)
+        {
+            foreach (CardArtItem c in cardArt)
+            {
+                if (c.cardName == name) return c.art;
+            }
+            throw new ArgumentException();
+        }
+
         public string ComputeHash(string s)
         {
             int l = 16;
@@ -261,13 +299,68 @@ namespace CourseworkClient
                     break;
                 case Protocol.EnterMatch:
                     ShowMessage("Entering match");
+                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(binaryReader.ReadByte()));
                     break;
-                    //case Protocol.
+                case Protocol.CardData:
+                    AddNewCard(binaryReader.ReadString());
+                    break;
+                case Protocol.EffectData:
+                    AddNewEffect(binaryReader.ReadString());
+                    break;
+                case Protocol.DeckData:
+                    AddNewDeck(binaryReader.ReadString());
+                    break;
+                case Protocol.DeckCardsData:
+                    AddCardToDeck(binaryReader.ReadString());
+                    break;
+                case Protocol.CardEffect:
+                    AddEffectToCard(binaryReader.ReadString());
+                    break;
                 default:
                     ExitGame();
                     break;
 
             }
+        }
+        private void AddNewCard(string s)
+        {
+            string[] data = s.Split('|');
+            Card.allCards.Add(new Card(data[0], Convert.ToInt32(data[1]), (Rarity)Convert.ToInt32(data[2]), Convert.ToInt32(data[3]), Convert.ToInt32(data[4])));
+        }
+        private void AddNewEffect(string s)
+        {
+            string[] data = s.Split('|');
+            Effect.allEffects.Add(new Effect(data[0], data[1], data[2]));
+        }
+        private void AddEffectToCard(string s)
+        {
+            string[] data = s.Split('|');
+            Card.AddEffectToBaseCard(data[0], data[1]);
+        }
+        private void AddNewDeck(string s)
+        {
+            string[] data = s.Split('|');
+            if (Convert.ToBoolean(data[1]) == true)
+                Deck.allOwnedCards = new Deck(Convert.ToInt32(data[0]));        
+            else Deck.decks.Add(new Deck(Convert.ToInt32(data[0])));
+        }
+        private void AddCardToDeck(string s)
+        {
+            string[] data = s.Split('|');
+            Deck.AddCardToDeck(Card.getCard(data[0]), Convert.ToInt32(data[1]), Convert.ToInt32(data[2]));
+        }
+        public void AddNewCardArt(string cardName)
+        {
+            Texture2D art;
+            try
+            {
+                art = Content.Load<Texture2D>("CardArt\\" + cardName);
+            }
+            catch
+            {
+                art = Content.Load<Texture2D>("Blank Card Art");
+            }
+            cardArt.Add(new CardArtItem(art, cardName));
         }
         public static void ShowMessage(string s)
         {
