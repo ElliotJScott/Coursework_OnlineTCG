@@ -12,6 +12,11 @@
         AddToQueue,
         FriendStatus,
         LoggedIn,
-        EnterMatch
+        EnterMatch,
+        PlayerFirst,
+        CardData,
+        EffectData,
+        DeckData,
+        OwnedCardsData,
     }
 }

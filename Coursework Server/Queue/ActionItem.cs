@@ -18,7 +18,7 @@ namespace CourseworkServer
         CheckFriendStatus,
         AddToQueue,
         GetPlayerElo,
-        AddDefaultDeck,
+        TransmitDBData,
     }
     class ActionItem
     {

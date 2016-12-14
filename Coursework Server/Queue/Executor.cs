@@ -28,7 +28,7 @@ namespace CourseworkServer
                         {
                             int numRowsAffectedAddAccount = Server.server.dbHandler.DoParameterizedSQLCommand("INSERT INTO Accounts VALUES(@p1, @p2, 1000, 0)", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
                             Console.WriteLine(numRowsAffectedAddAccount + " row(s) affected");
-                            Server.server.queue.Enqueue(new ActionItem(Operation.AddDefaultDeck, null, currentItem.sender));
+                            DefaultDeckBuilder.AddDefaultDeckToPlayer(usernameAndPasswordHash[0]);
                         }
                         else
                         {
@@ -56,6 +56,7 @@ namespace CourseworkServer
                             currentItem.sender.userName = usernameAndPasswordHash[0];
                             currentItem.sender.status = Status.Online;
                             Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerElo, null, currentItem.sender));
+                            Server.server.queue.Enqueue(new ActionItem(Operation.TransmitDBData, null, currentItem.sender));
                         }
                     }
                     break;
@@ -86,7 +87,35 @@ namespace CourseworkServer
                         int elo = (int)data[0][0];
                         currentItem.sender.elo = elo;
                     }
-                    break;                 
+                    break;
+                #endregion
+                #region TransmitDBData
+                case Operation.TransmitDBData:
+                    {
+                        object[][] allCards = Server.server.dbHandler.DoParameterizedSQLQuery("select cardname, cardtype, cardattack, carddefence, cardcost, cardrarity from cards");
+                        object[][] allEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select effectname, effectdescription, effectcolour from effect");
+                        int accountid = (int)(Server.server.dbHandler.DoParameterizedSQLQuery("select accountid from accounts where username = @p1", currentItem.sender.userName)[0][0]);
+                        object[][] allDecks = Server.server.dbHandler.DoParameterizedSQLQuery("select deckid, allcards from decks where accountid = @p1", accountid);
+                        foreach (object[] o in allCards) //Probably put in a join here- it would make sense 
+                        {
+                            string s = "";
+                            foreach (object a in o)
+                            {
+                                s += o + "|";
+                            }
+                            s = s.Remove(s.Length - 1);
+                            byte[] b = Server.addProtocolToArray(Server.toByteArray(s), Protocol.CardData);
+                            currentItem.sender.SendData(b);
+                        }
+                        //Also transmit all effects and decks in that order here
+                        foreach (object[] o in allDecks)
+                        {
+                            int id = (int)o[0];
+                            object[][] deckContents = Server.server.dbHandler.DoParameterizedSQLQuery("select cardid, cardquantity from deckcards where deckid = @p1", id);
+                            //Transmit this based on o[1]
+                        }
+                    }
+                    break;
                     #endregion
             }
         }

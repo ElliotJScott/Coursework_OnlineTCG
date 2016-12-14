@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseHandler.cs" />
+    <Compile Include="DefaultDeckBuilder.cs" />
     <Compile Include="Queue\ActionItem.cs" />
     <Compile Include="Queue\ActionQueue.cs" />
     <Compile Include="Queue\Executor.cs" />
