@@ -107,12 +107,23 @@ namespace CourseworkServer
                             byte[] b = Server.addProtocolToArray(Server.toByteArray(s), Protocol.CardData);
                             currentItem.sender.SendData(b);
                         }
-                        //Also transmit all effects and decks in that order here
+                        foreach (object[] o in allEffects)
+                        {
+                            string s = "";
+                            foreach (object a in o)
+                            {
+                                s += o + "|";
+                            }
+                            s = s.Remove(s.Length - 1);
+                            byte[] b = Server.addProtocolToArray(Server.toByteArray(s), Protocol.EffectData);
+                            currentItem.sender.SendData(b);
+                        }
+                        //Also transmit all decks in that order here
                         foreach (object[] o in allDecks)
                         {
                             int id = (int)o[0];
                             object[][] deckContents = Server.server.dbHandler.DoParameterizedSQLQuery("select cardid, cardquantity from deckcards where deckid = @p1", id);
-                            //Transmit this based on o[1]
+                            //Transmit this based on o[1] (whether the data is is for all cards owned)
                         }
                     }
                     break;
