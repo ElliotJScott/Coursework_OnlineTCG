@@ -74,9 +74,13 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Card.cs" />
+    <Compile Include="Deck.cs" />
+    <Compile Include="Effect.cs" />
     <Compile Include="Friend.cs" />
     <Compile Include="FriendManager.cs" />
     <Compile Include="Gui\ChatBox.cs" />
+    <Compile Include="Gui\InGameForm.cs" />
     <Compile Include="Gui\MainMenuForm.cs" />
     <Compile Include="Gui\OptionsMenuForm.cs" />
     <Compile Include="Gui\QueueSelectForm.cs" />

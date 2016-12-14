@@ -57,7 +57,7 @@ namespace CourseworkServer
             if (length == 0)
             {
                 Disconnect();
-                Console.WriteLine("Client {0}:  {1}\n{2}", ip, "Bad data", "Disconnecting");
+                Console.WriteLine("Client disconnecting");
                 return;
             }
             for (int i = 0; i < length; i++)

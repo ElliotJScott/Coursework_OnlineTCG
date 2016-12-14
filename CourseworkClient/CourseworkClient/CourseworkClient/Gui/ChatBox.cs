@@ -24,6 +24,7 @@ namespace CourseworkClient.Gui
         {
             boundingBox = rect;
             subItems.Add(new TextField(new Rectangle(rect.X, (rect.Y  + rect.Height) - Primary.game.textFieldTexture.Height, Primary.game.textFieldTexture.Width, Primary.game.textFieldTexture.Width), 30));
+            //Add the send button and the textPane
         }
         public override void Draw(SpriteBatch sb)
         {

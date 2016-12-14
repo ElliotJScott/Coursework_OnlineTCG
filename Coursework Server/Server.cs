@@ -23,7 +23,7 @@ namespace CourseworkServer
         MemoryStream writeStream;
         BinaryReader reader;
         BinaryWriter writer;
-        Random rng = new Random();
+        public Random rng = new Random();
         const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True";
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
         public static string connectionString;

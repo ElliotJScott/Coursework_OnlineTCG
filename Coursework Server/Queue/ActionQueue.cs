@@ -25,7 +25,7 @@ namespace CourseworkServer
                 {
                     ActionItem a = priorityItems.ElementAt(0);
                     Execute(a);
-                    items.RemoveAt(0);
+                    priorityItems.RemoveAt(0);
 
                 }
                 else if (items.Count != 0)

@@ -262,6 +262,7 @@ namespace CourseworkClient
                 case Protocol.EnterMatch:
                     ShowMessage("Entering match");
                     break;
+                    //case Protocol.
                 default:
                     ExitGame();
                     break;
