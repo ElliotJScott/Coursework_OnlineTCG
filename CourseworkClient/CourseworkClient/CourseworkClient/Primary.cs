@@ -62,7 +62,7 @@ namespace CourseworkClient
         BinaryWriter binaryWriter;
         const string ip = "192.168.1.71";
         const int port = 1337;
-        const int bufferSize = 2048;
+        const int bufferSize = 1000000;
         byte[] readBuffer;
         public bool connected = false;
         public int connectTimer = 0;
@@ -236,10 +236,13 @@ namespace CourseworkClient
             }
             catch
             {
+                ShowMessage("Something has happened. Not Good");
             }
             byte[] data = new byte[bytesRead];
             for (int i = 0; i < bytesRead; i++)
+            {
                 data[i] = readBuffer[i];
+            }
             ProcessData(data);
             try
             {
@@ -248,6 +251,7 @@ namespace CourseworkClient
             catch
             {
                 connected = false;
+                ShowMessage("Server has closed.");
                 ExitGame();
             }
         }
@@ -258,25 +262,30 @@ namespace CourseworkClient
         }
         private void ProcessData(byte[] data)
         {
-            try
-            {
-                readMemoryStream.SetLength(0);
-                readMemoryStream.Position = 0;
 
-                readMemoryStream.Write(data, 0, data.Length);
-                readMemoryStream.Position = 0;
-                Protocol p;
-                p = (Protocol)binaryReader.ReadByte();
-                HandleData(p);
-            }
-            catch
+            string s = byteArrayToString(data);
+            List<string> l = s.Split('`').ToList();
+            foreach (string x in l)
             {
+                if (x == null || x.Length == 0) ;// l.Remove(x);
+                else HandleData((Protocol)x[0], x.Substring(1));
             }
+
 
         }
 
-        private void HandleData(Protocol p)
+        static string byteArrayToString(byte[] b)
         {
+            string output = "";
+            foreach (byte a in b)
+            {
+                output += (char)a;
+            }
+            return output;
+        }
+        private void HandleData(Protocol p, string s)
+        {
+            Console.WriteLine("{0} : {1}", p, s);
             switch (p)
             {
                 case Protocol.UsernameTaken:
@@ -290,8 +299,6 @@ namespace CourseworkClient
                     currentForm = new MainMenuForm();
                     break;
                 case Protocol.FriendStatus:
-                    string friendUserName = binaryReader.ReadString();
-                    byte status = binaryReader.ReadByte();
                     //Add more stuff here later
                     break;
                 case Protocol.LoggedIn:
@@ -299,24 +306,28 @@ namespace CourseworkClient
                     break;
                 case Protocol.EnterMatch:
                     ShowMessage("Entering match");
-                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(binaryReader.ReadByte()));
+                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(s));
                     break;
                 case Protocol.CardData:
-                    AddNewCard(binaryReader.ReadString());
+                    AddNewCard(s);
                     break;
                 case Protocol.EffectData:
-                    AddNewEffect(binaryReader.ReadString());
+                    AddNewEffect(s);
                     break;
                 case Protocol.DeckData:
-                    AddNewDeck(binaryReader.ReadString());
+                    AddNewDeck(s);
                     break;
                 case Protocol.DeckCardsData:
-                    AddCardToDeck(binaryReader.ReadString());
+                    AddCardToDeck(s);
                     break;
                 case Protocol.CardEffect:
-                    AddEffectToCard(binaryReader.ReadString());
+                    AddEffectToCard(s);
+                    break;
+                case Protocol.DataTransmissionTest:
+                    Console.WriteLine("{0} : {1}", s.Length, s);
                     break;
                 default:
+                    ShowMessage("Unexpected Protocol: " + p.ToString());
                     ExitGame();
                     break;
 
@@ -324,8 +335,13 @@ namespace CourseworkClient
         }
         private void AddNewCard(string s)
         {
+         
             string[] data = s.Split('|');
-            Card.allCards.Add(new Card(data[0], Convert.ToInt32(data[1]), (Rarity)Convert.ToInt32(data[2]), Convert.ToInt32(data[3]), Convert.ToInt32(data[4])));
+            if (data.Length == 5)
+            {
+                Card.allCards.Add(new Card(data[0], Convert.ToInt32(data[1]), (Rarity)Convert.ToInt32(data[2]), Convert.ToInt32(data[3]), Convert.ToInt32(data[4])));
+            }
+            else Card.allCards.Add(new Card(data[0], Convert.ToInt32(data[1]), (Rarity)Convert.ToInt32(data[2])));
         }
         private void AddNewEffect(string s)
         {
@@ -341,7 +357,7 @@ namespace CourseworkClient
         {
             string[] data = s.Split('|');
             if (Convert.ToBoolean(data[1]) == true)
-                Deck.allOwnedCards = new Deck(Convert.ToInt32(data[0]));        
+                Deck.allOwnedCards = new Deck(Convert.ToInt32(data[0]));
             else Deck.decks.Add(new Deck(Convert.ToInt32(data[0])));
         }
         private void AddCardToDeck(string s)
@@ -358,6 +374,7 @@ namespace CourseworkClient
             }
             catch
             {
+                Console.WriteLine("Art not found for {0}. Using blank art instead.", cardName);
                 art = Content.Load<Texture2D>("Blank Card Art");
             }
             cardArt.Add(new CardArtItem(art, cardName));
@@ -368,17 +385,18 @@ namespace CourseworkClient
         }
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
-            byte[] result;
             lock (ms)
             {
+                byte[] result;
                 int bytesWritten = (int)ms.Position;
                 result = new byte[bytesWritten];
 
                 ms.Position = 0;
                 ms.Read(result, 0, bytesWritten);
+                return result;
             }
 
-            return result;
+
         }
         public void SendData(byte[] b)
         {

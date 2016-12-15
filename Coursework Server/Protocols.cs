@@ -18,5 +18,6 @@
         DeckData,
         DeckCardsData,
         CardEffect,
+        DataTransmissionTest,
     }
 }

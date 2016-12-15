@@ -110,7 +110,7 @@ namespace CourseworkServer
             e[0] = (byte)p;
             for (int i = 0; i < b.Length; i++)
             {
-                e[i + 1] = b[0];
+                e[i + 1] = b[i];
             }
             return e;
         }
@@ -211,6 +211,12 @@ namespace CourseworkServer
                     Console.WriteLine("/checkCredentials <Username> <PasswordHash> : Checks to see if the given user exists in the DB");
                     Console.WriteLine("/help : Prints all usable commands to the console");
                     Console.WriteLine("/close : Exits the program safely");
+                    break;
+                case "/testDataTransmission":
+                    foreach (Client c in connectedClients)
+                    {
+                        for (int i = 0; i < 1000; i++) c.SendData(addProtocolToArray(toByteArray("test string data " + i), Protocol.DataTransmissionTest));
+                    }
                     break;
                 default:
                     Console.WriteLine("Command not found. Enter /help for all commands");

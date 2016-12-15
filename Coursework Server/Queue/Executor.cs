@@ -20,9 +20,10 @@ namespace CourseworkServer
             string s = "";
             foreach (object a in o)
             {
-                s += o + "|";
+                s += a + "|";
             }
             s = s.Remove(s.Length - 1);
+            Console.WriteLine(s);
             byte[] b = Server.addProtocolToArray(Server.toByteArray(s), p);
             c.SendData(b);
         }
@@ -34,7 +35,7 @@ namespace CourseworkServer
                 case Operation.AddNewAccount:
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
-                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1", usernameAndPasswordHash[0]);                    
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1", usernameAndPasswordHash[0]);
                         if ((int)data[0][0] == 0)
                         {
                             int numRowsAffectedAddAccount = Server.server.dbHandler.DoParameterizedSQLCommand("INSERT INTO Accounts VALUES(@p1, @p2, 1000, 0)", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
@@ -105,32 +106,41 @@ namespace CourseworkServer
                     {
                         object[][] allCards = Server.server.dbHandler.DoParameterizedSQLQuery("select cardname, cardtype, cardrarity, cardattack, carddefence, cardcost from cards");
                         object[][] allEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select effectname, effectdescription, effectcolour from effect");
-                        object[][] allCardEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select cards.cardname, effect.effectname from cardeffect join cards on cards.cardid = cardeffect.cardid join effect on effect.effectid = cardeffect.effectid");              
+                        object[][] allCardEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select cards.cardname, effect.effectname from cardeffect join cards on cards.cardid = cardeffect.cardid join effect on effect.effectid = cardeffect.effectid");
                         object[][] allDecks = Server.server.dbHandler.DoParameterizedSQLQuery("select decks.deckid, decks.allcards from Accounts join decks on decks.accountid = accounts.accountid and accounts.username = @p1", currentItem.sender.userName);
+                        foreach (object[] o in allDecks)
+                        {
+                            {
+                                Console.WriteLine("Transmitting deck data");
+                                TransmitObjectArray(o, currentItem.sender, Protocol.DeckData);
+                            }
+                        }
+                        Console.WriteLine("Transmitting all card data");
                         foreach (object[] o in allCards)
                         {
                             TransmitObjectArray(o, currentItem.sender, Protocol.CardData);
                         }
+                        Console.WriteLine("Transmitting all effect data");
                         foreach (object[] o in allEffects)
                         {
                             TransmitObjectArray(o, currentItem.sender, Protocol.EffectData);
                         }
+                        Console.WriteLine("Transmitting all cardeffect data");
                         foreach (object[] o in allCardEffects)
                         {
                             TransmitObjectArray(o, currentItem.sender, Protocol.CardEffect);
                         }
                         foreach (object[] o in allDecks)
                         {
-                            {
-                                TransmitObjectArray(o, currentItem.sender, Protocol.DeckData);
-                            }
                             int id = (int)o[0];
                             object[][] deckContents = Server.server.dbHandler.DoParameterizedSQLQuery("select cards.cardname, deckcards.deckid, deckcards.cardquantity from deckcards join cards on cards.cardid = deckcards.cardid where deckid = @p1", id);
+                            Console.WriteLine("Transmitting all deckcard data");
                             foreach (object[] a in deckContents)
                             {
                                 TransmitObjectArray(a, currentItem.sender, Protocol.DeckCardsData);
                             }
                         }
+                        Console.WriteLine("All data transmitted");
                     }
                     break;
                     #endregion
