@@ -12,28 +12,6 @@ namespace CourseworkServer
 
     class DatabaseHandler
     {
-        /*
-        public DataTable DoSQLQuery(string query, params object[] parameters)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(Server.connectionString))
-                using (SqlDataAdapter adapter = new SqlDataAdapter(query, connection))
-                {
-                    connection.Open();
-
-                    DataTable table = new DataTable();
-                    adapter.Fill(table);
-                    return table;
-                }
-            }
-            catch
-            {
-                return new DataTable();
-            }
-
-        }
-        */
         public object[][] DoParameterizedSQLQuery(string query, params object[] parameters)
         {
 

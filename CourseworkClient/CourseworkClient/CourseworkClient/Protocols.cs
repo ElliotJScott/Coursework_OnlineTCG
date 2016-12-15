@@ -13,10 +13,11 @@
         FriendStatus,
         LoggedIn,
         EnterMatch,
-        PlayerFirst,
         CardData,
         EffectData,
         DeckData,
-        OwnedCardsData,
+        DeckCardsData,
+        CardEffect,
+        DataTransmissionTest,
     }
 }

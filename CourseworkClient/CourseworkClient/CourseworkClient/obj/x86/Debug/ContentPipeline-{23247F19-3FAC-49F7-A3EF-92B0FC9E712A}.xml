@@ -80,7 +80,106 @@
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Mainfont.xnb</Output>
-      <Time>2016-12-11T23:11:27.0575873+00:00</Time>
+      <Time>2016-12-14T23:31:01.5174873+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Effect Description Box.png</Source>
+      <Name>Effect Description Box</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Effect Description Box.xnb</Output>
+      <Time>2016-12-14T18:22:56.4615378+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Card Outline Big.png</Source>
+      <Name>Card Outline Big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.6942272+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Card Outline Small.png</Source>
+      <Name>Card Outline Small</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7222906+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Tech Card Inner Big.png</Source>
+      <Name>Tech Card Inner Big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Tech Card Inner Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.7257985+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Tech Card Inner Small.png</Source>
+      <Name>Tech Card Inner Small</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Tech Card Inner Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7293061+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Unit Card Inner Big.png</Source>
+      <Name>Unit Card Inner Big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Unit Card Inner Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.7323129+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Unit Card Inner Small.png</Source>
+      <Name>Unit Card Inner Small</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Unit Card Inner Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7358208+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Upgrade Card Inner Big.png</Source>
+      <Name>Upgrade Card Inner Big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Upgrade Card Inner Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.7393284+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Upgrade Card Inner Small.png</Source>
+      <Name>Upgrade Card Inner Small</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Upgrade Card Inner Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7433378+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Blank Card Art.png</Source>
+      <Name>Blank Card Art</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Blank Card Art.xnb</Output>
+      <Time>2016-12-14T19:53:43.743226+00:00</Time>
+    </Item>
+    <Item>
+      <Source>PlaySpace.png</Source>
+      <Name>PlaySpace</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\PlaySpace.xnb</Output>
+      <Time>2016-12-14T21:55:44.6905992+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

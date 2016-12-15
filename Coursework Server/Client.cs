@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace CourseworkServer
 {
@@ -17,7 +18,7 @@ namespace CourseworkServer
         public Status status = Status.Offline;
         TcpClient tcpClient; //The tcpclient used for receiving data from the end user
         public string ip; //The ip address for the client
-        public const int bufferSize = 10000; //The size of the buffer
+        public const int bufferSize = 1000000; //The size of the buffer
         byte[] buffer = new byte[bufferSize]; //The buffer that data is written into when data is received from the end user
         public event OnConnect DisconnectEvent;
         public event OnDataReceived DataReceivedEvent;
@@ -26,6 +27,7 @@ namespace CourseworkServer
         public int queueStatus = 0;
         public int queuetime = 0;
         public int elo;
+        public const byte transmissionDemarcator = (byte)'`';
 
         public Client(TcpClient c)
         {
@@ -74,7 +76,12 @@ namespace CourseworkServer
         {
             lock (tcpClient.GetStream())
             {
-                tcpClient.GetStream().BeginWrite(b, 0, b.Length, null, null);
+                byte[] a = new byte[b.Length + 2];
+                a[0] = transmissionDemarcator;
+                a[a.Length - 1] = transmissionDemarcator;
+                for (int i = 1; i < a.Length - 1; i++) a[i] = b[i - 1];
+               
+                tcpClient.GetStream().BeginWrite(a, 0, a.Length, null, null);
             }
         }
         public override bool Equals(object obj)

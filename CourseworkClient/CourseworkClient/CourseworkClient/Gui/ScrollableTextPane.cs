@@ -10,19 +10,17 @@ namespace CourseworkClient.Gui
 {
     class ScrollableTextPane : GuiItem
     {
-        List<string> text = new List<string>();
-        int numLines;
-        int width;
-        int position;
-        int pixelHeight;
-        SpriteFont font;
-        List<Color> colours;
-        public ScrollableTextPane(SpriteFont f, Rectangle rect, List<string> s, int w, int n, int p, List<Color> c = null)
+        public List<string> text = new List<string>();
+        public int numLines;
+        public int position;
+        public int pixelHeight;
+        public SpriteFont font;
+        public List<Color> colours;
+        public ScrollableTextPane(SpriteFont f, Rectangle rect, List<string> s, int n, int p, List<Color> c = null)
         {
             font = f;
             boundingBox = rect;
             text = s;
-            width = w;
             numLines = n;
             pixelHeight = p;
             position = s.Count - n;

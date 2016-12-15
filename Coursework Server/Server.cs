@@ -62,16 +62,16 @@ namespace CourseworkServer
                 Thread t2 = new Thread(new ThreadStart(UpdateQueues));
                 t2.Start();
                 Thread.Sleep(1000);
-                
+
             }
         }
         public static int GetRangeFromTime(double t)
         {
-            return (int) (50 * Math.Atan((t / 15) - 6) + 120);
+            return (int)(50 * Math.Atan((t / 15) - 6) + 120);
         }
 
         public static void UpdateQueues()
-        {          
+        {
             for (int i = 0; i < server.connectedClients.Count; i++)
             {
                 if (server.connectedClients[i].status == Status.InQueue)
@@ -98,8 +98,9 @@ namespace CourseworkServer
         {
             Match m = new Match(a, b);
             server.currentMatches.Add(m);
-            a.SendData(addProtocolToArray(toByteArray(b.userName), Protocol.EnterMatch));
-            b.SendData(addProtocolToArray(toByteArray(a.userName), Protocol.EnterMatch));
+            int x = server.rng.Next(2);
+            a.SendData(addProtocolToArray(toByteArray(x + b.userName), Protocol.EnterMatch));
+            b.SendData(addProtocolToArray(toByteArray((1 - x) + a.userName), Protocol.EnterMatch));
             a.status = Status.InGame;
             b.status = Status.InGame;
         }
@@ -109,7 +110,7 @@ namespace CourseworkServer
             e[0] = (byte)p;
             for (int i = 0; i < b.Length; i++)
             {
-                e[i + 1] = b[0];
+                e[i + 1] = b[i];
             }
             return e;
         }
@@ -182,13 +183,14 @@ namespace CourseworkServer
                     try
                     {
                         object[][] data = dbHandler.DoParameterizedSQLQuery(sqlQuery);
-                        for (int i = 0; i < data.Length; i++) { 
+                        for (int i = 0; i < data.Length; i++)
+                        {
                             for (int j = 0; j < data[i].Length; j++)
                             {
                                 Console.Write(data[i][j] + " ");
                             }
-                        Console.WriteLine();
-                    
+                            Console.WriteLine();
+
                         }
                     }
                     catch (Exception e)
@@ -209,6 +211,12 @@ namespace CourseworkServer
                     Console.WriteLine("/checkCredentials <Username> <PasswordHash> : Checks to see if the given user exists in the DB");
                     Console.WriteLine("/help : Prints all usable commands to the console");
                     Console.WriteLine("/close : Exits the program safely");
+                    break;
+                case "/testDataTransmission":
+                    foreach (Client c in connectedClients)
+                    {
+                        for (int i = 0; i < 1000; i++) c.SendData(addProtocolToArray(toByteArray("test string data " + i), Protocol.DataTransmissionTest));
+                    }
                     break;
                 default:
                     Console.WriteLine("Command not found. Enter /help for all commands");
