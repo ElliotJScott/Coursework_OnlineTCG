@@ -42,6 +42,7 @@ namespace CourseworkClient
         public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
         public Texture2D loginScreenBackground;
+        public Texture2D inGameBackground;
         public Texture2D textFieldTexture;
         public Texture2D title;
         public Texture2D buttonTexture;
@@ -60,7 +61,7 @@ namespace CourseworkClient
         MemoryStream readMemoryStream, writeMemoryStream;
         BinaryReader binaryReader;
         BinaryWriter binaryWriter;
-        const string ip = "192.168.1.71";
+        const string ip = "127.0.0.1";
         const int port = 1337;
         const int bufferSize = 1000000;
         byte[] readBuffer;
@@ -113,6 +114,7 @@ namespace CourseworkClient
             cardOutlineBig = Content.Load<Texture2D>("Card Outline Big");
             cardOutlineSmall = Content.Load<Texture2D>("Card Outline Small");
             loginScreenBackground = LoadLoadingScreenBackground();
+            inGameBackground = LoadInGameBackground();
             textFieldTexture = Content.Load<Texture2D>("TextFieldBox");
             effectDescBox = Content.Load<Texture2D>("Effect Description Box");
             buttonTexture = Content.Load<Texture2D>("ButtonIcon");
@@ -188,6 +190,18 @@ namespace CourseworkClient
             }
             else return ScreenRatio.Other;
         }
+        public Texture2D LoadInGameBackground()
+        {
+            switch (ratio)
+            {
+                case ScreenRatio.FourByThree:
+                    return Content.Load<Texture2D>("InGameBackground4x3");
+                case ScreenRatio.SixteenByNine:
+                case ScreenRatio.Other:
+                    return Content.Load<Texture2D>("InGameBackground16x9");
+            }
+            throw new InvalidOperationException("Something is very wrong here, and yet, a little bit right");
+        }
         public Texture2D LoadLoadingScreenBackground()
         {
             switch (ratio)
@@ -198,7 +212,7 @@ namespace CourseworkClient
                 case ScreenRatio.Other:
                     return Content.Load<Texture2D>("16x9 Background");
             }
-            throw new InvalidOperationException("Something is very wrong here");
+            throw new InvalidOperationException("Something is very wrong here, and yet, a little bit right");
         }
         public void ConnectClient()
         {
@@ -306,7 +320,7 @@ namespace CourseworkClient
                     break;
                 case Protocol.EnterMatch:
                     ShowMessage("Entering match");
-                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(s));
+                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(Convert.ToInt32(s.Substring(0,1))), s.Substring(1));
                     break;
                 case Protocol.CardData:
                     AddNewCard(s);

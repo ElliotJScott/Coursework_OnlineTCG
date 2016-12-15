@@ -54,7 +54,7 @@ namespace CourseworkClient
             sb.Draw(innerTexture, new Rectangle((int)pos.X, (int)pos.Y, innerTexture.Width, innerTexture.Height), Color.White);
             int disp = big ? 10 : 5;
             Texture2D cardArt = Primary.game.GetCardArt(c.name);
-            sb.Draw(cardArt, new Rectangle(big ? cardArtDispX : cardArtDispX / 2, big ? cardArtDispY : cardArtDispY / 2, big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), Color.White);
+            sb.Draw(cardArt, new Rectangle(big ? (int)pos.X + cardArtDispX : (int)pos.X + (cardArtDispX / 2), big ? (int)pos.Y + cardArtDispY : (int)pos.Y + (cardArtDispY / 2), big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), Color.White);
             sb.DrawString(Primary.game.mainFont, c.name, pos + new Vector2(disp, disp), Color.Black);
         }
     }

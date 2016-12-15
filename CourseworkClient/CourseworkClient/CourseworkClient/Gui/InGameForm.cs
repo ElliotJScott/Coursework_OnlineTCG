@@ -24,8 +24,11 @@ namespace CourseworkClient.Gui
         List<Card> enemyUnits = new List<Card>();
         const int maxUnitsInPlay = 6;
         int yOffset;
-        public InGameForm(Deck d, bool start)
+        string enemyUsername;
+        public InGameForm(Deck d, bool start, string e)
         {
+            background = Primary.game.inGameBackground;
+            enemyUsername = e;
             playerFocus = start;
             CalculateYOffset();
             oldState = Mouse.GetState();
@@ -86,7 +89,7 @@ namespace CourseworkClient.Gui
             }
             public int CompareTo(object obj)
             {
-                return num.CompareTo(obj);
+                return num.CompareTo(((ShuffleItem)obj).num);
             }
             public static implicit operator Card(ShuffleItem f) => f.item;
         }

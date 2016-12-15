@@ -18,7 +18,7 @@ namespace CourseworkClient.Gui
         }
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(background, new Rectangle(0, 0, Primary.game.GraphicsDevice.Viewport.Width, Primary.game.GraphicsDevice.Viewport.Height), Color.White);
+            sb.Draw(background == null ? Primary.game.loginScreenBackground : background, new Rectangle(0, 0, Primary.game.GraphicsDevice.Viewport.Width, Primary.game.GraphicsDevice.Viewport.Height), Color.White);
             foreach (GuiItem g in formItems) g.Draw(sb);
 
         }
