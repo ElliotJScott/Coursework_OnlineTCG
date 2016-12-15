@@ -6,7 +6,6 @@ Content\ButtonIcon.xnb
 Content\InfoTab.xnb
 Content\Scroll Arrow.xnb
 Content\Grayed Out Scroll Arrow.xnb
-Content\Mainfont.xnb
 Content\Effect Description Box.xnb
 Content\Card Outline Big.xnb
 Content\Card Outline Small.xnb
@@ -18,3 +17,6 @@ Content\Upgrade Card Inner Big.xnb
 Content\Upgrade Card Inner Small.xnb
 Content\Blank Card Art.xnb
 Content\PlaySpace.xnb
+Content\Mainfont.xnb
+Content\InGameBackground16x9.xnb
+Content\InGameBackground4x3.xnb
