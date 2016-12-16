@@ -41,8 +41,7 @@ namespace CourseworkClient
         public Random rng = new Random();
         public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
-        public Texture2D loginScreenBackground;
-        public Texture2D inGameBackground;
+        public Texture2D loginScreenBackground, mainMenuBackground, inGameBackground;
         public Texture2D textFieldTexture;
         public Texture2D title;
         public Texture2D buttonTexture;
@@ -52,6 +51,9 @@ namespace CourseworkClient
         public Texture2D upgradeBigInner, upgradeSmallInner, techBigInner, techSmallInner, unitBigInner, unitSmallInner;
         public Texture2D cardOutlineSmall, cardOutlineBig;
         public Texture2D playSpace;
+        public Texture2D lockMessageBox;
+        public Texture2D screenDarkener;
+        public Texture2D loadingIcon;
         public SpriteFont mainFont;
         public static Primary game;
         public Form currentForm;
@@ -80,8 +82,8 @@ namespace CourseworkClient
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1200;
             Window.Title = "Hearthclone";
 
         }
@@ -115,6 +117,7 @@ namespace CourseworkClient
             cardOutlineSmall = Content.Load<Texture2D>("Card Outline Small");
             loginScreenBackground = LoadLoadingScreenBackground();
             inGameBackground = LoadInGameBackground();
+            mainMenuBackground = LoadMainMenuBackground();
             textFieldTexture = Content.Load<Texture2D>("TextFieldBox");
             effectDescBox = Content.Load<Texture2D>("Effect Description Box");
             buttonTexture = Content.Load<Texture2D>("ButtonIcon");
@@ -125,6 +128,9 @@ namespace CourseworkClient
             textFieldInfoTab = Content.Load<Texture2D>("InfoTab");
             greenArrowTexture = Content.Load<Texture2D>("Scroll Arrow");
             grayArrowTexture = Content.Load<Texture2D>("Grayed Out Scroll Arrow");
+            screenDarkener = Content.Load<Texture2D>("Screen Darkener");
+            lockMessageBox = Content.Load<Texture2D>("LockMessageBox");
+            loadingIcon = Content.Load<Texture2D>("LoadingIcon");
         }
 
         protected override void Update(GameTime gameTime)
@@ -133,9 +139,11 @@ namespace CourseworkClient
             base.Update(gameTime);
             keypresshandler.UpdateOldState();
             GuiItem.UpdateOldState();
+            Window.Title = String.Format("{0} : {1}", connected, connectTimer); 
             if (!connected)
             {
-                if (connectTimer++ == 100)
+                
+                if (connectTimer++ >= 100)
                 {
 
                     new Thread(new ThreadStart(ConnectClient)).Start();
@@ -149,6 +157,7 @@ namespace CourseworkClient
             GraphicsDevice.Clear(Color.LightGoldenrodYellow);
             spriteBatch.Begin();
             currentForm.Draw(spriteBatch);
+            currentForm.PostDraw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -192,54 +201,60 @@ namespace CourseworkClient
         }
         public Texture2D LoadInGameBackground()
         {
-            switch (ratio)
-            {
-                case ScreenRatio.FourByThree:
-                    return Content.Load<Texture2D>("InGameBackground4x3");
-                case ScreenRatio.SixteenByNine:
-                case ScreenRatio.Other:
-                    return Content.Load<Texture2D>("InGameBackground16x9");
-            }
-            throw new InvalidOperationException("Something is very wrong here, and yet, a little bit right");
+            return loadBackground("InGameBackground4x3", "InGameBackground16x9");
         }
         public Texture2D LoadLoadingScreenBackground()
+        {
+            return loadBackground("4x3 Background", "16x9 Background");
+        }
+        public Texture2D LoadMainMenuBackground()
+        {
+            return loadBackground("MainMenuBackground4x3", "MainMenuBackground16x9");
+        }
+        public Texture2D loadBackground(string fourbythree, string sixteenbynine)
         {
             switch (ratio)
             {
                 case ScreenRatio.FourByThree:
-                    return Content.Load<Texture2D>("4x3 Background");
+                    return Content.Load<Texture2D>(fourbythree);
                 case ScreenRatio.SixteenByNine:
                 case ScreenRatio.Other:
-                    return Content.Load<Texture2D>("16x9 Background");
+                    return Content.Load<Texture2D>(sixteenbynine);
             }
-            throw new InvalidOperationException("Something is very wrong here, and yet, a little bit right");
+            throw new InvalidOperationException();
         }
         public void ConnectClient()
         {
             try
             {
                 client.Connect(ip, port);
-                client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
-                try
-                {
-                    if (currentForm.GetType() == typeof(CreateAccountForm))
-                    {
-                        ((CreateAccountForm)currentForm).errorMessageText = "";
-                    }
-                    else if (currentForm.GetType() == typeof(LoginScreenForm))
-                    {
-                        ((LoginScreenForm)currentForm).errorMessageText = "";
-                    }
-                }
-                catch (NullReferenceException) { }
+                client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);               
 
             }
-            catch
+            catch (Exception ex)
             {
+                currentForm.Lock("Error connecting to server.\nCheck your internet connection\nand that your firewall has not\nblocked this application.");
                 connected = false;
                 return;
             }
+            try
+            {
+                if (currentForm.GetType() == typeof(CreateAccountForm))
+                {
+                    ((CreateAccountForm)currentForm).errorMessageText = "";
+                }
+                else if (currentForm.GetType() == typeof(LoginScreenForm))
+                {
+                    ((LoginScreenForm)currentForm).errorMessageText = "";
+                }
+            }
+            catch (NullReferenceException) { }
             connected = true;
+            try
+            {
+                currentForm.Unlock();
+            }
+            catch { }
         }
         private void StreamReceived(IAsyncResult ar)
         {
@@ -250,7 +265,6 @@ namespace CourseworkClient
             }
             catch
             {
-                ShowMessage("Something has happened. Not Good");
             }
             byte[] data = new byte[bytesRead];
             for (int i = 0; i < bytesRead; i++)
@@ -265,8 +279,6 @@ namespace CourseworkClient
             catch
             {
                 connected = false;
-                ShowMessage("Server has closed.");
-                ExitGame();
             }
         }
         public void ExitGame()

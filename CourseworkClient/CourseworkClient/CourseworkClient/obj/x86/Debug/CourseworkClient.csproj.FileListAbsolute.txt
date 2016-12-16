@@ -72,3 +72,10 @@ C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Coursewo
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\PlaySpace.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground16x9.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground4x3.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground16x9.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground4x3.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\LockMessageBox.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Screen Darkener.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\LoadingIcon.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\MainMenuBackground16x9.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\MainMenuBackground4x3.xnb

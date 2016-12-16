@@ -2,31 +2,13 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>16x9 Background.png</Source>
-      <Name>16x9 Background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\16x9 Background.xnb</Output>
-      <Time>2016-12-15T10:43:14.9183224+00:00</Time>
-    </Item>
-    <Item>
-      <Source>4x3 Background.png</Source>
-      <Name>4x3 Background</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\4x3 Background.xnb</Output>
-      <Time>2016-12-15T10:44:34.2213267+00:00</Time>
-    </Item>
-    <Item>
       <Source>TextFieldBox.png</Source>
       <Name>TextFieldBox</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\TextFieldBox.xnb</Output>
-      <Time>2016-11-24T09:52:27.1484177+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\TextFieldBox.xnb</Output>
+      <Time>2016-11-14T20:16:11.9637291+00:00</Time>
     </Item>
     <Item>
       <Source>Title.png</Source>
@@ -34,8 +16,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Title.xnb</Output>
-      <Time>2016-11-24T09:52:27.1504187+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Title.xnb</Output>
+      <Time>2016-12-15T21:31:54.0201398+00:00</Time>
     </Item>
     <Item>
       <Source>ButtonIcon.png</Source>
@@ -43,8 +25,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\ButtonIcon.xnb</Output>
-      <Time>2016-11-24T09:52:27.1314063+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\ButtonIcon.xnb</Output>
+      <Time>2016-12-15T22:06:27.7539851+00:00</Time>
     </Item>
     <Item>
       <Source>InfoTab.png</Source>
@@ -52,8 +34,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InfoTab.xnb</Output>
-      <Time>2016-11-24T10:52:31.945595+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InfoTab.xnb</Output>
+      <Time>2016-11-24T23:45:48.617908+00:00</Time>
     </Item>
     <Item>
       <Source>Scroll Arrow.png</Source>
@@ -61,8 +43,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Scroll Arrow.xnb</Output>
-      <Time>2016-12-10T21:00:32.5769041+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Scroll Arrow.xnb</Output>
+      <Time>2016-12-10T00:17:31.1887339+00:00</Time>
     </Item>
     <Item>
       <Source>Grayed Out Scroll Arrow.png</Source>
@@ -70,8 +52,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb</Output>
-      <Time>2016-12-10T21:00:32.5143839+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb</Output>
+      <Time>2016-12-10T00:17:59.2556256+00:00</Time>
     </Item>
     <Item>
       <Source>Effect Description Box.png</Source>
@@ -79,8 +61,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Effect Description Box.xnb</Output>
-      <Time>2016-12-15T09:16:34.4692629+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Effect Description Box.xnb</Output>
+      <Time>2016-12-14T18:22:56.4615378+00:00</Time>
     </Item>
     <Item>
       <Source>Card Outline Big.png</Source>
@@ -88,8 +70,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Big.xnb</Output>
-      <Time>2016-12-15T09:16:34.4224069+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.6942272+00:00</Time>
     </Item>
     <Item>
       <Source>Card Outline Small.png</Source>
@@ -97,8 +79,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Small.xnb</Output>
-      <Time>2016-12-15T09:16:34.4224069+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7222906+00:00</Time>
     </Item>
     <Item>
       <Source>Tech Card Inner Big.png</Source>
@@ -106,8 +88,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Tech Card Inner Big.xnb</Output>
-      <Time>2016-12-15T09:16:34.5942657+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Tech Card Inner Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.7257985+00:00</Time>
     </Item>
     <Item>
       <Source>Tech Card Inner Small.png</Source>
@@ -115,8 +97,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Tech Card Inner Small.xnb</Output>
-      <Time>2016-12-15T09:16:34.5942657+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Tech Card Inner Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7293061+00:00</Time>
     </Item>
     <Item>
       <Source>Unit Card Inner Big.png</Source>
@@ -124,8 +106,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Unit Card Inner Big.xnb</Output>
-      <Time>2016-12-15T09:16:34.5942657+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Unit Card Inner Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.7323129+00:00</Time>
     </Item>
     <Item>
       <Source>Unit Card Inner Small.png</Source>
@@ -133,8 +115,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Unit Card Inner Small.xnb</Output>
-      <Time>2016-12-15T09:16:34.6255347+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Unit Card Inner Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7358208+00:00</Time>
     </Item>
     <Item>
       <Source>Upgrade Card Inner Big.png</Source>
@@ -142,8 +124,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Upgrade Card Inner Big.xnb</Output>
-      <Time>2016-12-15T09:16:34.6255347+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Upgrade Card Inner Big.xnb</Output>
+      <Time>2016-12-14T18:35:28.7393284+00:00</Time>
     </Item>
     <Item>
       <Source>Upgrade Card Inner Small.png</Source>
@@ -151,8 +133,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Upgrade Card Inner Small.xnb</Output>
-      <Time>2016-12-15T09:16:34.6255347+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Upgrade Card Inner Small.xnb</Output>
+      <Time>2016-12-14T18:35:28.7433378+00:00</Time>
     </Item>
     <Item>
       <Source>Blank Card Art.png</Source>
@@ -160,8 +142,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Blank Card Art.xnb</Output>
-      <Time>2016-12-15T09:16:34.4067619+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Blank Card Art.xnb</Output>
+      <Time>2016-12-14T19:53:43.743226+00:00</Time>
     </Item>
     <Item>
       <Source>PlaySpace.png</Source>
@@ -169,17 +151,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\PlaySpace.xnb</Output>
-      <Time>2016-12-15T09:16:34.5786422+00:00</Time>
-    </Item>
-    <Item>
-      <Source>Mainfont.spritefont</Source>
-      <Name>Mainfont</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Mainfont.xnb</Output>
-      <Time>2016-12-15T09:21:34.2698037+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\PlaySpace.xnb</Output>
+      <Time>2016-12-14T21:55:44.6905992+00:00</Time>
     </Item>
     <Item>
       <Source>InGameBackground16x9.png</Source>
@@ -187,8 +160,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground16x9.xnb</Output>
-      <Time>2016-12-15T10:42:50.4312915+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground16x9.xnb</Output>
+      <Time>2016-12-15T18:08:23.1934354+00:00</Time>
     </Item>
     <Item>
       <Source>InGameBackground4x3.png</Source>
@@ -196,8 +169,80 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground4x3.xnb</Output>
-      <Time>2016-12-15T10:42:50.3782541+00:00</Time>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGameBackground4x3.xnb</Output>
+      <Time>2016-12-15T18:08:23.1944373+00:00</Time>
+    </Item>
+    <Item>
+      <Source>16x9 Background.png</Source>
+      <Name>16x9 Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\16x9 Background.xnb</Output>
+      <Time>2016-12-15T18:13:57.3206481+00:00</Time>
+    </Item>
+    <Item>
+      <Source>4x3 Background.png</Source>
+      <Name>4x3 Background</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\4x3 Background.xnb</Output>
+      <Time>2016-12-15T22:21:49.425258+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Mainfont.spritefont</Source>
+      <Name>Mainfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Mainfont.xnb</Output>
+      <Time>2016-12-15T18:08:23.2014531+00:00</Time>
+    </Item>
+    <Item>
+      <Source>LockMessageBox.png</Source>
+      <Name>LockMessageBox</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\LockMessageBox.xnb</Output>
+      <Time>2016-12-15T18:29:18.3306046+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Screen Darkener.png</Source>
+      <Name>Screen Darkener</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Screen Darkener.xnb</Output>
+      <Time>2016-12-15T18:54:31.3292228+00:00</Time>
+    </Item>
+    <Item>
+      <Source>LoadingIcon.png</Source>
+      <Name>LoadingIcon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\LoadingIcon.xnb</Output>
+      <Time>2016-12-15T18:46:31.580117+00:00</Time>
+    </Item>
+    <Item>
+      <Source>MainMenuBackground16x9.png</Source>
+      <Name>MainMenuBackground16x9</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\MainMenuBackground16x9.xnb</Output>
+      <Time>2016-12-15T22:14:06.8276691+00:00</Time>
+    </Item>
+    <Item>
+      <Source>MainMenuBackground4x3.png</Source>
+      <Name>MainMenuBackground4x3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\MainMenuBackground4x3.xnb</Output>
+      <Time>2016-12-15T22:14:06.6773318+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -206,10 +251,10 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClientContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClientContent\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
@@ -238,7 +283,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\WINDOWS\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2016-12-13T10:58:54.7338215+00:00</Value>
+        <Value>2016-10-07T21:44:39.519621+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

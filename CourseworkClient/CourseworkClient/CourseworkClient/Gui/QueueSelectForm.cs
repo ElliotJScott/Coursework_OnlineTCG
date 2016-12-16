@@ -11,7 +11,7 @@ namespace CourseworkClient.Gui
     {
         public QueueSelectForm()
         {
-            background = Primary.game.loginScreenBackground;
+            background = Primary.game.mainMenuBackground;
             formItems.Add(new FormChangeButton(new Rectangle(2, 2, 100, 50), "Back", FormChangeButtonTypes.OptionsToMainMenu));
             formItems.Add(new AddToQueueButton(new Rectangle(2, 100, 100, 50), "Quick Game", 0));
             formItems.Add(new AddToQueueButton(new Rectangle(2, 200, 100, 50), "Competitive Game", 1));

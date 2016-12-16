@@ -16,7 +16,7 @@
     <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>235d5d8e-b23e-45e2-b44c-55ece4cd39cc</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <ApplicationIcon>Ico.png %281%29.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -108,6 +108,9 @@
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
+    <Content Include="Ico.png %281%29.ico" />
+    <Content Include="Ico.png.ico" />
+    <Content Include="Title.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CourseworkClientContent\CourseworkClientContent.contentproj">

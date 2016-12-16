@@ -7,7 +7,7 @@ namespace CourseworkClient.Gui
     {
         public MainMenuForm()
         {
-            background = Primary.game.loginScreenBackground;
+            background = Primary.game.mainMenuBackground;
             formItems.Add(new FormChangeButton(new Rectangle(2, 2, 100, 50), "Options", FormChangeButtonTypes.MainMenuToOptions));
             formItems.Add(new FormChangeButton(new Rectangle(2, 200, 100, 50), "Store", FormChangeButtonTypes.MainMenuToStore));
             formItems.Add(new FormChangeButton(new Rectangle(2, 100, 100, 50), "Play", FormChangeButtonTypes.MainMenuToQueueSelect));

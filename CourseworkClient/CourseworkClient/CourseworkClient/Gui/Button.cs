@@ -122,7 +122,7 @@ namespace CourseworkClient.Gui
         public ExitButton(Rectangle rect)
         {
             boundingBox = rect;
-            buttonText = "Brexit";
+            buttonText = "Exit";
         }
         public override void OnPress()
         {

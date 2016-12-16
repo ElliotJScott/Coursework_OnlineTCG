@@ -1,5 +1,3 @@
-Content\16x9 Background.xnb
-Content\4x3 Background.xnb
 Content\TextFieldBox.xnb
 Content\Title.xnb
 Content\ButtonIcon.xnb
@@ -17,6 +15,13 @@ Content\Upgrade Card Inner Big.xnb
 Content\Upgrade Card Inner Small.xnb
 Content\Blank Card Art.xnb
 Content\PlaySpace.xnb
-Content\Mainfont.xnb
 Content\InGameBackground16x9.xnb
 Content\InGameBackground4x3.xnb
+Content\16x9 Background.xnb
+Content\4x3 Background.xnb
+Content\Mainfont.xnb
+Content\LockMessageBox.xnb
+Content\Screen Darkener.xnb
+Content\LoadingIcon.xnb
+Content\MainMenuBackground16x9.xnb
+Content\MainMenuBackground4x3.xnb
