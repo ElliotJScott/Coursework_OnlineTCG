@@ -196,6 +196,343 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardArt\Assault Squad.png">
+      <Name>Assault Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Avatar of Khaine.png">
+      <Name>Avatar of Khaine</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Biker Squad.png">
+      <Name>Biker Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\C%27tan Shard of the Deceiver.png">
+      <Name>C%27tan Shard of the Deceiver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\C%27tan Shard of the Nightbringer.png">
+      <Name>C%27tan Shard of the Nightbringer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Carnifex.png">
+      <Name>Carnifex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Cato Sicarius.png">
+      <Name>Cato Sicarius</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Assault Squad.png">
+      <Name>Chaos Assault Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Biker Squad.png">
+      <Name>Chaos Biker Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Devastator Squad.png">
+      <Name>Chaos Devastator Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Dreadnought.png">
+      <Name>Chaos Dreadnought</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Land Raider.png">
+      <Name>Chaos Land Raider</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Rhino.png">
+      <Name>Chaos Rhino</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Space Marines.png">
+      <Name>Chaos Space Marines</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Tactical Sqaud.png">
+      <Name>Chaos Tactical Sqaud</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Chaos Terminator Squad.png">
+      <Name>Chaos Terminator Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Daemon Prince of Khorne.png">
+      <Name>Daemon Prince of Khorne</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Daemon Prince of Nurgle.png">
+      <Name>Daemon Prince of Nurgle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Daemon Prince of Slaanesh.png">
+      <Name>Daemon Prince of Slaanesh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Daemon Prince of Tzeentch.png">
+      <Name>Daemon Prince of Tzeentch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Defiler.png">
+      <Name>Defiler</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Destroyer Squadron.png">
+      <Name>Destroyer Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Devastator Squad.png">
+      <Name>Devastator Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Doom Scythe.png">
+      <Name>Doom Scythe</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Doomsday Ark.png">
+      <Name>Doomsday Ark</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Dreadnought.png">
+      <Name>Dreadnought</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Drop Pod.png">
+      <Name>Drop Pod</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Eldar Autarch.png">
+      <Name>Eldar Autarch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Eldar Guardians.png">
+      <Name>Eldar Guardians</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Falcon.png">
+      <Name>Falcon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Fire Dragons.png">
+      <Name>Fire Dragons</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Genestealer Brood.png">
+      <Name>Genestealer Brood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Ghost Ark.png">
+      <Name>Ghost Ark</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Hive Tyrant.png">
+      <Name>Hive Tyrant</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Hormagaunt Brood.png">
+      <Name>Hormagaunt Brood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Howling Banshees.png">
+      <Name>Howling Banshees</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Immortals.png">
+      <Name>Immortals</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Imotekh the Stormlord.png">
+      <Name>Imotekh the Stormlord</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Land Raider.png">
+      <Name>Land Raider</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Marneus Calgar.png">
+      <Name>Marneus Calgar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Mawloc.png">
+      <Name>Mawloc</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Necron Monolith.png">
+      <Name>Necron Monolith</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Necron Warriors.png">
+      <Name>Necron Warriors</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Ravener Brood.png">
+      <Name>Ravener Brood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Rhino.png">
+      <Name>Rhino</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Space Marines.png">
+      <Name>Space Marines</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Stormraven Gunship.png">
+      <Name>Stormraven Gunship</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Striking Scorpions.png">
+      <Name>Striking Scorpions</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Swooping Hawks.png">
+      <Name>Swooping Hawks</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Tactical Squad.png">
+      <Name>Tactical Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Termagant Brood.png">
+      <Name>Termagant Brood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Terminator Squad.png">
+      <Name>Terminator Squad</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Tesseract Vault.png">
+      <Name>Tesseract Vault</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\The Swarmlord.png">
+      <Name>The Swarmlord</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Transcendent C%27tan Shard of the Deceiver.png">
+      <Name>Transcendent C%27tan Shard of the Deceiver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Transcendent C%27tan Shard of the Nightbringer.png">
+      <Name>Transcendent C%27tan Shard of the Nightbringer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Triarch Pretorians.png">
+      <Name>Triarch Pretorians</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Triarch Stalker.png">
+      <Name>Triarch Stalker</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Trygon.png">
+      <Name>Trygon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Typhus the Traveler.png">
+      <Name>Typhus the Traveler</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Tyranid Warrior.png">
+      <Name>Tyranid Warrior</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Tyrant Guard.png">
+      <Name>Tyrant Guard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Vyper Squadron.png">
+      <Name>Vyper Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\War Walker Squadron.png">
+      <Name>War Walker Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Wraithknight.png">
+      <Name>Wraithknight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Wraithlord.png">
+      <Name>Wraithlord</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Zoanthrope.png">
+      <Name>Zoanthrope</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
