@@ -267,8 +267,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Chaos Tactical Sqaud.png">
-      <Name>Chaos Tactical Sqaud</Name>
+    <Compile Include="CardArt\Chaos Tactical Squad.png">
+      <Name>Chaos Tactical Squad</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -402,8 +402,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Necron Monolith.png">
-      <Name>Necron Monolith</Name>
+    <Compile Include="CardArt\Monolith.png">
+      <Name>Monolith</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -477,8 +477,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Triarch Pretorians.png">
-      <Name>Triarch Pretorians</Name>
+    <Compile Include="CardArt\Triarch Praetorians.png">
+      <Name>Triarch Praetorians</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -527,8 +527,353 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Zoanthrope.png">
-      <Name>Zoanthrope</Name>
+    <Compile Include="CardArt\Zoanthropes.png">
+      <Name>Zoanthropes</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardArt\Ambush.png">
+      <Name>Ambush</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Anti-Vehicle Artillery.png">
+      <Name>Anti-Vehicle Artillery</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Assassinate.png">
+      <Name>Assassinate</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Call the Void.png">
+      <Name>Call the Void</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Call to Arms.png">
+      <Name>Call to Arms</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Dark Hole.png">
+      <Name>Dark Hole</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Death in Honour.png">
+      <Name>Death in Honour</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Demilitarisation.png">
+      <Name>Demilitarisation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\EMP.png">
+      <Name>EMP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Equivalent Exchange.png">
+      <Name>Equivalent Exchange</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Eureka!.png">
+      <Name>Eureka!</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Industrial Investment.png">
+      <Name>Industrial Investment</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Mind Control.png">
+      <Name>Mind Control</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Pot of Greed.png">
+      <Name>Pot of Greed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Propoganda.png">
+      <Name>Propoganda</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Protection from Below.png">
+      <Name>Protection from Below</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Purify.png">
+      <Name>Purify</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Repair and Recover.png">
+      <Name>Repair and Recover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Repair Pack.png">
+      <Name>Repair Pack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Repair Vehicle.png">
+      <Name>Repair Vehicle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Sabotage.png">
+      <Name>Sabotage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Sacrifice.png">
+      <Name>Sacrifice</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Stimpack.png">
+      <Name>Stimpack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Suppress.png">
+      <Name>Suppress</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Tech Jammer.png">
+      <Name>Tech Jammer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\The Purge.png">
+      <Name>The Purge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Transmutation.png">
+      <Name>Transmutation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Two-Pronged Attack.png">
+      <Name>Two-Pronged Attack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Vase of Gluttony.png">
+      <Name>Vase of Gluttony</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardArt\Anti-Psyker Squadron.png">
+      <Name>Anti-Psyker Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Anti-Vehicle Squadron.png">
+      <Name>Anti-Vehicle Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Bonesword.png">
+      <Name>Bonesword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Corrupting Aura.png">
+      <Name>Corrupting Aura</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Eject Button.png">
+      <Name>Eject Button</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Empathic Obliterator.png">
+      <Name>Empathic Obliterator</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Gauntlets of Ultramar.png">
+      <Name>Gauntlets of Ultramar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Iron Halo.png">
+      <Name>Iron Halo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Lashwip.png">
+      <Name>Lashwip</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Lightning Claws.png">
+      <Name>Lightning Claws</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Phase-Shifter.png">
+      <Name>Phase-Shifter</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Power Sword.png">
+      <Name>Power Sword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psychic Hood.png">
+      <Name>Psychic Hood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Catalyst.png">
+      <Name>Psyker_ Catalyst</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Channel Hive Mind.png">
+      <Name>Psyker_ Channel Hive Mind</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Death Shock.png">
+      <Name>Psyker_ Death Shock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Divination.png">
+      <Name>Psyker_ Divination</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Hypnotic Gaze.png">
+      <Name>Psyker_ Hypnotic Gaze</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Infect.png">
+      <Name>Psyker_ Infect</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Leech Essence.png">
+      <Name>Psyker_ Leech Essence</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Mind Warp.png">
+      <Name>Psyker_ Mind Warp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Polymorph.png">
+      <Name>Psyker_ Polymorph</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Sacrifice.png">
+      <Name>Psyker_ Sacrifice</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Summon Creature.png">
+      <Name>Psyker_ Summon Creature</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Telekinesis.png">
+      <Name>Psyker_ Telekinesis</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ True Psychic Power.png">
+      <Name>Psyker_ True Psychic Power</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Psyker_ Unleash Power.png">
+      <Name>Psyker_ Unleash Power</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Ritual Killing.png">
+      <Name>Ritual Killing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Shadow Ankh.png">
+      <Name>Shadow Ankh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Squad Leader.png">
+      <Name>Squad Leader</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Squadron Firepower.png">
+      <Name>Squadron Firepower</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Squadron Mobility.png">
+      <Name>Squadron Mobility</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Terminator Armour.png">
+      <Name>Terminator Armour</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Vehicle Camouflage.png">
+      <Name>Vehicle Camouflage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardArt\Recharge.png">
+      <Name>Recharge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardArt\Heavy Venom Cannon.png">
+      <Name>Heavy Venom Cannon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CardArt\Power Extraction.png">
+      <Name>Power Extraction</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="CardArt\Salvage.png">
+      <Name>Salvage</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

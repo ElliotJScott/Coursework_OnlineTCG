@@ -278,7 +278,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\C'tan Shard of the Deceiver.xnb</Output>
-      <Time>2016-12-16T20:13:45.9638429+00:00</Time>
+      <Time>2016-12-16T21:20:59.1074395+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\C'tan Shard of the Nightbringer.png</Source>
@@ -369,15 +369,6 @@
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Chaos Space Marines.xnb</Output>
       <Time>2016-12-16T20:13:45.886868+00:00</Time>
-    </Item>
-    <Item>
-      <Source>CardArt\Chaos Tactical Sqaud.png</Source>
-      <Name>CardArt\Chaos Tactical Sqaud</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Chaos Tactical Sqaud.xnb</Output>
-      <Time>2016-12-16T20:13:45.9124839+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Chaos Terminator Squad.png</Source>
@@ -614,15 +605,6 @@
       <Time>2016-12-16T20:13:46.6024353+00:00</Time>
     </Item>
     <Item>
-      <Source>CardArt\Necron Monolith.png</Source>
-      <Name>CardArt\Necron Monolith</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Necron Monolith.xnb</Output>
-      <Time>2016-12-16T20:13:46.6252252+00:00</Time>
-    </Item>
-    <Item>
       <Source>CardArt\Necron Warriors.png</Source>
       <Name>CardArt\Necron Warriors</Name>
       <Importer>TextureImporter</Importer>
@@ -749,15 +731,6 @@
       <Time>2016-12-16T20:13:46.9367883+00:00</Time>
     </Item>
     <Item>
-      <Source>CardArt\Triarch Pretorians.png</Source>
-      <Name>CardArt\Triarch Pretorians</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Triarch Pretorians.xnb</Output>
-      <Time>2016-12-16T20:13:46.9483447+00:00</Time>
-    </Item>
-    <Item>
       <Source>CardArt\Triarch Stalker.png</Source>
       <Name>CardArt\Triarch Stalker</Name>
       <Importer>TextureImporter</Importer>
@@ -839,13 +812,643 @@
       <Time>2016-12-16T20:13:47.0802877+00:00</Time>
     </Item>
     <Item>
-      <Source>CardArt\Zoanthrope.png</Source>
-      <Name>CardArt\Zoanthrope</Name>
+      <Source>CardArt\Chaos Tactical Squad.png</Source>
+      <Name>CardArt\Chaos Tactical Squad</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Zoanthrope.xnb</Output>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Chaos Tactical Squad.xnb</Output>
+      <Time>2016-12-16T20:13:45.9124839+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Monolith.png</Source>
+      <Name>CardArt\Monolith</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Monolith.xnb</Output>
+      <Time>2016-12-16T20:13:46.6252252+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Triarch Praetorians.png</Source>
+      <Name>CardArt\Triarch Praetorians</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Triarch Praetorians.xnb</Output>
+      <Time>2016-12-16T20:13:46.9483447+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Zoanthropes.png</Source>
+      <Name>CardArt\Zoanthropes</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Zoanthropes.xnb</Output>
       <Time>2016-12-16T20:13:47.0973259+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Ambush.png</Source>
+      <Name>CardArt\Ambush</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Ambush.xnb</Output>
+      <Time>2016-12-16T21:21:29.8954725+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Anti-Vehicle Artillery.png</Source>
+      <Name>CardArt\Anti-Vehicle Artillery</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Anti-Vehicle Artillery.xnb</Output>
+      <Time>2016-12-16T21:21:29.8994812+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Assassinate.png</Source>
+      <Name>CardArt\Assassinate</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Assassinate.xnb</Output>
+      <Time>2016-12-16T21:21:29.902488+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Call the Void.png</Source>
+      <Name>CardArt\Call the Void</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Call the Void.xnb</Output>
+      <Time>2016-12-16T21:21:29.9275442+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Call to Arms.png</Source>
+      <Name>CardArt\Call to Arms</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Call to Arms.xnb</Output>
+      <Time>2016-12-16T21:21:29.9310521+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Dark Hole.png</Source>
+      <Name>CardArt\Dark Hole</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Dark Hole.xnb</Output>
+      <Time>2016-12-16T21:21:29.944081+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Death in Honour.png</Source>
+      <Name>CardArt\Death in Honour</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Death in Honour.xnb</Output>
+      <Time>2016-12-16T21:21:29.9475892+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Demilitarisation.png</Source>
+      <Name>CardArt\Demilitarisation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Demilitarisation.xnb</Output>
+      <Time>2016-12-16T21:21:29.9515982+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\EMP.png</Source>
+      <Name>CardArt\EMP</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\EMP.xnb</Output>
+      <Time>2016-12-16T21:21:29.9616206+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Equivalent Exchange.png</Source>
+      <Name>CardArt\Equivalent Exchange</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Equivalent Exchange.xnb</Output>
+      <Time>2016-12-16T21:21:29.9656299+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Industrial Investment.png</Source>
+      <Name>CardArt\Industrial Investment</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Industrial Investment.xnb</Output>
+      <Time>2016-12-16T21:21:29.9721444+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Mind Control.png</Source>
+      <Name>CardArt\Mind Control</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Mind Control.xnb</Output>
+      <Time>2016-12-16T21:21:29.9756539+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Pot of Greed.png</Source>
+      <Name>CardArt\Pot of Greed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Pot of Greed.xnb</Output>
+      <Time>2016-12-16T21:21:29.9791602+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Propoganda.png</Source>
+      <Name>CardArt\Propoganda</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Propoganda.xnb</Output>
+      <Time>2016-12-16T21:21:29.9821677+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Protection from Below.png</Source>
+      <Name>CardArt\Protection from Below</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Protection from Below.xnb</Output>
+      <Time>2016-12-16T21:21:29.9851739+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Purify.png</Source>
+      <Name>CardArt\Purify</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Purify.xnb</Output>
+      <Time>2016-12-16T21:21:29.993693+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Repair and Recover.png</Source>
+      <Name>CardArt\Repair and Recover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Repair and Recover.xnb</Output>
+      <Time>2016-12-16T21:21:29.9972009+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Repair Pack.png</Source>
+      <Name>CardArt\Repair Pack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Repair Pack.xnb</Output>
+      <Time>2016-12-16T21:21:30.0007088+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Repair Vehicle.png</Source>
+      <Name>CardArt\Repair Vehicle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Repair Vehicle.xnb</Output>
+      <Time>2016-12-16T23:40:19.4169377+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Sabotage.png</Source>
+      <Name>CardArt\Sabotage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Sabotage.xnb</Output>
+      <Time>2016-12-16T21:21:30.0152423+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Sacrifice.png</Source>
+      <Name>CardArt\Sacrifice</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Sacrifice.xnb</Output>
+      <Time>2016-12-16T21:21:30.0312773+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Stimpack.png</Source>
+      <Name>CardArt\Stimpack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Stimpack.xnb</Output>
+      <Time>2016-12-16T21:21:30.0347862+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Suppress.png</Source>
+      <Name>CardArt\Suppress</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Suppress.xnb</Output>
+      <Time>2016-12-16T21:21:30.0483777+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Tech Jammer.png</Source>
+      <Name>CardArt\Tech Jammer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Tech Jammer.xnb</Output>
+      <Time>2016-12-16T21:21:30.0518846+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\The Purge.png</Source>
+      <Name>CardArt\The Purge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\The Purge.xnb</Output>
+      <Time>2016-12-16T21:21:30.0609822+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Two-Pronged Attack.png</Source>
+      <Name>CardArt\Two-Pronged Attack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Two-Pronged Attack.xnb</Output>
+      <Time>2016-12-16T21:21:30.0716254+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Vase of Gluttony.png</Source>
+      <Name>CardArt\Vase of Gluttony</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Vase of Gluttony.xnb</Output>
+      <Time>2016-12-16T21:21:30.0778008+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Anti-Psyker Squadron.png</Source>
+      <Name>CardArt\Anti-Psyker Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Anti-Psyker Squadron.xnb</Output>
+      <Time>2016-12-16T22:26:32.7243632+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Anti-Vehicle Squadron.png</Source>
+      <Name>CardArt\Anti-Vehicle Squadron</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Anti-Vehicle Squadron.xnb</Output>
+      <Time>2016-12-16T22:26:32.7318801+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Bonesword.png</Source>
+      <Name>CardArt\Bonesword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Bonesword.xnb</Output>
+      <Time>2016-12-16T22:26:32.735388+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Corrupting Aura.png</Source>
+      <Name>CardArt\Corrupting Aura</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Corrupting Aura.xnb</Output>
+      <Time>2016-12-16T22:26:32.7752301+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Eject Button.png</Source>
+      <Name>CardArt\Eject Button</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Eject Button.xnb</Output>
+      <Time>2016-12-16T22:26:32.7787376+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Empathic Obliterator.png</Source>
+      <Name>CardArt\Empathic Obliterator</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Empathic Obliterator.xnb</Output>
+      <Time>2016-12-16T22:26:32.7817445+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Gauntlets of Ultramar.png</Source>
+      <Name>CardArt\Gauntlets of Ultramar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Gauntlets of Ultramar.xnb</Output>
+      <Time>2016-12-16T22:26:32.7852537+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Iron Halo.png</Source>
+      <Name>CardArt\Iron Halo</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Iron Halo.xnb</Output>
+      <Time>2016-12-16T22:26:32.7887603+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Lashwip.png</Source>
+      <Name>CardArt\Lashwip</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Lashwip.xnb</Output>
+      <Time>2016-12-16T22:26:32.7922686+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Lightning Claws.png</Source>
+      <Name>CardArt\Lightning Claws</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Lightning Claws.xnb</Output>
+      <Time>2016-12-16T22:26:32.7962773+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Phase-Shifter.png</Source>
+      <Name>CardArt\Phase-Shifter</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Phase-Shifter.xnb</Output>
+      <Time>2016-12-16T22:26:32.7997852+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Power Sword.png</Source>
+      <Name>CardArt\Power Sword</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Power Sword.xnb</Output>
+      <Time>2016-12-16T22:26:32.8032928+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psychic Hood.png</Source>
+      <Name>CardArt\Psychic Hood</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psychic Hood.xnb</Output>
+      <Time>2016-12-16T22:26:32.8068007+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Catalyst.png</Source>
+      <Name>CardArt\Psyker_ Catalyst</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Catalyst.xnb</Output>
+      <Time>2016-12-16T22:26:32.8103086+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Channel Hive Mind.png</Source>
+      <Name>CardArt\Psyker_ Channel Hive Mind</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Channel Hive Mind.xnb</Output>
+      <Time>2016-12-16T22:26:32.8138192+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Death Shock.png</Source>
+      <Name>CardArt\Psyker_ Death Shock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Death Shock.xnb</Output>
+      <Time>2016-12-16T22:26:32.8173245+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Divination.png</Source>
+      <Name>CardArt\Psyker_ Divination</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Divination.xnb</Output>
+      <Time>2016-12-16T22:26:32.8208324+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Hypnotic Gaze.png</Source>
+      <Name>CardArt\Psyker_ Hypnotic Gaze</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Hypnotic Gaze.xnb</Output>
+      <Time>2016-12-16T22:26:32.8248414+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Infect.png</Source>
+      <Name>CardArt\Psyker_ Infect</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Infect.xnb</Output>
+      <Time>2016-12-16T22:26:32.8283573+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Leech Essence.png</Source>
+      <Name>CardArt\Psyker_ Leech Essence</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Leech Essence.xnb</Output>
+      <Time>2016-12-16T22:26:32.8318572+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Mind Warp.png</Source>
+      <Name>CardArt\Psyker_ Mind Warp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Mind Warp.xnb</Output>
+      <Time>2016-12-16T22:26:32.8358659+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Polymorph.png</Source>
+      <Name>CardArt\Psyker_ Polymorph</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Polymorph.xnb</Output>
+      <Time>2016-12-16T22:26:32.8388727+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Sacrifice.png</Source>
+      <Name>CardArt\Psyker_ Sacrifice</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Sacrifice.xnb</Output>
+      <Time>2016-12-16T22:26:32.842381+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Summon Creature.png</Source>
+      <Name>CardArt\Psyker_ Summon Creature</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Summon Creature.xnb</Output>
+      <Time>2016-12-16T22:26:32.8458886+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Telekinesis.png</Source>
+      <Name>CardArt\Psyker_ Telekinesis</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Telekinesis.xnb</Output>
+      <Time>2016-12-16T22:26:32.8493965+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ True Psychic Power.png</Source>
+      <Name>CardArt\Psyker_ True Psychic Power</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ True Psychic Power.xnb</Output>
+      <Time>2016-12-16T22:26:32.8529058+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Psyker_ Unleash Power.png</Source>
+      <Name>CardArt\Psyker_ Unleash Power</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Unleash Power.xnb</Output>
+      <Time>2016-12-16T22:26:32.8564134+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Ritual Killing.png</Source>
+      <Name>CardArt\Ritual Killing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Ritual Killing.xnb</Output>
+      <Time>2016-12-16T22:26:32.8599203+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Shadow Ankh.png</Source>
+      <Name>CardArt\Shadow Ankh</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Shadow Ankh.xnb</Output>
+      <Time>2016-12-16T22:26:32.8634279+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Squad Leader.png</Source>
+      <Name>CardArt\Squad Leader</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Squad Leader.xnb</Output>
+      <Time>2016-12-16T22:26:32.8669358+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Squadron Firepower.png</Source>
+      <Name>CardArt\Squadron Firepower</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Squadron Firepower.xnb</Output>
+      <Time>2016-12-16T22:26:32.8704441+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Squadron Mobility.png</Source>
+      <Name>CardArt\Squadron Mobility</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Squadron Mobility.xnb</Output>
+      <Time>2016-12-16T22:26:32.8739516+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Terminator Armour.png</Source>
+      <Name>CardArt\Terminator Armour</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Terminator Armour.xnb</Output>
+      <Time>2016-12-16T22:26:32.8774596+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Vehicle Camouflage.png</Source>
+      <Name>CardArt\Vehicle Camouflage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Vehicle Camouflage.xnb</Output>
+      <Time>2016-12-16T22:26:32.8809675+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Eureka!.png</Source>
+      <Name>CardArt\Eureka!</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Eureka!.xnb</Output>
+      <Time>2016-12-16T21:21:29.9686368+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Transmutation.png</Source>
+      <Name>CardArt\Transmutation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Transmutation.xnb</Output>
+      <Time>2016-12-16T21:21:30.0644888+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Recharge.png</Source>
+      <Name>CardArt\Recharge</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Recharge.xnb</Output>
+      <Time>2016-12-16T22:30:05.6570022+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Heavy Venom Cannon.png</Source>
+      <Name>CardArt\Heavy Venom Cannon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Heavy Venom Cannon.xnb</Output>
+      <Time>2016-12-16T23:32:26.3503821+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Power Extraction.png</Source>
+      <Name>CardArt\Power Extraction</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Power Extraction.xnb</Output>
+      <Time>2016-12-16T23:40:18.4033572+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Salvage.png</Source>
+      <Name>CardArt\Salvage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Salvage.xnb</Output>
+      <Time>2016-12-16T23:40:19.4204457+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -311,7 +311,7 @@ namespace CourseworkClient
         }
         private void HandleData(Protocol p, string s)
         {
-            Console.WriteLine("{0} : {1}", p, s);
+            //Console.WriteLine("{0} : {1}", p, s);
             switch (p)
             {
                 case Protocol.UsernameTaken:
@@ -396,7 +396,8 @@ namespace CourseworkClient
             Texture2D art;
             try
             {
-                art = Content.Load<Texture2D>("CardArt\\" + cardName);
+                
+                art = Content.Load<Texture2D>("CardArt\\" + cardName.Replace(':', '_'));
             }
             catch
             {

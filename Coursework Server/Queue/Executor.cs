@@ -64,11 +64,11 @@ namespace CourseworkServer
                         }
                         else
                         {
-                            currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
+                            Server.server.queue.Enqueue(new ActionItem(Operation.TransmitDBData, null, currentItem.sender));
                             currentItem.sender.userName = usernameAndPasswordHash[0];
                             currentItem.sender.status = Status.Online;
                             Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerElo, null, currentItem.sender));
-                            Server.server.queue.Enqueue(new ActionItem(Operation.TransmitDBData, null, currentItem.sender));
+                            currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
                         }
                     }
                     break;

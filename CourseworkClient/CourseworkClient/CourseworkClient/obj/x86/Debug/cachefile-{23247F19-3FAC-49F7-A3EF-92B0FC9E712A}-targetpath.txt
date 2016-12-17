@@ -39,7 +39,6 @@ Content\CardArt\Chaos Dreadnought.xnb
 Content\CardArt\Chaos Land Raider.xnb
 Content\CardArt\Chaos Rhino.xnb
 Content\CardArt\Chaos Space Marines.xnb
-Content\CardArt\Chaos Tactical Sqaud.xnb
 Content\CardArt\Chaos Terminator Squad.xnb
 Content\CardArt\Daemon Prince of Khorne.xnb
 Content\CardArt\Daemon Prince of Nurgle.xnb
@@ -66,7 +65,6 @@ Content\CardArt\Imotekh the Stormlord.xnb
 Content\CardArt\Land Raider.xnb
 Content\CardArt\Marneus Calgar.xnb
 Content\CardArt\Mawloc.xnb
-Content\CardArt\Necron Monolith.xnb
 Content\CardArt\Necron Warriors.xnb
 Content\CardArt\Ravener Brood.xnb
 Content\CardArt\Rhino.xnb
@@ -81,7 +79,6 @@ Content\CardArt\Tesseract Vault.xnb
 Content\CardArt\The Swarmlord.xnb
 Content\CardArt\Transcendent C'tan Shard of the Deceiver.xnb
 Content\CardArt\Transcendent C'tan Shard of the Nightbringer.xnb
-Content\CardArt\Triarch Pretorians.xnb
 Content\CardArt\Triarch Stalker.xnb
 Content\CardArt\Trygon.xnb
 Content\CardArt\Typhus the Traveler.xnb
@@ -91,4 +88,74 @@ Content\CardArt\Vyper Squadron.xnb
 Content\CardArt\War Walker Squadron.xnb
 Content\CardArt\Wraithknight.xnb
 Content\CardArt\Wraithlord.xnb
-Content\CardArt\Zoanthrope.xnb
+Content\CardArt\Chaos Tactical Squad.xnb
+Content\CardArt\Monolith.xnb
+Content\CardArt\Triarch Praetorians.xnb
+Content\CardArt\Zoanthropes.xnb
+Content\CardArt\Ambush.xnb
+Content\CardArt\Anti-Vehicle Artillery.xnb
+Content\CardArt\Assassinate.xnb
+Content\CardArt\Call the Void.xnb
+Content\CardArt\Call to Arms.xnb
+Content\CardArt\Dark Hole.xnb
+Content\CardArt\Death in Honour.xnb
+Content\CardArt\Demilitarisation.xnb
+Content\CardArt\EMP.xnb
+Content\CardArt\Equivalent Exchange.xnb
+Content\CardArt\Industrial Investment.xnb
+Content\CardArt\Mind Control.xnb
+Content\CardArt\Pot of Greed.xnb
+Content\CardArt\Propoganda.xnb
+Content\CardArt\Protection from Below.xnb
+Content\CardArt\Purify.xnb
+Content\CardArt\Repair and Recover.xnb
+Content\CardArt\Repair Pack.xnb
+Content\CardArt\Repair Vehicle.xnb
+Content\CardArt\Sabotage.xnb
+Content\CardArt\Sacrifice.xnb
+Content\CardArt\Stimpack.xnb
+Content\CardArt\Suppress.xnb
+Content\CardArt\Tech Jammer.xnb
+Content\CardArt\The Purge.xnb
+Content\CardArt\Two-Pronged Attack.xnb
+Content\CardArt\Vase of Gluttony.xnb
+Content\CardArt\Anti-Psyker Squadron.xnb
+Content\CardArt\Anti-Vehicle Squadron.xnb
+Content\CardArt\Bonesword.xnb
+Content\CardArt\Corrupting Aura.xnb
+Content\CardArt\Eject Button.xnb
+Content\CardArt\Empathic Obliterator.xnb
+Content\CardArt\Gauntlets of Ultramar.xnb
+Content\CardArt\Iron Halo.xnb
+Content\CardArt\Lashwip.xnb
+Content\CardArt\Lightning Claws.xnb
+Content\CardArt\Phase-Shifter.xnb
+Content\CardArt\Power Sword.xnb
+Content\CardArt\Psychic Hood.xnb
+Content\CardArt\Psyker_ Catalyst.xnb
+Content\CardArt\Psyker_ Channel Hive Mind.xnb
+Content\CardArt\Psyker_ Death Shock.xnb
+Content\CardArt\Psyker_ Divination.xnb
+Content\CardArt\Psyker_ Hypnotic Gaze.xnb
+Content\CardArt\Psyker_ Infect.xnb
+Content\CardArt\Psyker_ Leech Essence.xnb
+Content\CardArt\Psyker_ Mind Warp.xnb
+Content\CardArt\Psyker_ Polymorph.xnb
+Content\CardArt\Psyker_ Sacrifice.xnb
+Content\CardArt\Psyker_ Summon Creature.xnb
+Content\CardArt\Psyker_ Telekinesis.xnb
+Content\CardArt\Psyker_ True Psychic Power.xnb
+Content\CardArt\Psyker_ Unleash Power.xnb
+Content\CardArt\Ritual Killing.xnb
+Content\CardArt\Shadow Ankh.xnb
+Content\CardArt\Squad Leader.xnb
+Content\CardArt\Squadron Firepower.xnb
+Content\CardArt\Squadron Mobility.xnb
+Content\CardArt\Terminator Armour.xnb
+Content\CardArt\Vehicle Camouflage.xnb
+Content\CardArt\Eureka!.xnb
+Content\CardArt\Transmutation.xnb
+Content\CardArt\Recharge.xnb
+Content\CardArt\Heavy Venom Cannon.xnb
+Content\CardArt\Power Extraction.xnb
+Content\CardArt\Salvage.xnb
