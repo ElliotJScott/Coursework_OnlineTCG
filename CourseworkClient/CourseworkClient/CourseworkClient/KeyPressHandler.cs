@@ -62,7 +62,7 @@ namespace CourseworkClient
                 {
                     int index = GetIndexOfTimer(key);
                     timers[index]++;
-                    if (timers[index] > timerDelay && initstring.Length < maxLength)
+                    if ((int)timers[index] > timerDelay && initstring.Length < maxLength)
                     {
                         if (key == Keys.Back)
                         {
@@ -128,7 +128,7 @@ namespace CourseworkClient
             key = k;
             timer = 0;
         }
-        public static implicit operator int (KeyPressTimer k) => k.timer;
+        public static explicit operator int (KeyPressTimer k) => k.timer;
         public static KeyPressTimer operator ++(KeyPressTimer k)
         {
             k.timer++;

@@ -50,7 +50,7 @@ namespace CourseworkClient
         {
             if (d.dbID == deckID)
             {
-                if (c.type == Card.upgradeType)
+                if (c.type == CardType.Upgrade)
                     d.upgrades.Add(new DeckItem(c, quantity));
                 else d.mainDeck.Add(new DeckItem(c, quantity));
 

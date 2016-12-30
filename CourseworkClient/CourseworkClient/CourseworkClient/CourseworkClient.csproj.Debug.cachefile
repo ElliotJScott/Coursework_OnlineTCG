@@ -77,8 +77,6 @@ Content\CardArt\Termagant Brood.xnb
 Content\CardArt\Terminator Squad.xnb
 Content\CardArt\Tesseract Vault.xnb
 Content\CardArt\The Swarmlord.xnb
-Content\CardArt\Transcendent C'tan Shard of the Deceiver.xnb
-Content\CardArt\Transcendent C'tan Shard of the Nightbringer.xnb
 Content\CardArt\Triarch Stalker.xnb
 Content\CardArt\Trygon.xnb
 Content\CardArt\Typhus the Traveler.xnb
@@ -114,7 +112,6 @@ Content\CardArt\Repair Vehicle.xnb
 Content\CardArt\Sabotage.xnb
 Content\CardArt\Sacrifice.xnb
 Content\CardArt\Stimpack.xnb
-Content\CardArt\Suppress.xnb
 Content\CardArt\Tech Jammer.xnb
 Content\CardArt\The Purge.xnb
 Content\CardArt\Two-Pronged Attack.xnb
@@ -159,3 +156,15 @@ Content\CardArt\Recharge.xnb
 Content\CardArt\Heavy Venom Cannon.xnb
 Content\CardArt\Power Extraction.xnb
 Content\CardArt\Salvage.xnb
+Content\Cardtextfont.xnb
+Content\CardArt\Suppression.xnb
+Content\InGamePlayAreaBottom.xnb
+Content\InGamePlayAreaTop.xnb
+Content\SideBar.xnb
+Content\AttackButton.xnb
+Content\DiscardButton.xnb
+Content\PlayButton.xnb
+Content\CardArt\Transcendent Deceiver.xnb
+Content\CardArt\Transcendent Nightbringer.xnb
+Content\Card Back Temp.xnb
+Content\Card Back.xnb

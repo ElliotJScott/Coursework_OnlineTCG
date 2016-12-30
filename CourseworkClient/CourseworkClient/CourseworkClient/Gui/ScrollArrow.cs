@@ -22,10 +22,14 @@ namespace CourseworkClient.Gui
         {
             boundingBox = r;
             orientation = o;
+            //Console.WriteLine("new ScrollArrow with rectangle ({0}, {1}, {2}, {3})", r.X, r.Y, r.Width, r.Height);
         }
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(usable ? Primary.game.greenArrowTexture : Primary.game.grayArrowTexture, boundingBox, null, Color.White, ((float)orientation) * ((float)Math.PI / 2f), new Vector2(boundingBox.X + (0.5f * boundingBox.Width), boundingBox.Y + (0.5f * boundingBox.Height)), SpriteEffects.None, 0);
+            //Vector2 rotato = new Vector2(boundingBox.X + (0.5f * boundingBox.Width), boundingBox.Y + (0.5f * boundingBox.Height)); Rotations are dumb because they're done relative to the graphic not the frame
+            Vector2 rotato = new Vector2(boundingBox.Width / 2, boundingBox.Height / 2);
+            float rotation = ((float)orientation) * ((float)Math.PI / 2f);
+            sb.Draw(usable ? Primary.game.greenArrowTexture : Primary.game.grayArrowTexture, new Rectangle (boundingBox.X + (int)rotato.X, boundingBox.Y + (int)rotato.Y, boundingBox.Width, boundingBox.Height), null, Color.White, rotation, rotato, SpriteEffects.None, 1);
         }
 
         public override void Update() { }

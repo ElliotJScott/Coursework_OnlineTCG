@@ -14,21 +14,26 @@ namespace CourseworkClient
         Legendary = 3,
         Unobtainable = 4,
     }
+    public enum CardType
+    {
+        Unit = 0,
+        Tech = 1,
+        Upgrade = 2,
+    }
     public struct Card
     {
+        public int cost;
         public string name;
         public int? attack, health;
-        public int type;
+        public CardType type;
         public List<Effect> effects;
         public static List<Card> allCards = new List<Card>();
-        public const int unitType = 0;
-        public const int linusTechType = 1;
-        public const int upgradeType = 2;
         public Rarity rarity;
         public List<Card> equippedUpgrades;
 
-        public Card(string n, int t, Rarity r, int? atk = null, int? hp = null, params Effect[] e)
+        public Card(string n, CardType t, int c, Rarity r, int? atk = null, int? hp = null, params Effect[] e)
         {
+            cost = c;
             rarity = r;
             name = n;
             type = t;
@@ -54,14 +59,6 @@ namespace CourseworkClient
             foreach (Effect e in effects) output.Add(e.colour);
             return output;
         }
-        public bool hasEffect(string s)
-        {
-            foreach (Effect e in effects)
-            {
-                if (e.name == s) return true;
-            }
-            return false;
-        }
         public static int getCardIndex(string name)
         {
             for (int i = 0; i < allCards.Count; i++)
@@ -78,5 +75,6 @@ namespace CourseworkClient
             }
             throw new ArgumentException();
         }
+        public bool hasEffect(string effectName) => effects.Contains(Effect.GetEffect(effectName));
     }
 }

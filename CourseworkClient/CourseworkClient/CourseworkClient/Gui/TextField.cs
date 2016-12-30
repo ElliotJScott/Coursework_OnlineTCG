@@ -25,9 +25,8 @@ namespace CourseworkClient
         }
         public override void Update()
         {
-            Vector2 mousePos = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-            if (Clicked(mousePos) && selected == false) selected = true;
-            if (DeClicked(mousePos) && selected == true) selected = false;
+            if (Clicked() && selected == false) selected = true;
+            if (DeClicked() && selected == true) selected = false;
             if (selected)
             {
                 text = Primary.game.keypresshandler.NewTypedString(text, maxLength);

@@ -8,7 +8,7 @@ namespace CourseworkServer
 {
     class Match
     {
-        Client[] players;
+        public Client[] players;
         int gameTime;
         public Match(Client player1, Client player2)
         {

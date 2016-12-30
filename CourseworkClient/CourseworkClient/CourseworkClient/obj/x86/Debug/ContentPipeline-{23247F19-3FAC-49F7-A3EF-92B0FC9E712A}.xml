@@ -44,7 +44,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Scroll Arrow.xnb</Output>
-      <Time>2016-12-10T00:17:31.1887339+00:00</Time>
+      <Time>2016-12-17T20:17:51.393895+00:00</Time>
     </Item>
     <Item>
       <Source>Grayed Out Scroll Arrow.png</Source>
@@ -53,7 +53,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb</Output>
-      <Time>2016-12-10T00:17:59.2556256+00:00</Time>
+      <Time>2016-12-17T20:17:49.390392+00:00</Time>
     </Item>
     <Item>
       <Source>Effect Description Box.png</Source>
@@ -62,7 +62,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Effect Description Box.xnb</Output>
-      <Time>2016-12-14T18:22:56.4615378+00:00</Time>
+      <Time>2016-12-17T19:43:19.3237768+00:00</Time>
     </Item>
     <Item>
       <Source>Card Outline Big.png</Source>
@@ -71,7 +71,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Big.xnb</Output>
-      <Time>2016-12-14T18:35:28.6942272+00:00</Time>
+      <Time>2016-12-18T21:11:43.2294551+00:00</Time>
     </Item>
     <Item>
       <Source>Card Outline Small.png</Source>
@@ -80,7 +80,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Small.xnb</Output>
-      <Time>2016-12-14T18:35:28.7222906+00:00</Time>
+      <Time>2016-12-18T21:11:25.9785213+00:00</Time>
     </Item>
     <Item>
       <Source>Tech Card Inner Big.png</Source>
@@ -233,7 +233,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\MainMenuBackground16x9.xnb</Output>
-      <Time>2016-12-15T22:14:06.8276691+00:00</Time>
+      <Time>2016-12-18T15:02:22.2262445+00:00</Time>
     </Item>
     <Item>
       <Source>MainMenuBackground4x3.png</Source>
@@ -242,7 +242,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\MainMenuBackground4x3.xnb</Output>
-      <Time>2016-12-15T22:14:06.6773318+00:00</Time>
+      <Time>2016-12-18T15:02:21.6689917+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Assault Squad.png</Source>
@@ -701,7 +701,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Tesseract Vault.xnb</Output>
-      <Time>2016-12-16T20:13:46.871816+00:00</Time>
+      <Time>2016-12-17T19:46:25.1054939+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\The Swarmlord.png</Source>
@@ -711,24 +711,6 @@
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\The Swarmlord.xnb</Output>
       <Time>2016-12-16T20:13:46.8983024+00:00</Time>
-    </Item>
-    <Item>
-      <Source>CardArt\Transcendent C'tan Shard of the Deceiver.png</Source>
-      <Name>CardArt\Transcendent C'tan Shard of the Deceiver</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Transcendent C'tan Shard of the Deceiver.xnb</Output>
-      <Time>2016-12-16T20:13:46.9216813+00:00</Time>
-    </Item>
-    <Item>
-      <Source>CardArt\Transcendent C'tan Shard of the Nightbringer.png</Source>
-      <Name>CardArt\Transcendent C'tan Shard of the Nightbringer</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Transcendent C'tan Shard of the Nightbringer.xnb</Output>
-      <Time>2016-12-16T20:13:46.9367883+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Triarch Stalker.png</Source>
@@ -1044,15 +1026,6 @@
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Stimpack.xnb</Output>
       <Time>2016-12-16T21:21:30.0347862+00:00</Time>
-    </Item>
-    <Item>
-      <Source>CardArt\Suppress.png</Source>
-      <Name>CardArt\Suppress</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Suppress.xnb</Output>
-      <Time>2016-12-16T21:21:30.0483777+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Tech Jammer.png</Source>
@@ -1449,6 +1422,114 @@
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Salvage.xnb</Output>
       <Time>2016-12-16T23:40:19.4204457+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Cardtextfont.spritefont</Source>
+      <Name>Cardtextfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Cardtextfont.xnb</Output>
+      <Time>2016-12-17T19:18:24.1249873+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Suppression.png</Source>
+      <Name>CardArt\Suppression</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Suppression.xnb</Output>
+      <Time>2016-12-16T21:21:30.0483777+00:00</Time>
+    </Item>
+    <Item>
+      <Source>InGamePlayAreaBottom.png</Source>
+      <Name>InGamePlayAreaBottom</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGamePlayAreaBottom.xnb</Output>
+      <Time>2016-12-18T16:48:30.1493897+00:00</Time>
+    </Item>
+    <Item>
+      <Source>InGamePlayAreaTop.png</Source>
+      <Name>InGamePlayAreaTop</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\InGamePlayAreaTop.xnb</Output>
+      <Time>2016-12-18T16:48:32.0140861+00:00</Time>
+    </Item>
+    <Item>
+      <Source>SideBar.png</Source>
+      <Name>SideBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\SideBar.xnb</Output>
+      <Time>2016-12-19T21:12:46.6107504+00:00</Time>
+    </Item>
+    <Item>
+      <Source>AttackButton.png</Source>
+      <Name>AttackButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\AttackButton.xnb</Output>
+      <Time>2016-12-19T21:12:45.7192467+00:00</Time>
+    </Item>
+    <Item>
+      <Source>DiscardButton.png</Source>
+      <Name>DiscardButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\DiscardButton.xnb</Output>
+      <Time>2016-12-19T21:12:45.7242582+00:00</Time>
+    </Item>
+    <Item>
+      <Source>PlayButton.png</Source>
+      <Name>PlayButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\PlayButton.xnb</Output>
+      <Time>2016-12-19T21:12:45.7277658+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Transcendent Deceiver.png</Source>
+      <Name>CardArt\Transcendent Deceiver</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Transcendent Deceiver.xnb</Output>
+      <Time>2016-12-16T20:13:46.9216813+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Transcendent Nightbringer.png</Source>
+      <Name>CardArt\Transcendent Nightbringer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Transcendent Nightbringer.xnb</Output>
+      <Time>2016-12-16T20:13:46.9367883+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Card Back Temp.png</Source>
+      <Name>Card Back Temp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Back Temp.xnb</Output>
+      <Time>2016-12-22T21:00:45.0206656+00:00</Time>
+    </Item>
+    <Item>
+      <Source>Card Back.png</Source>
+      <Name>Card Back</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Back.xnb</Output>
+      <Time>2016-12-22T22:21:35.9228118+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

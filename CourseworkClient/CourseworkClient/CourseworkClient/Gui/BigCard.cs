@@ -8,41 +8,40 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CourseworkClient.Gui
 {
-    enum Location
-    {
-        InHand,
-        InPlay,
-    }
     class BigCard : GuiItem
     {
-        Card card;
+        public Card card;
+        Vector2 loc;
         public BigCard(Card c)
         {
-            card = c;
             Viewport v = Primary.game.GraphicsDevice.Viewport;
-            subItems.Add(new CardText(Primary.game.mainFont, new Rectangle(10 + (v.Width - Primary.game.cardOutlineBig.Width) / 2, 100 + (v.Height - Primary.game.cardOutlineBig.Height) / 2, 100, 100), c.getEffectNames(), 10, 10, c.getColourList()));
+            int xPos = ((Primary.game.GraphicsDevice.Viewport.Width / 6) - Primary.game.cardOutlineBig.Width) / 2;
+            loc = new Vector2(xPos, (Primary.game.GraphicsDevice.Viewport.Height - Primary.game.cardOutlineBig.Height) / 2);
+            card = c;
+            boundingBox = new Rectangle((int)loc.X, (int)loc.Y, Primary.game.cardOutlineBig.Width, Primary.game.cardOutlineBig.Height);
+            subItems.Add(new CardText(new Rectangle(10 + (int)loc.X, 170 + (int)loc.Y, 176, 118), c.getEffectNames(), 12, c.getColourList()));
+        }
+        public BigCard(Card c, Vector2 e)
+        {
+            loc = e;
+            card = c;
+            boundingBox = new Rectangle((int)e.X, (int)e.Y, Primary.game.cardOutlineBig.Width, Primary.game.cardOutlineBig.Height);
+            subItems.Add(new CardText(new Rectangle(10 + (int)e.X, 170 + (int)e.Y, 176, 118), c.getEffectNames(), 12, c.getColourList()));
+
+
         }
         public override void Draw(SpriteBatch sb)
         {
             Viewport v = Primary.game.GraphicsDevice.Viewport;
-            CardBuilder.DrawCard(card, new Vector2((v.Width - Primary.game.cardOutlineBig.Width) / 2, (v.Height - Primary.game.cardOutlineBig.Height) / 2), true, sb);
+            CardBuilder.DrawCard(card, loc, true, sb);
             foreach (GuiItem g in subItems) g.Draw(sb);
         }
 
         public override void Update()
         {
-            MouseState m = Mouse.GetState();
-            Vector2 mp = new Vector2(m.X, m.Y);
-            if (Clicked(mp) || DeClicked(mp))
-            {
-                foreach (GuiItem g in Primary.game.currentForm.formItems)
-                {
-                    if (g.GetType() == typeof(SmallCard))
-                    {
-                        ((SmallCard)g).drawnBig = false;
-                    }
-                }
-            }
+            foreach (GuiItem g in subItems) g.Update();
+            //if (DeClicked()) ((InGameForm)Primary.game.currentForm).bigCard = null;
+
         }
     }
 }

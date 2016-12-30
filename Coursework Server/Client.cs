@@ -89,6 +89,9 @@ namespace CourseworkServer
             if (obj == null) return false;
             else return userName == ((Client)obj).userName;
         }
+        public static bool operator ==(Client a, Client b) => a.Equals(b);       
+        public static bool operator !=(Client a, Client b) => !(a == b);
+
         public override int GetHashCode()
         {
             return base.GetHashCode();

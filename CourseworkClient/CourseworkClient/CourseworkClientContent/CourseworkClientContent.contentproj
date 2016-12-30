@@ -467,13 +467,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Transcendent C%27tan Shard of the Deceiver.png">
-      <Name>Transcendent C%27tan Shard of the Deceiver</Name>
+    <Compile Include="CardArt\Transcendent Deceiver.png">
+      <Name>Transcendent Deceiver</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Transcendent C%27tan Shard of the Nightbringer.png">
-      <Name>Transcendent C%27tan Shard of the Nightbringer</Name>
+    <Compile Include="CardArt\Transcendent Nightbringer.png">
+      <Name>Transcendent Nightbringer</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -649,8 +649,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Suppress.png">
-      <Name>Suppress</Name>
+    <Compile Include="CardArt\Suppression.png">
+      <Name>Suppression</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -874,6 +874,63 @@
     </Compile>
     <Compile Include="CardArt\Salvage.png">
       <Name>Salvage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cardtextfont.spritefont">
+      <Name>Cardtextfont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="InGamePlayAreaBottom.png">
+      <Name>InGamePlayAreaBottom</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="InGamePlayAreaTop.png">
+      <Name>InGamePlayAreaTop</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SideBar.png">
+      <Name>SideBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AttackButton.png">
+      <Name>AttackButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="DiscardButton.png">
+      <Name>DiscardButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="PlayButton.png">
+      <Name>PlayButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Card Back Temp.png">
+      <Name>Card Back Temp</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Card Back.png">
+      <Name>Card Back</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

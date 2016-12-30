@@ -14,11 +14,9 @@ namespace CourseworkClient.Gui
         public int numLines;
         public int position;
         public int pixelHeight;
-        public SpriteFont font;
         public List<Color> colours;
-        public ScrollableTextPane(SpriteFont f, Rectangle rect, List<string> s, int n, int p, List<Color> c = null)
+        public ScrollableTextPane(Rectangle rect, List<string> s, int n, int p, List<Color> c = null)
         {
-            font = f;
             boundingBox = rect;
             text = s;
             numLines = n;
@@ -26,17 +24,19 @@ namespace CourseworkClient.Gui
             position = s.Count - n;
             if (c == null) colours = fillColourArray(Color.Black, s.Count);
             else colours = c;
-            subItems.Add(new ScrollArrow(new Rectangle(rect.X + rect.Width - Primary.game.greenArrowTexture.Width, rect.Y, Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Up));
-            subItems.Add(new ScrollArrow(new Rectangle(rect.X + rect.Width - Primary.game.greenArrowTexture.Width, rect.Y + rect.Height - Primary.game.greenArrowTexture.Height, Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Down));
+            subItems.Add(new ScrollArrow(new Rectangle(10 + rect.X + rect.Width - (3 * Primary.game.greenArrowTexture.Width / 2), 10 + rect.Y - (Primary.game.greenArrowTexture.Height / 2), Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Up));
+            subItems.Add(new ScrollArrow(new Rectangle(10 + rect.X + rect.Width -  ( 3 * Primary.game.greenArrowTexture.Width / 2), 10 + rect.Y + rect.Height - (3 * Primary.game.greenArrowTexture.Height / 2), Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Down));
         }
         public override void Draw(SpriteBatch sb)
         {
             foreach (GuiItem g in subItems) g.Draw(sb);
             for (int i = position; i < position + numLines; i++)
             {
+
                 if (i >= 0)
                 {
-                    sb.DrawString(font, text[i], new Vector2(boundingBox.X, boundingBox.Y + (i * (pixelHeight + 2))), colours[i]);
+                    
+                    sb.DrawString(Primary.game.mainFont, text[i], new Vector2(boundingBox.X, boundingBox.Y + ((i-position) * (pixelHeight + 2))), colours[i]);
                 }
             }
         }
@@ -52,10 +52,15 @@ namespace CourseworkClient.Gui
             bool[] b = canScroll();
             for (int i = 0; i < 2; i++)
             {
-                if (subItems[i].Clicked(new Vector2(Mouse.GetState().X, Mouse.GetState().Y)) && b[i])
+                if (b[i])
                 {
-                    position += i + ((i % 2) - 1);
+                    ((ScrollArrow)subItems[i]).usable = true;
+                    if (subItems[i].Clicked())
+                    {
+                        position += i + ((i % 2) - 1);
+                    }
                 }
+                else ((ScrollArrow)subItems[i]).usable = false;
             }
 
         }

@@ -39,7 +39,7 @@ namespace CourseworkClient
                 case "DarkGreen":
                     return Color.DarkGreen;
                 case "LightGray":
-                    return Color.LightGray;
+                    return Color.DarkSlateBlue;
                 case "Blue":
                     return Color.Blue;
                 case "LightGreen":

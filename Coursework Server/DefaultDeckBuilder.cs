@@ -20,7 +20,7 @@ namespace CourseworkServer
     {
         public static DeckItem[] ultramarineDefaultDeck =
             {
-            new DeckItem(1, "Captain Titus"),
+            new DeckItem(1, "Cato Sicarius"),
             new DeckItem(1, "Rhino"),
             new DeckItem(1, "Dreadnought"),
             new DeckItem(2, "Terminator Squad"),
@@ -32,7 +32,7 @@ namespace CourseworkServer
             new DeckItem(2, "Tech Jammer"),
             new DeckItem(1, "Ambush"),
             new DeckItem(2, "Repair Pack"),
-            new DeckItem(1, "Propaganda"),
+            new DeckItem(1, "Propoganda"),
             new DeckItem(2, "Industrial Investment"),
             new DeckItem(2, "Power Extraction"),
             new DeckItem(1, "Death in Honour"),

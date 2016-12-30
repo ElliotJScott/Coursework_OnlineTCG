@@ -23,7 +23,7 @@ namespace CourseworkServer
                 s += a + "|";
             }
             s = s.Remove(s.Length - 1);
-            Console.WriteLine(s);
+            //Console.WriteLine(s);
             byte[] b = Server.addProtocolToArray(Server.toByteArray(s), p);
             c.SendData(b);
         }
@@ -41,6 +41,7 @@ namespace CourseworkServer
                             int numRowsAffectedAddAccount = Server.server.dbHandler.DoParameterizedSQLCommand("INSERT INTO Accounts VALUES(@p1, @p2, 1000, 0)", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
                             Console.WriteLine(numRowsAffectedAddAccount + " row(s) affected");
                             DefaultDeckBuilder.AddDefaultDeckToPlayer(usernameAndPasswordHash[0]);
+                            currentItem.sender.SendData(new byte[] { (byte)Protocol.UsernameNotTaken });
                         }
                         else
                         {
@@ -68,7 +69,6 @@ namespace CourseworkServer
                             currentItem.sender.userName = usernameAndPasswordHash[0];
                             currentItem.sender.status = Status.Online;
                             Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerElo, null, currentItem.sender));
-                            currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
                         }
                     }
                     break;
@@ -141,6 +141,7 @@ namespace CourseworkServer
                             }
                         }
                         Console.WriteLine("All data transmitted");
+                        currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
                     }
                     break;
                     #endregion

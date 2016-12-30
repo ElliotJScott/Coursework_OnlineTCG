@@ -37,12 +37,14 @@ namespace CourseworkClient
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        HMACMD5 hasher = new HMACMD5();
         public Random rng = new Random();
         public KeyPressHandler keypresshandler = new KeyPressHandler();
         ScreenRatio ratio;
         public Texture2D loginScreenBackground, mainMenuBackground, inGameBackground;
+        public Texture2D inGamePlayAreaTop, inGamePlayAreaBottom;
         public Texture2D textFieldTexture;
+        public Texture2D sideBar;
+        public Texture2D playButton, attackButton, discardButton;
         public Texture2D title;
         public Texture2D buttonTexture;
         public Texture2D textFieldInfoTab;
@@ -54,7 +56,8 @@ namespace CourseworkClient
         public Texture2D lockMessageBox;
         public Texture2D screenDarkener;
         public Texture2D loadingIcon;
-        public SpriteFont mainFont;
+        public Texture2D cardBack;
+        public SpriteFont mainFont, cardTextFont;
         public static Primary game;
         public Form currentForm;
         public FriendManager friendManager;
@@ -83,7 +86,7 @@ namespace CourseworkClient
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1200;
+            graphics.PreferredBackBufferWidth = 1600;
             Window.Title = "Hearthclone";
 
         }
@@ -106,6 +109,8 @@ namespace CourseworkClient
         }
         protected override void LoadContent()
         {
+            inGamePlayAreaTop = Content.Load<Texture2D>("InGamePlayAreaTop");
+            inGamePlayAreaBottom = Content.Load<Texture2D>("InGamePlayAreaBottom");
             playSpace = Content.Load<Texture2D>("PlaySpace");
             upgradeBigInner = Content.Load<Texture2D>("Upgrade Card Inner Big");
             upgradeSmallInner = Content.Load<Texture2D>("Upgrade Card Inner Small");
@@ -124,6 +129,7 @@ namespace CourseworkClient
             currentForm = new LoginScreenForm();
             spriteBatch = new SpriteBatch(GraphicsDevice);
             mainFont = Content.Load<SpriteFont>("Mainfont");
+            cardTextFont = Content.Load<SpriteFont>("Cardtextfont");
             title = Content.Load<Texture2D>("Title");
             textFieldInfoTab = Content.Load<Texture2D>("InfoTab");
             greenArrowTexture = Content.Load<Texture2D>("Scroll Arrow");
@@ -131,6 +137,11 @@ namespace CourseworkClient
             screenDarkener = Content.Load<Texture2D>("Screen Darkener");
             lockMessageBox = Content.Load<Texture2D>("LockMessageBox");
             loadingIcon = Content.Load<Texture2D>("LoadingIcon");
+            sideBar = Content.Load<Texture2D>("SideBar");
+            playButton = Content.Load<Texture2D>("PlayButton");
+            attackButton = Content.Load<Texture2D>("AttackButton");
+            discardButton = Content.Load<Texture2D>("DiscardButton");
+            cardBack = Content.Load<Texture2D>("Card Back");
         }
 
         protected override void Update(GameTime gameTime)
@@ -139,7 +150,6 @@ namespace CourseworkClient
             base.Update(gameTime);
             keypresshandler.UpdateOldState();
             GuiItem.UpdateOldState();
-            Window.Title = String.Format("{0} : {1}", connected, connectTimer); 
             if (!connected)
             {
                 
@@ -154,7 +164,7 @@ namespace CourseworkClient
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.LightGoldenrodYellow);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
             currentForm.Draw(spriteBatch);
             currentForm.PostDraw(spriteBatch);
@@ -166,13 +176,22 @@ namespace CourseworkClient
 
         internal Texture2D GetCardArt(string name)
         {
-            foreach (CardArtItem c in cardArt)
+            try
             {
-                if (c.cardName == name) return c.art;
+                foreach (CardArtItem c in cardArt)
+                {
+                    if (c.cardName == name) return c.art;
+                }
+            }
+            catch
+            {
+                Thread.Sleep(10);
+                return GetCardArt(name);
             }
             throw new ArgumentException();
         }
 
+        //Do not change this method ever!
         public string ComputeHash(string s)
         {
             int l = 16;
@@ -187,6 +206,7 @@ namespace CourseworkClient
             return o;
 
         }
+
         public ScreenRatio CalculateRatio()
         {
             if ((3d * GraphicsDevice.Viewport.Width) / (4d * GraphicsDevice.Viewport.Height) == 1d)
@@ -231,11 +251,15 @@ namespace CourseworkClient
                 client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);               
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                currentForm.Lock("Error connecting to server.\nCheck your internet connection\nand that your firewall has not\nblocked this application.");
-                connected = false;
-                return;
+                try
+                {
+                    currentForm.Lock("Error connecting to server.\nCheck your internet connection\nand that your firewall has not\nblocked this application.");
+                    connected = false;
+                    return;
+                }
+                catch { }
             }
             try
             {
@@ -293,8 +317,7 @@ namespace CourseworkClient
             List<string> l = s.Split('`').ToList();
             foreach (string x in l)
             {
-                if (x == null || x.Length == 0) ;// l.Remove(x);
-                else HandleData((Protocol)x[0], x.Substring(1));
+                if (x != null && x.Length != 0) HandleData((Protocol)x[0], x.Substring(1));
             }
 
 
@@ -316,9 +339,11 @@ namespace CourseworkClient
             {
                 case Protocol.UsernameTaken:
                     ((CreateAccountForm)currentForm).errorMessageText = "Username taken";
+                    currentForm.Unlock();
                     break;
                 case Protocol.BadCredentials:
                     ((LoginScreenForm)currentForm).errorMessageText = "Username or Password is incorrect";
+                    currentForm.Unlock();
                     break;
                 case Protocol.GoodCredentials:
                     username = ((TextField)(((LoginScreenForm)currentForm).formItems[0])).text;
@@ -328,10 +353,11 @@ namespace CourseworkClient
                     //Add more stuff here later
                     break;
                 case Protocol.LoggedIn:
-                    ((LoginScreenForm)currentForm).errorMessageText = "You are already logged in on another instance.\nTest";
+                    ((LoginScreenForm)currentForm).errorMessageText = "You are already logged in on another instance.";
+                    currentForm.Unlock();
                     break;
                 case Protocol.EnterMatch:
-                    ShowMessage("Entering match");
+                    //ShowMessage("Entering match");
                     currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(Convert.ToInt32(s.Substring(0,1))), s.Substring(1));
                     break;
                 case Protocol.CardData:
@@ -352,6 +378,64 @@ namespace CourseworkClient
                 case Protocol.DataTransmissionTest:
                     Console.WriteLine("{0} : {1}", s.Length, s);
                     break;
+                case Protocol.UsernameNotTaken:
+                    ((CreateAccountForm)currentForm).errorMessageText = "Account created!";
+                    currentForm.Unlock();
+                    break;
+                case Protocol.AttackWithUnit:
+                    ((InGameForm)currentForm).AddAttackingUnitToChain(Convert.ToInt32(s), true);//Add this attacking fellow to the chain
+                    ((InGameForm)currentForm).OfferAttackCounterOptions();
+                    break;
+                case Protocol.DefendWithUnit:
+                    ((InGameForm)currentForm).ResolveChainWithDefender(s, true);//s in the form id
+                    break;
+                case Protocol.DiscardTech:
+                    ((InGameForm)currentForm).DiscardCardFromEnemyHand(s);//s in the form name
+                    ((InGameForm)currentForm).WaitOnEnemySelection();
+                    break;
+                case Protocol.PlayUpgrade:
+                    ((InGameForm)currentForm).AddUpgradeToChain(s, false);//s in the form name
+                    ((InGameForm)currentForm).OfferCardPlayCounters();
+                    break;
+                case Protocol.NoCounter:
+                    ((InGameForm)currentForm).ResolveChain();
+                    break;
+                case Protocol.PlayTech:
+                    ((InGameForm)currentForm).AddTechToChain(s, false);//s in the form name
+                    ((InGameForm)currentForm).OfferCardPlayCounters();
+                    break;
+                case Protocol.PlayUnit:
+                    ((InGameForm)currentForm).AddCardPlayToChain(s);//Add this played fellow to the chain
+                    ((InGameForm)currentForm).OfferCardPlayCounters();
+                    break;
+                case Protocol.ControlUnit:
+                    ((InGameForm)currentForm).MoveUnitToEnemy(s);
+                    break;
+                case Protocol.DiscardFromUpgradeDeck:
+                case Protocol.DiscardFromDeck:
+                    ((InGameForm)currentForm).DiscardCardFromEnemyDeck(s);
+                    break;
+                case Protocol.KillUnit:
+                    ((InGameForm)currentForm).KillUnit(Convert.ToInt32(s));
+                    break;
+                case Protocol.EquipUpgrade:
+                    ((InGameForm)currentForm).AddUpgradeToCard(s, false); //s in the form cardid
+                    break;
+                case Protocol.ReplaceUnit:
+                    ((InGameForm)currentForm).ReplaceUnit(s);//s in the form id (of the card to be replaced). This is for the c'tan and convertible ultramarines
+                    break;
+                case Protocol.ReturnUnit:
+                    ((InGameForm)currentForm).MoveUnitFromEnemy(s); //s in the form id
+                    break;
+                case Protocol.PlayUnitFromDeck:
+                    ((InGameForm)currentForm).PlayUnitFromEnemyDeck(s); //s in the form name
+                    break;
+                case Protocol.NoCardsInDeck:
+                    ((InGameForm)currentForm).cardsInEnemyDeck = false;
+                    break;
+                case Protocol.NoCardsInUpgradeDeck:
+                    ((InGameForm)currentForm).cardsInEnemyUpgradeDeck = false;
+                    break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());
                     ExitGame();
@@ -363,11 +447,11 @@ namespace CourseworkClient
         {
          
             string[] data = s.Split('|');
-            if (data.Length == 5)
+            if (data[3] != "")
             {
-                Card.allCards.Add(new Card(data[0], Convert.ToInt32(data[1]), (Rarity)Convert.ToInt32(data[2]), Convert.ToInt32(data[3]), Convert.ToInt32(data[4])));
+                Card.allCards.Add(new Card(data[0], (CardType)Convert.ToInt32(data[1]), Convert.ToInt32(data[5]), (Rarity)Convert.ToInt32(data[2]), Convert.ToInt32(data[3]), Convert.ToInt32(data[4])));
             }
-            else Card.allCards.Add(new Card(data[0], Convert.ToInt32(data[1]), (Rarity)Convert.ToInt32(data[2])));
+            else Card.allCards.Add(new Card(data[0], (CardType)Convert.ToInt32(data[1]), Convert.ToInt32(data[5]), (Rarity)Convert.ToInt32(data[2])));
         }
         private void AddNewEffect(string s)
         {

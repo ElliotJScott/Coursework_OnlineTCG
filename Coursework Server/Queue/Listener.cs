@@ -8,10 +8,10 @@ namespace CourseworkServer
     {
         public TcpListener listener;
         public event OnConnect userAdded;
-
+        public const int port = 1337;
         public Listener()
         {
-            listener = new TcpListener(IPAddress.Any, 1337);
+            listener = new TcpListener(IPAddress.Any, port);
             listener.Start();
             listener.BeginAcceptTcpClient(AcceptClient, null);
         }

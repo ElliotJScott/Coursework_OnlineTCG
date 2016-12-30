@@ -11,14 +11,14 @@ namespace CourseworkClient.Gui
     {
         public Texture2D background;
         public List<GuiItem> formItems = new List<GuiItem>();
-        bool locked = false;
+        public bool locked = false;
         string lockMessage = "";
-        int bufferAnimTimer = 0;
-        const int numBufferFrames = 8;
+        public int bufferAnimTimer = 0;
+        public const int numBufferFrames = 8;
         public virtual void Update()
         {
             if (!locked) 
-                foreach (GuiItem g in formItems) g.Update();
+                for (int i = 0; i < formItems.Count; i++) formItems[i].Update();
         }
         public virtual void Draw(SpriteBatch sb)
         {
@@ -27,7 +27,7 @@ namespace CourseworkClient.Gui
        
             if (bufferAnimTimer++ >= (numBufferFrames * 10 - 1)) bufferAnimTimer = 0;
         }
-        public virtual void PostDraw(SpriteBatch sb)
+        public void PostDraw(SpriteBatch sb)
         {
 
             if (locked)

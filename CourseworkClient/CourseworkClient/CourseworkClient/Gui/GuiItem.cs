@@ -11,16 +11,16 @@ namespace CourseworkClient
         public List<GuiItem> subItems = new List<GuiItem>();
         public Rectangle boundingBox;
         public Texture2D texture;
-        public bool Clicked(Vector2 mp)
+        public bool Clicked()
         {
             MouseState newState = Mouse.GetState();
-            bool b = new Rectangle((int)mp.X, (int)mp.Y, 1, 1).Intersects(boundingBox) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
+            bool b = new Rectangle(newState.X, newState.Y, 1, 1).Intersects(boundingBox) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
             return b;
         }
-        public bool DeClicked(Vector2 mp)
+        public bool DeClicked()
         {
             MouseState newState = Mouse.GetState();
-            bool b = (!(new Rectangle((int)mp.X, (int)mp.Y, 1, 1).Intersects(boundingBox))) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
+            bool b = (!(new Rectangle(newState.X, newState.Y, 1, 1).Intersects(boundingBox))) && newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released;
             return b;
         }
         public static void UpdateOldState()

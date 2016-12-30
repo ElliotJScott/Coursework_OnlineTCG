@@ -19,24 +19,25 @@ namespace CourseworkClient.Gui
         public Button() { }
         public string buttonText;
         public abstract void OnPress();
-        bool previouslyClicked = false;
+        public bool previouslyClicked = false;
         public override void Update()
         {
             MouseState currentState = Mouse.GetState();
-            if (Clicked(new Vector2(currentState.X, currentState.Y)))
+            if (Clicked())
             {
                 OnPress();
                 previouslyClicked = true;
             }
             else if (currentState.LeftButton == ButtonState.Released && oldState.LeftButton == ButtonState.Pressed && previouslyClicked) previouslyClicked = false;
         }
-        
+
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(texture == null?Primary.game.buttonTexture : texture, boundingBox, previouslyClicked? Color.Orange : Color.White);
-            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), previouslyClicked? Color.White : Color.Black);
+            sb.Draw(texture == null ? Primary.game.buttonTexture : texture, boundingBox, previouslyClicked ? Color.Orange : Color.White);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), previouslyClicked ? Color.White : Color.Black);
         }
     }
+
     class FormChangeButton : Button
     {
         FormChangeButtonTypes type;
@@ -44,10 +45,10 @@ namespace CourseworkClient.Gui
         {
             type = f;
             texture = Primary.game.buttonTexture;
-            buttonText = text;            
+            buttonText = text;
             boundingBox = rect;
         }
-        
+
 
         public override void OnPress()
         {
@@ -80,11 +81,13 @@ namespace CourseworkClient.Gui
                 ((CreateAccountForm)Primary.game.currentForm).errorMessageText = "";
                 string stringToWrite = ((TextField)((CreateAccountForm)Primary.game.currentForm).formItems[0]).text + "|" + Primary.game.ComputeHash(((TextField)((CreateAccountForm)Primary.game.currentForm).formItems[1]).text);
                 Primary.game.WriteDataToStream(Protocol.CreateAccount, stringToWrite);
+                Primary.game.currentForm.Lock("Checking username availability");
             }
 
             //throw new NotImplementedException();
         }
     }
+
     class AddToQueueButton : FormChangeButton
     {
         int queueID;
@@ -99,6 +102,7 @@ namespace CourseworkClient.Gui
             Primary.game.currentForm = FormBuilder.BuildNewForm(FormChangeButtonTypes.QueueSelectToMainMenu);
         }
     }
+
     class LogInButton : Button
     {
         public LogInButton(Rectangle rect, string text) : base(rect, text) { }
@@ -115,8 +119,10 @@ namespace CourseworkClient.Gui
              ((LoginScreenForm)Primary.game.currentForm).errorMessageText = "";
             string stringToWrite = ((TextField)((LoginScreenForm)Primary.game.currentForm).formItems[0]).text + "|" + Primary.game.ComputeHash(((TextField)((LoginScreenForm)Primary.game.currentForm).formItems[1]).text);
             Primary.game.WriteDataToStream(Protocol.LogIn, stringToWrite);
+            Primary.game.currentForm.Lock("Checking credentials");
         }
     }
+
     class ExitButton : Button
     {
         public ExitButton(Rectangle rect)
@@ -129,6 +135,7 @@ namespace CourseworkClient.Gui
             Primary.game.Exit();
         }
     }
+
     class SendButton : Button
     {
         public SendButton(Rectangle rect)
@@ -141,6 +148,7 @@ namespace CourseworkClient.Gui
             System.Windows.Forms.MessageBox.Show("Not implemented yet!");
         }
     }
+
     class AddFriendButton : Button
     {
         public AddFriendButton(Rectangle rect)
@@ -151,6 +159,101 @@ namespace CourseworkClient.Gui
         public override void OnPress()
         {
             System.Windows.Forms.MessageBox.Show("Not implemented yet!");
+        }
+    }
+
+    abstract class BigCardActionButton : Button
+    {
+        public bool canBePressed;
+
+        public BigCardActionButton(Rectangle r, Texture2D t)
+        {
+            buttonText = "";
+            texture = t;
+            boundingBox = r;
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            Color c;
+            if (canBePressed)
+                c = previouslyClicked ? Color.Orange : Color.White;
+            else c = Color.Black;
+            sb.Draw(texture == null ? Primary.game.buttonTexture : texture, boundingBox, c);
+        }
+    }
+
+    class BCPlayButton : BigCardActionButton
+    {
+        public BCPlayButton(Rectangle r, Texture2D t) : base(r, t) { }
+        public override void OnPress()
+        {
+            if (canBePressed)
+            {
+               
+                BigCard bigcard = ((InGameForm)Primary.game.currentForm).bigCard;
+                Card card = bigcard.card;
+                ((InGameForm)Primary.game.currentForm).PlaySelectedCard();
+                ((InGameForm)Primary.game.currentForm).bigCard = null;
+            }
+        }
+    }
+
+    class BCDiscardButton : BigCardActionButton
+    {
+        public BCDiscardButton(Rectangle r, Texture2D t) : base(r, t) { }
+        public override void OnPress()
+        {
+            if (canBePressed)
+            {
+                BigCard bigcard = ((InGameForm)Primary.game.currentForm).bigCard;
+                Card card = bigcard.card;
+                ((InGameForm)Primary.game.currentForm).DiscardSelectedCard();
+                ((InGameForm)Primary.game.currentForm).bigCard = null;
+            }
+        }
+    }
+
+    class BCAttackButton : BigCardActionButton
+    {
+        public BCAttackButton(Rectangle r, Texture2D t) : base(r, t) { }
+        public override void OnPress()
+        {
+            if (canBePressed)
+            {
+                BigCard bigcard = ((InGameForm)Primary.game.currentForm).bigCard;
+                Card card = bigcard.card;
+            }
+        }
+    }
+    class IGSelectButton : BigCardActionButton
+    {
+        Selection[] selection;
+        public IGSelectButton(Rectangle r, Selection[] s) : base(r, Primary.game.buttonTexture)
+        {
+            buttonText = "Counter";
+            selection = s;
+        }
+        public IGSelectButton(Rectangle r) : base(r, Primary.game.buttonTexture)
+        {
+            buttonText = "Defend";
+            selection = new Selection[] { new Selection(1, true, SelectionCondition.alliedUntappedUnit)};
+
+        }
+        public override void OnPress()
+        {
+            Primary.game.currentForm = new SelectionForm((InGameForm)Primary.game.currentForm, selection);
+            
+        }
+    }
+    class IGCancelButton : Button
+    {
+        public IGCancelButton(Rectangle r) : base(r, "Make no selection") { }
+
+        public override void OnPress()
+        {
+            ((InGameForm)Primary.game.currentForm).ResolveChain();
+            Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter});
         }
     }
 }

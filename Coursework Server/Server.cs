@@ -82,9 +82,7 @@ namespace CourseworkServer
                     {
                         if (server.connectedClients[j].status == Status.InQueue)
                         {
-                            int rangeOne = GetRangeFromTime(server.connectedClients[i].queuetime);
-                            int rangeTwo = GetRangeFromTime(server.connectedClients[j].queuetime);
-                            int range = rangeOne > rangeTwo ? rangeTwo : rangeOne;
+                            int range = Math.Min(GetRangeFromTime(server.connectedClients[i].queuetime), GetRangeFromTime(server.connectedClients[j].queuetime));
                             if (Math.Abs(server.connectedClients[i].elo - server.connectedClients[j].elo) <= range)
                             {
                                 CreateMatch(server.connectedClients[i], server.connectedClients[j]);
@@ -237,7 +235,6 @@ namespace CourseworkServer
             }
             string s = new string(chars);
             Console.WriteLine(s);
-
             switch (p)
             {
                 case Protocol.CreateAccount:
@@ -252,9 +249,37 @@ namespace CourseworkServer
                 case Protocol.AddToQueue:
                     queue.Enqueue(new ActionItem(Operation.AddToQueue, s, sender));
                     break;
+                case Protocol.ControlUnit:
+                case Protocol.DiscardFromDeck:
+                case Protocol.DiscardFromUpgradeDeck:
+                case Protocol.KillUnit:
+                case Protocol.NoCardsInDeck:
+                case Protocol.NoCardsInUpgradeDeck:
+                case Protocol.PlayTech:
+                case Protocol.PlayUnitFromDeck:
+                case Protocol.PlayUpgrade:
+                case Protocol.ReplaceUnit:
+                case Protocol.ReturnUnit:
+                case Protocol.PlayUnit:
+                case Protocol.DiscardTech:
+                case Protocol.EquipUpgrade:
+                case Protocol.AttackWithUnit:
+                case Protocol.DefendWithUnit:
+                case Protocol.NoCounter:
+                case Protocol.EndTurn:
+                    GetOpponent(sender).SendData(data);
+                    break;
             }
         }
-
+        private Client GetOpponent(Client c)
+        {
+            foreach (Match m in currentMatches)
+            {
+                if (m.players[0] == c) return m.players[1];
+                else if (m.players[1] == c) return m.players[0];
+            }
+            throw new ArgumentException();
+        }
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
             byte[] result;
