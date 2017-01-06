@@ -47,7 +47,6 @@ C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Course
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Scroll Arrow.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Grayed Out Scroll Arrow.xnb
-C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\CourseworkClient.csprojResolveAssemblyReference.cache
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Effect Description Box.xnb
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Big.xnb
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Outline Small.xnb
@@ -222,3 +221,4 @@ C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Course
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Transcendent Nightbringer.xnb
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Back Temp.xnb
 C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Card Back.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\obj\x86\Debug\CourseworkClient.csprojResolveAssemblyReference.cache

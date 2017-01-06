@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CourseworkClient.Gui
 {
-    enum Function
+    enum SmallCardUse
     {
         InPlay,
         SelectorScreen,
@@ -16,7 +16,7 @@ namespace CourseworkClient.Gui
     }
     class SmallCard : GuiItem
     {
-        Function func;
+        SmallCardUse func;
         public Card card;
         public bool tapped;
         public bool drawnBig;
@@ -25,7 +25,7 @@ namespace CourseworkClient.Gui
         
         public SmallCard(Card c, Vector2 l)
         {
-            func = Function.InPlay;
+            func = SmallCardUse.InPlay;
             tapped = false;
             wasDrawnBig = false;
             card = c;
@@ -34,7 +34,7 @@ namespace CourseworkClient.Gui
         }
         public SmallCard(Card c, int ID, bool tap)
         {
-            func = Function.SelectorScreen;
+            func = SmallCardUse.SelectorScreen;
             wasDrawnBig = false;
             card = c;
             drawnBig = false;
@@ -50,16 +50,20 @@ namespace CourseworkClient.Gui
             boundingBox.X = (int)v.X;
             boundingBox.Y = (int)v.Y;
         }
-        public override void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, Orientation o)
         {
             if (!drawnBig)
             {
-                CardBuilder.DrawCard(card, new Vector2(boundingBox.X, boundingBox.Y), false, sb);
+                CardBuilder.DrawCard(card, new Vector2(boundingBox.X, boundingBox.Y), false, sb, o);
             }
             else
             {
-                Console.Write("e");
+                //Console.Write("e");
             }
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            Draw(sb, Orientation.Up);
         }
         public void AddEffect(Effect e)
         {
@@ -115,7 +119,7 @@ namespace CourseworkClient.Gui
         {
             if (ReferenceEquals(a, b)) return true;
             else if (a.Equals(null) || b.Equals(null)) return false;
-            else return a.id == b.id;
+            else return a.id == b.id && a.card.name == b.card.name && a.boundingBox == b.boundingBox;
         }
         public static bool operator !=(SmallCard a, SmallCard b) => !(a == b);
         public override bool Equals(object obj)
@@ -127,6 +131,10 @@ namespace CourseworkClient.Gui
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return string.Format("SmallCard[Card : {0} | Tapped : {1} | DrawnBig : {2}", card, tapped, drawnBig);
         }
     }
 }

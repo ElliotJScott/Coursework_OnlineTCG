@@ -19,7 +19,6 @@ Content\InGameBackground16x9.xnb
 Content\InGameBackground4x3.xnb
 Content\16x9 Background.xnb
 Content\4x3 Background.xnb
-Content\Mainfont.xnb
 Content\LockMessageBox.xnb
 Content\Screen Darkener.xnb
 Content\LoadingIcon.xnb
@@ -39,6 +38,7 @@ Content\CardArt\Chaos Dreadnought.xnb
 Content\CardArt\Chaos Land Raider.xnb
 Content\CardArt\Chaos Rhino.xnb
 Content\CardArt\Chaos Space Marines.xnb
+Content\CardArt\Chaos Tactical Squad.xnb
 Content\CardArt\Chaos Terminator Squad.xnb
 Content\CardArt\Daemon Prince of Khorne.xnb
 Content\CardArt\Daemon Prince of Nurgle.xnb
@@ -65,6 +65,7 @@ Content\CardArt\Imotekh the Stormlord.xnb
 Content\CardArt\Land Raider.xnb
 Content\CardArt\Marneus Calgar.xnb
 Content\CardArt\Mawloc.xnb
+Content\CardArt\Monolith.xnb
 Content\CardArt\Necron Warriors.xnb
 Content\CardArt\Ravener Brood.xnb
 Content\CardArt\Rhino.xnb
@@ -77,6 +78,9 @@ Content\CardArt\Termagant Brood.xnb
 Content\CardArt\Terminator Squad.xnb
 Content\CardArt\Tesseract Vault.xnb
 Content\CardArt\The Swarmlord.xnb
+Content\CardArt\Transcendent Deceiver.xnb
+Content\CardArt\Transcendent Nightbringer.xnb
+Content\CardArt\Triarch Praetorians.xnb
 Content\CardArt\Triarch Stalker.xnb
 Content\CardArt\Trygon.xnb
 Content\CardArt\Typhus the Traveler.xnb
@@ -86,9 +90,6 @@ Content\CardArt\Vyper Squadron.xnb
 Content\CardArt\War Walker Squadron.xnb
 Content\CardArt\Wraithknight.xnb
 Content\CardArt\Wraithlord.xnb
-Content\CardArt\Chaos Tactical Squad.xnb
-Content\CardArt\Monolith.xnb
-Content\CardArt\Triarch Praetorians.xnb
 Content\CardArt\Zoanthropes.xnb
 Content\CardArt\Ambush.xnb
 Content\CardArt\Anti-Vehicle Artillery.xnb
@@ -100,6 +101,7 @@ Content\CardArt\Death in Honour.xnb
 Content\CardArt\Demilitarisation.xnb
 Content\CardArt\EMP.xnb
 Content\CardArt\Equivalent Exchange.xnb
+Content\CardArt\Eureka!.xnb
 Content\CardArt\Industrial Investment.xnb
 Content\CardArt\Mind Control.xnb
 Content\CardArt\Pot of Greed.xnb
@@ -112,8 +114,10 @@ Content\CardArt\Repair Vehicle.xnb
 Content\CardArt\Sabotage.xnb
 Content\CardArt\Sacrifice.xnb
 Content\CardArt\Stimpack.xnb
+Content\CardArt\Suppression.xnb
 Content\CardArt\Tech Jammer.xnb
 Content\CardArt\The Purge.xnb
+Content\CardArt\Transmutation.xnb
 Content\CardArt\Two-Pronged Attack.xnb
 Content\CardArt\Vase of Gluttony.xnb
 Content\CardArt\Anti-Psyker Squadron.xnb
@@ -150,21 +154,17 @@ Content\CardArt\Squadron Firepower.xnb
 Content\CardArt\Squadron Mobility.xnb
 Content\CardArt\Terminator Armour.xnb
 Content\CardArt\Vehicle Camouflage.xnb
-Content\CardArt\Eureka!.xnb
-Content\CardArt\Transmutation.xnb
 Content\CardArt\Recharge.xnb
 Content\CardArt\Heavy Venom Cannon.xnb
 Content\CardArt\Power Extraction.xnb
 Content\CardArt\Salvage.xnb
-Content\Cardtextfont.xnb
-Content\CardArt\Suppression.xnb
 Content\InGamePlayAreaBottom.xnb
 Content\InGamePlayAreaTop.xnb
 Content\SideBar.xnb
 Content\AttackButton.xnb
 Content\DiscardButton.xnb
 Content\PlayButton.xnb
-Content\CardArt\Transcendent Deceiver.xnb
-Content\CardArt\Transcendent Nightbringer.xnb
 Content\Card Back Temp.xnb
 Content\Card Back.xnb
+Content\Mainfont.xnb
+Content\Cardtextfont.xnb

@@ -61,14 +61,17 @@ namespace CourseworkClient
                 else
                 {
                     int index = GetIndexOfTimer(key);
-                    timers[index]++;
-                    if ((int)timers[index] > timerDelay && initstring.Length < maxLength)
+                    if (index >= 0)
                     {
-                        if (key == Keys.Back)
+                        timers[index]++;
+                        if ((int)timers[index] > timerDelay && initstring.Length < maxLength)
                         {
-                            if (initstring.Length > 0) initstring = initstring.Substring(0, initstring.Length - 1);
+                            if (key == Keys.Back)
+                            {
+                                if (initstring.Length > 0) initstring = initstring.Substring(0, initstring.Length - 1);
+                            }
+                            else initstring += OnKeyDownType(key, shift);
                         }
-                        else initstring += OnKeyDownType(key, shift);
                     }
                 }
             }
@@ -77,7 +80,10 @@ namespace CourseworkClient
                 if (!newKeys.Contains(key))
                 {
                     int index = GetIndexOfTimer(key);
-                    timers.RemoveAt(index);
+                    if (index >= 0)
+                    {
+                        timers.RemoveAt(index);
+                    }
                 }
             }
             return initstring;

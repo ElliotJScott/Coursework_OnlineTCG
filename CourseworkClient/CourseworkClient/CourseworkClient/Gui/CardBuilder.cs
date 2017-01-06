@@ -13,7 +13,7 @@ namespace CourseworkClient.Gui
         const int cardArtDispY = 52;
         const int maxNamePixelWidth = 140;
         const int maxCharsPerNameLine = 16;
-        public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb) //Note this doesn't include the inner text which only applies to the big cards
+        public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, Orientation orientation) //Note this doesn't include the inner text which only applies to the big cards
         {
             #region Inner and Outer Texture Setting
             Texture2D innerTexture = null;
@@ -52,10 +52,14 @@ namespace CourseworkClient.Gui
                 }
             }
             #endregion
-            sb.Draw(innerTexture, new Rectangle((int)pos.X, (int)pos.Y, innerTexture.Width, innerTexture.Height), Color.White);
+            float rotation = ((float)Math.PI / 2) * (float)(orientation);
+            Vector2 cardCentre = new Vector2(0, 0);
+            sb.Draw(innerTexture, new Rectangle((int)pos.X, (int)pos.Y, innerTexture.Width, innerTexture.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
             int disp = big ? 13 : 6;
             Texture2D cardArt = Primary.game.GetCardArt(c.name);
-            sb.Draw(cardArt, new Rectangle(big ? (int)pos.X + cardArtDispX : (int)pos.X + (cardArtDispX / 2), big ? (int)pos.Y + cardArtDispY : (int)pos.Y + (cardArtDispY / 2), big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), Color.White);
+            int artX = big ? (int)pos.X + cardArtDispX : (int)pos.X + (cardArtDispX / 2);
+            int artY = big ? (int)pos.Y + cardArtDispY : (int)pos.Y + (cardArtDispY / 2);
+            sb.Draw(cardArt, new Rectangle(artX, artY, big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
             if (big)
             {
                 if (c.name.Length > maxCharsPerNameLine)
@@ -79,7 +83,7 @@ namespace CourseworkClient.Gui
                 if (c.type == 0)
                     sb.DrawString(Primary.game.mainFont, c.attack + "/" + c.health, new Vector2(pos.X + (cardOutline.Width / 2) - 20, pos.Y + cardOutline.Height - 40), Color.Black);
             }
-            sb.Draw(cardOutline, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), Color.White);
+            sb.Draw(cardOutline, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
         }
         static float CalculateScale(string str, SpriteFont font, int width, int height = int.MaxValue, float max = 30f)
         {

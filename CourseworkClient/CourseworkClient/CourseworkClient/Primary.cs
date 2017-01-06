@@ -29,6 +29,7 @@ namespace CourseworkClient
         public string cardName;
         public CardArtItem(Texture2D tex, string n)
         {
+            Primary.Log("Creating CardArtItem " + n + " | " + tex);
             art = tex;
             cardName = n;
         }
@@ -77,12 +78,14 @@ namespace CourseworkClient
 
         static void Main(string[] args)
         {
+            Log("Starting program");
             game = new Primary();
             game.Run();
         }
 
         public Primary()
         {
+            Log("Creating instance of game");
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferHeight = 900;
@@ -93,7 +96,7 @@ namespace CourseworkClient
 
         protected override void Initialize()
         {
-
+            Log("Initialising the game");
             client = new TcpClient();
             client.NoDelay = true;
             readBuffer = new byte[bufferSize];
@@ -106,9 +109,11 @@ namespace CourseworkClient
             new Thread(new ThreadStart(ConnectClient)).Start();
             //friendManager = new FriendManager();
             base.Initialize();
+            Log("Finished initialising");
         }
         protected override void LoadContent()
         {
+            Log("Beginning loading content");
             inGamePlayAreaTop = Content.Load<Texture2D>("InGamePlayAreaTop");
             inGamePlayAreaBottom = Content.Load<Texture2D>("InGamePlayAreaBottom");
             playSpace = Content.Load<Texture2D>("PlaySpace");
@@ -142,6 +147,7 @@ namespace CourseworkClient
             attackButton = Content.Load<Texture2D>("AttackButton");
             discardButton = Content.Load<Texture2D>("DiscardButton");
             cardBack = Content.Load<Texture2D>("Card Back");
+            Log("Finished loading content");
         }
 
         protected override void Update(GameTime gameTime)
@@ -152,7 +158,7 @@ namespace CourseworkClient
             GuiItem.UpdateOldState();
             if (!connected)
             {
-                
+
                 if (connectTimer++ >= 100)
                 {
 
@@ -171,7 +177,6 @@ namespace CourseworkClient
             spriteBatch.End();
 
             base.Draw(gameTime);
-
         }
 
         internal Texture2D GetCardArt(string name)
@@ -183,17 +188,21 @@ namespace CourseworkClient
                     if (c.cardName == name) return c.art;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Log(e);
+                Log("Error loading card art. The cardArt list hasn't been initialised yet. Waiting then trying again.");
                 Thread.Sleep(10);
                 return GetCardArt(name);
             }
+            Log("Card art not found. This is not good.");
             throw new ArgumentException();
         }
 
         //Do not change this method ever!
         public string ComputeHash(string s)
         {
+            Log("Calculating password hash");
             int l = 16;
             char[] f = s.ToCharArray();
             string o = "";
@@ -203,12 +212,14 @@ namespace CourseworkClient
 
                 o += ((r ^ i) % 16).ToString("X"); ;
             }
+            Log("Hash calculated");
             return o;
 
         }
 
         public ScreenRatio CalculateRatio()
         {
+            Log("Calculating screen ration");
             if ((3d * GraphicsDevice.Viewport.Width) / (4d * GraphicsDevice.Viewport.Height) == 1d)
             {
                 return ScreenRatio.FourByThree;
@@ -247,22 +258,29 @@ namespace CourseworkClient
         {
             try
             {
+                Log("Attempting to connect client");
                 client.Connect(ip, port);
-                client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);               
+                client.GetStream().BeginRead(readBuffer, 0, bufferSize, StreamReceived, null);
 
             }
             catch (Exception)
             {
+                Log("Failed to connect to server");
                 try
                 {
+                    Log("Locking form");
                     currentForm.Lock("Error connecting to server.\nCheck your internet connection\nand that your firewall has not\nblocked this application.");
                     connected = false;
                     return;
                 }
-                catch { }
+                catch
+                {
+                    Log("Failed to lock form");
+                }
             }
             try
             {
+                Log("Removing error message from form");
                 if (currentForm.GetType() == typeof(CreateAccountForm))
                 {
                     ((CreateAccountForm)currentForm).errorMessageText = "";
@@ -272,16 +290,21 @@ namespace CourseworkClient
                     ((LoginScreenForm)currentForm).errorMessageText = "";
                 }
             }
-            catch (NullReferenceException) { }
+            catch (NullReferenceException)
+            {
+                Log("Form not loaded yet");
+            }
             connected = true;
             try
             {
+                Log("Unlocking form");
                 currentForm.Unlock();
             }
             catch { }
         }
         private void StreamReceived(IAsyncResult ar)
         {
+            Log("Data received");
             int bytesRead = 0;
             try
             {
@@ -289,6 +312,7 @@ namespace CourseworkClient
             }
             catch
             {
+                Log("Bad data received");
             }
             byte[] data = new byte[bytesRead];
             for (int i = 0; i < bytesRead; i++)
@@ -302,11 +326,13 @@ namespace CourseworkClient
             }
             catch
             {
+                Log("Connecting terminated with server");
                 connected = false;
             }
         }
         public void ExitGame()
         {
+            Log("A fatal error has been encountered. Exiting now");
             System.Windows.Forms.MessageBox.Show("Game has encountered issue. Closing now");
             Environment.Exit(0);
         }
@@ -335,6 +361,7 @@ namespace CourseworkClient
         private void HandleData(Protocol p, string s)
         {
             //Console.WriteLine("{0} : {1}", p, s);
+            if ((byte)p > (byte)Protocol.UsernameNotTaken) Log("Handling received data : " + p + " | " + s);
             switch (p)
             {
                 case Protocol.UsernameTaken:
@@ -353,12 +380,19 @@ namespace CourseworkClient
                     //Add more stuff here later
                     break;
                 case Protocol.LoggedIn:
-                    ((LoginScreenForm)currentForm).errorMessageText = "You are already logged in on another instance.";
-                    currentForm.Unlock();
+                    try
+                    {
+                        ((LoginScreenForm)currentForm).errorMessageText = "You are already logged in on another instance.";
+                        currentForm.Unlock();
+                    }
+                    catch
+                    {
+                        currentForm = new LoginScreenForm();
+                    }
                     break;
                 case Protocol.EnterMatch:
                     //ShowMessage("Entering match");
-                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(Convert.ToInt32(s.Substring(0,1))), s.Substring(1));
+                    currentForm = new InGameForm(Deck.decks[selectedDeckNum], Convert.ToBoolean(Convert.ToInt32(s.Substring(0, 1))), s.Substring(1));
                     break;
                 case Protocol.CardData:
                     AddNewCard(s);
@@ -387,7 +421,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).OfferAttackCounterOptions();
                     break;
                 case Protocol.DefendWithUnit:
-                    ((InGameForm)currentForm).ResolveChainWithDefender(s, true);//s in the form id
+                    ((InGameForm)currentForm).ResolveChainWithDefender(Convert.ToInt32(s), true);//s in the form id
                     break;
                 case Protocol.DiscardTech:
                     ((InGameForm)currentForm).DiscardCardFromEnemyHand(s);//s in the form name
@@ -405,8 +439,8 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).OfferCardPlayCounters();
                     break;
                 case Protocol.PlayUnit:
-                    ((InGameForm)currentForm).AddCardPlayToChain(s);//Add this played fellow to the chain
                     ((InGameForm)currentForm).OfferCardPlayCounters();
+                    ((InGameForm)currentForm).AddUnitPlayToChain(s);//Add this played fellow to the chain
                     break;
                 case Protocol.ControlUnit:
                     ((InGameForm)currentForm).MoveUnitToEnemy(s);
@@ -419,10 +453,10 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).KillUnit(Convert.ToInt32(s));
                     break;
                 case Protocol.EquipUpgrade:
-                    ((InGameForm)currentForm).AddUpgradeToCard(s, false); //s in the form cardid
+                    ((InGameForm)currentForm).AddUpgradeToCard(Convert.ToInt32(s), false); //s in the form cardid
                     break;
                 case Protocol.ReplaceUnit:
-                    ((InGameForm)currentForm).ReplaceUnit(s);//s in the form id (of the card to be replaced). This is for the c'tan and convertible ultramarines
+                    ((InGameForm)currentForm).ReplaceUnit(Convert.ToInt32(s));//s in the form id (of the card to be replaced). This is for the c'tan and convertible ultramarines
                     break;
                 case Protocol.ReturnUnit:
                     ((InGameForm)currentForm).MoveUnitFromEnemy(s); //s in the form id
@@ -436,6 +470,24 @@ namespace CourseworkClient
                 case Protocol.NoCardsInUpgradeDeck:
                     ((InGameForm)currentForm).cardsInEnemyUpgradeDeck = false;
                     break;
+                case Protocol.AddCardToEnemyHand:
+                    ((InGameForm)currentForm).numEnemyCardsInHand++;
+                    break;
+                case Protocol.BeginSelection:
+                    ((InGameForm)currentForm).WaitOnEnemySelection();
+                    break;
+                case Protocol.EndSelection:
+                    currentForm.Unlock();
+                    try
+                    {
+                        ((InGameForm)currentForm).chain.RemoveLast();
+                        ((InGameForm)currentForm).ResolveChain();
+                    }
+                    catch { }
+                    break;
+                case Protocol.EndTurn:
+                    ((InGameForm)currentForm).StartTurn();
+                    break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());
                     ExitGame();
@@ -445,7 +497,6 @@ namespace CourseworkClient
         }
         private void AddNewCard(string s)
         {
-         
             string[] data = s.Split('|');
             if (data[3] != "")
             {
@@ -480,24 +531,25 @@ namespace CourseworkClient
             Texture2D art;
             try
             {
-                
                 art = Content.Load<Texture2D>("CardArt\\" + cardName.Replace(':', '_'));
             }
             catch
             {
-                Console.WriteLine("Art not found for {0}. Using blank art instead.", cardName);
+                Log(string.Format("Art not found for {0}. Using blank art instead.", cardName));
                 art = Content.Load<Texture2D>("Blank Card Art");
             }
             cardArt.Add(new CardArtItem(art, cardName));
         }
         public static void ShowMessage(string s)
         {
+            Log("Displaying message");
             System.Windows.Forms.MessageBox.Show(s);
         }
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
             lock (ms)
             {
+                Log("Getting data from memory stream");
                 byte[] result;
                 int bytesWritten = (int)ms.Position;
                 result = new byte[bytesWritten];
@@ -513,6 +565,7 @@ namespace CourseworkClient
         {
             try
             {
+                Log("Sending Data length " + b.Length);
                 lock (client.GetStream())
                 {
                     client.GetStream().BeginWrite(b, 0, b.Length, null, null);
@@ -520,33 +573,52 @@ namespace CourseworkClient
             }
             catch
             {
-                ////Console.WriteLine("Error sending data");
+                Log("Failed to send data length " + b.Length);
             }
         }
         public void WriteDataToStream(Protocol p)
         {
 
-
-            writeMemoryStream.Position = 0;
-            binaryWriter.Write((byte)p);
-            SendData(GetDataFromMemoryStream(writeMemoryStream));
+            Log(string.Format("Sending data Protocol : {0}", p));
+            SendData(new byte[] { (byte)p});
 
 
 
         }
-        public void WriteDataToStream(Protocol p, params string[] o)
+        public void WriteDataToStream(Protocol p, string o)
         {
-            writeMemoryStream.Position = 0;
-            binaryWriter.Write((byte)p);
-            foreach (string e in o)
+            Log(string.Format("Sending data Protocol : {0} Element : {1}", p, o));
+            byte[] data = addProtocolToArray(toByteArray(o), p);
+            SendData(data);
+
+
+        }
+        public static void Log(object s)
+        {
+            DateTime now = DateTime.Now;
+            string f = string.Format("[{0}:{1}:{2}:{3}] {4}", now.Hour, now.Minute, now.Second, now.Millisecond, s);
+            Thread t = new Thread(() => Console.WriteLine(f));
+            t.Start();
+        }
+        public static byte[] addProtocolToArray(byte[] b, Protocol p)
+        {
+            byte[] e = new byte[b.Length + 1];
+            e[0] = (byte)p;
+            for (int i = 0; i < b.Length; i++)
             {
-                binaryWriter.Write(e);
-                SendData(GetDataFromMemoryStream(writeMemoryStream));
-                writeMemoryStream.Position = 0;
-                binaryWriter.Write((byte)p);
-
+                e[i + 1] = b[i];
             }
-
+            return e;
+        }
+        public static byte[] toByteArray(string s)
+        {
+            char[] c = s.ToCharArray();
+            byte[] b = new byte[c.Length];
+            for (int i = 0; i < c.Length; i++)
+            {
+                b[i] = (byte)c[i];
+            }
+            return b;
         }
     }
 }

@@ -74,14 +74,22 @@ namespace CourseworkServer
 
         public void SendData(byte[] b)
         {
-            lock (tcpClient.GetStream())
+            try
             {
-                byte[] a = new byte[b.Length + 2];
-                a[0] = transmissionDemarcator;
-                a[a.Length - 1] = transmissionDemarcator;
-                for (int i = 1; i < a.Length - 1; i++) a[i] = b[i - 1];
-               
-                tcpClient.GetStream().BeginWrite(a, 0, a.Length, null, null);
+                lock (tcpClient.GetStream())
+                {
+                    byte[] a = new byte[b.Length + 2];
+                    a[0] = transmissionDemarcator;
+                    a[a.Length - 1] = transmissionDemarcator;
+                    for (int i = 1; i < a.Length - 1; i++) a[i] = b[i - 1];
+
+                    tcpClient.GetStream().BeginWrite(a, 0, a.Length, null, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                SendData(b);
             }
         }
         public override bool Equals(object obj)

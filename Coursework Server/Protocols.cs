@@ -38,5 +38,8 @@
         NoCardsInUpgradeDeck,
         DiscardFromDeck,
         DiscardFromUpgradeDeck,
+        AddCardToEnemyHand,
+        BeginSelection,
+        EndSelection,
     }
 }

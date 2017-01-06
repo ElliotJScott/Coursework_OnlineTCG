@@ -8,11 +8,11 @@ namespace CourseworkServer
 {
     class Match
     {
-        public Client[] players;
+        public string[] players;
         int gameTime;
         public Match(Client player1, Client player2)
         {
-            players = new Client[] { player1, player2 };
+            players = new string[] { player1.userName, player2.userName };
             gameTime = 0;
             
         }
