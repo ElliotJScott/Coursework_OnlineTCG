@@ -13,7 +13,7 @@ namespace CourseworkClient.Gui
         const int cardArtDispY = 52;
         const int maxNamePixelWidth = 140;
         const int maxCharsPerNameLine = 16;
-        public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, Orientation orientation) //Note this doesn't include the inner text which only applies to the big cards
+        public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, Orientation orientation) //Note this doesn't include the text which only applies to the big cards
         {
             #region Inner and Outer Texture Setting
             Texture2D innerTexture = null;

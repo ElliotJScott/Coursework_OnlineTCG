@@ -46,7 +46,20 @@ namespace CourseworkClient.Gui
         }
         public override string ToString()
         {
-            return string.Format("ChainItem [Card : {0} | State : {1} ]", card, state);
+            string username;
+            if (playerPlayed)
+            {
+                username = Primary.game.username;
+            }
+            else
+            {
+                username = ((InGameForm)Primary.game.currentForm).enemyUsername;
+            }
+            if (card.id > 0)
+            {
+                return string.Format("{0} attacked with {1}", username, card.card.name);
+            }
+            else return string.Format("{0} played {1}", username, card.card.name);
         }
     }
 
@@ -182,7 +195,7 @@ namespace CourseworkClient.Gui
         List<Upgrade> upgradesInPlay = new List<Upgrade>();
         const int maxUnitsInPlay = 10;
         int yOffset;
-        string enemyUsername;
+        public string enemyUsername;
         const int minYOffset = 0;
         readonly int maxYOffset;
         const int yAccel = 20;
@@ -723,6 +736,10 @@ namespace CourseworkClient.Gui
 
         private void ExecuteTech(Card card, bool playerPlayed)
         {
+            if (!playerPlayed)
+            {
+                numEnemyCardsInHand--;
+            }
 #warning not finished yet, doesn't matter just yet though
         }
 
@@ -741,6 +758,7 @@ namespace CourseworkClient.Gui
                 SmallCard c = new SmallCard(card, new Vector2(GetHandCardX(units.Count, units.Count - 1) - (Primary.game.cardOutlineSmall.Width / 2), GetEnemyUnitCardY()));
                 enemyUnits.Add(c);
                 c.id = GetNextID();
+                numEnemyCardsInHand--;
             }
         }
 
