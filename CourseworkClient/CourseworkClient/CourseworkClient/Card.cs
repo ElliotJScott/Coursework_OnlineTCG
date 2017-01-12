@@ -29,7 +29,6 @@ namespace CourseworkClient
         public List<Effect> effects;
         public static List<Card> allCards = new List<Card>();
         public Rarity rarity;
-        public List<Card> equippedUpgrades;
 
         public Card(string n, CardType t, int c, Rarity r, int? atk = null, int? hp = null, params Effect[] e)
         {
@@ -41,7 +40,7 @@ namespace CourseworkClient
             health = hp;
             effects = e.ToList();
             Primary.game.AddNewCardArt(n);
-            equippedUpgrades = new List<Card>();
+            Primary.Log("Creating card " + this);
         }
         public static void AddEffectToBaseCard(string cardname, string effectname)
         {
@@ -49,18 +48,21 @@ namespace CourseworkClient
         }
         public List<string> getEffectNames()
         {
+            Primary.Log("Getting effects of " + name);
             List<string> output = new List<string>();
             foreach (Effect e in effects) output.Add(e.name);
             return output;
         }
         public List<Color> getColourList()
         {
+            Primary.Log("Getting colours for " + name);
             List<Color> output = new List<Color>();
             foreach (Effect e in effects) output.Add(e.colour);
             return output;
         }
         public static int getCardIndex(string name)
         {
+            Primary.Log("Indexof " + name);
             for (int i = 0; i < allCards.Count; i++)
             {
                 if (allCards[i].name == name) return i;
@@ -69,6 +71,7 @@ namespace CourseworkClient
         }
         public static Card getCard(string name)
         {
+            Primary.Log("Getting card " + name);
             foreach (Card c in allCards)
             {
                 if (c.name == name) return c;
@@ -76,5 +79,9 @@ namespace CourseworkClient
             throw new ArgumentException();
         }
         public bool hasEffect(string effectName) => effects.Contains(Effect.GetEffect(effectName));
+        public override string ToString()
+        {
+            return string.Format("Card[Name : {0} | Cost : {1} | Rarity : {2} | Type : {3}]", name, cost, rarity, type);
+        }
     }
 }

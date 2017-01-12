@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CourseworkClient.Gui;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 
 namespace CourseworkClient
 {
-    public abstract class GuiItem
+    public abstract class GuiItem : IFormItem
     {
         public static MouseState oldState = new MouseState();
         public List<GuiItem> subItems = new List<GuiItem>();
@@ -27,7 +28,8 @@ namespace CourseworkClient
         {
             oldState = Mouse.GetState();
         }
-        public abstract void Update();
+
         public abstract void Draw(SpriteBatch sb);
+        public abstract void Update();
     }
 }

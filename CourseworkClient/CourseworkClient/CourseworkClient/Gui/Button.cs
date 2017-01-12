@@ -15,8 +15,12 @@ namespace CourseworkClient.Gui
             texture = Primary.game.buttonTexture;
             buttonText = text;
             boundingBox = rect;
+            Primary.Log(this);
         }
-        public Button() { }
+        public Button()
+        {
+
+        }
         public string buttonText;
         public abstract void OnPress();
         public bool previouslyClicked = false;
@@ -35,6 +39,10 @@ namespace CourseworkClient.Gui
         {
             sb.Draw(texture == null ? Primary.game.buttonTexture : texture, boundingBox, previouslyClicked ? Color.Orange : Color.White);
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), previouslyClicked ? Color.White : Color.Black);
+        }
+        public override string ToString()
+        {
+            return string.Format("Button[Bounding Box : {0} | Text : {1}]", boundingBox, buttonText);
         }
     }
 
@@ -162,11 +170,11 @@ namespace CourseworkClient.Gui
         }
     }
 
-    abstract class BigCardActionButton : Button
+    abstract class TexturedButton : Button
     {
         public bool canBePressed;
 
-        public BigCardActionButton(Rectangle r, Texture2D t)
+        public TexturedButton(Rectangle r, Texture2D t)
         {
             buttonText = "";
             texture = t;
@@ -183,14 +191,14 @@ namespace CourseworkClient.Gui
         }
     }
 
-    class BCPlayButton : BigCardActionButton
+    class BCPlayButton : TexturedButton
     {
         public BCPlayButton(Rectangle r, Texture2D t) : base(r, t) { }
         public override void OnPress()
         {
             if (canBePressed)
             {
-               
+
                 BigCard bigcard = ((InGameForm)Primary.game.currentForm).bigCard;
                 Card card = bigcard.card;
                 ((InGameForm)Primary.game.currentForm).PlaySelectedCard();
@@ -199,7 +207,7 @@ namespace CourseworkClient.Gui
         }
     }
 
-    class BCDiscardButton : BigCardActionButton
+    class BCDiscardButton : TexturedButton
     {
         public BCDiscardButton(Rectangle r, Texture2D t) : base(r, t) { }
         public override void OnPress()
@@ -214,46 +222,96 @@ namespace CourseworkClient.Gui
         }
     }
 
-    class BCAttackButton : BigCardActionButton
+    class BCAttackButton : TexturedButton
     {
         public BCAttackButton(Rectangle r, Texture2D t) : base(r, t) { }
         public override void OnPress()
         {
             if (canBePressed)
             {
-                BigCard bigcard = ((InGameForm)Primary.game.currentForm).bigCard;
-                Card card = bigcard.card;
+                InGameForm currentForm = ((InGameForm)Primary.game.currentForm);
+                SmallCard card = currentForm.GetDrawnSmallCard();
+                currentForm.chain.AddLast(new ChainItem(card, true, false));
+                Primary.game.WriteDataToStream(Protocol.AttackWithUnit, card.id.ToString());
             }
         }
     }
-    class IGSelectButton : BigCardActionButton
+    class IGSelectButton : TexturedButton
     {
-        Selection[] selection;
-        public IGSelectButton(Rectangle r, Selection[] s) : base(r, Primary.game.buttonTexture)
+        SelectionItem[] selection;
+        public IGSelectButton(Rectangle r, string text, SelectionItem[] s) : base(r, Primary.game.buttonTexture)
         {
-            buttonText = "Counter";
+            buttonText = text;
             selection = s;
         }
         public IGSelectButton(Rectangle r) : base(r, Primary.game.buttonTexture)
         {
             buttonText = "Defend";
-            selection = new Selection[] { new Selection(1, true, SelectionCondition.alliedUntappedUnit)};
+            selection = new SelectionItem[] { new SelectionItem(new Selection(1, true, SelectionCondition.alliedUntappedUnit), "Choose a unit to defend with") };
 
         }
         public override void OnPress()
         {
             Primary.game.currentForm = new SelectionForm((InGameForm)Primary.game.currentForm, selection);
-            
+
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
     }
     class IGCancelButton : Button
     {
-        public IGCancelButton(Rectangle r) : base(r, "Make no selection") { }
+        public IGCancelButton(Rectangle r) : base(r, "Make no selection")
+        {
+            boundingBox = r;
+        }
 
         public override void OnPress()
         {
             ((InGameForm)Primary.game.currentForm).ResolveChain();
-            Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter});
+            Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter });
+        }
+        public override void Update()
+        {
+            base.Update();
+        }
+    }
+    class sSelectButton : Button
+    {
+        bool pressable;
+        public sSelectButton(Rectangle r) : base(r, "Make Selection")
+        {
+            pressable = false;
+        }
+        public override void Update()
+        {
+            pressable = ((SelectionForm)Primary.game.currentForm).bigCard != null;
+            base.Update();
+        }
+        public override void OnPress()
+        {
+            if (pressable)
+            {
+                SelectionForm currentForm = (SelectionForm)Primary.game.currentForm;
+                currentForm.gameForm.HandleSelection(currentForm.GetSelectedCard(), currentForm.selection[currentForm.selection.Count - 1].selection.function);
+                currentForm.selection.RemoveAt(currentForm.selection.Count - 1);
+                if (currentForm.selection.Count == 0)
+                {
+                    currentForm.gameForm.chain.RemoveLast();
+                    currentForm.gameForm.ResolveChain();
+                    Primary.game.currentForm = currentForm.gameForm;
+                }
+            }
+        }
+    }
+    class sBackButton : Button
+    {
+        public sBackButton(Rectangle r) : base(r, "Back") { }
+        public override void OnPress()
+        {
+            Primary.game.currentForm = ((SelectionForm)Primary.game.currentForm).gameForm;
         }
     }
 }

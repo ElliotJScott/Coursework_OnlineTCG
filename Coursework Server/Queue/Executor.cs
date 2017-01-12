@@ -34,7 +34,7 @@ namespace CourseworkServer
                 #region AddNewAccount
                 case Operation.AddNewAccount:
                     {
-                        string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
+                        string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(1).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1", usernameAndPasswordHash[0]);
                         if ((int)data[0][0] == 0)
                         {
@@ -53,7 +53,7 @@ namespace CourseworkServer
                 #region CheckCredentials
                 case Operation.CheckCredentials:
                     {
-                        string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(2).Split('|');
+                        string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(1).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
                         if ((int)data[0][0] == 0)
                         {
@@ -76,7 +76,7 @@ namespace CourseworkServer
                 #region CheckFriendStatus
                 case Operation.CheckFriendStatus:
                     {
-                        string username = ((string)currentItem.data).Substring(2);
+                        string username = ((string)currentItem.data).Substring(1);
                         currentItem.sender.friends.Add(username);
                     }
                     break;
@@ -84,7 +84,7 @@ namespace CourseworkServer
                 #region AddToQueue
                 case Operation.AddToQueue:
                     {
-                        int qs = Convert.ToInt32(((string)currentItem.data).Substring(2));
+                        int qs = Convert.ToInt32(((string)currentItem.data).Substring(1));
                         currentItem.sender.status = Status.InQueue;
                         currentItem.sender.queueStatus = qs;
                         currentItem.sender.queuetime = 0;

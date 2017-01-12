@@ -14,6 +14,7 @@ namespace CourseworkClient.Gui
         Vector2 loc;
         public BigCard(Card c)
         {
+            Primary.Log("Adding big card with parameter " + c);
             Viewport v = Primary.game.GraphicsDevice.Viewport;
             int xPos = ((Primary.game.GraphicsDevice.Viewport.Width / 6) - Primary.game.cardOutlineBig.Width) / 2;
             loc = new Vector2(xPos, (Primary.game.GraphicsDevice.Viewport.Height - Primary.game.cardOutlineBig.Height) / 2);
@@ -23,6 +24,7 @@ namespace CourseworkClient.Gui
         }
         public BigCard(Card c, Vector2 e)
         {
+            Primary.Log("Adding big card with parameters " + c + " | " + e);
             loc = e;
             card = c;
             boundingBox = new Rectangle((int)e.X, (int)e.Y, Primary.game.cardOutlineBig.Width, Primary.game.cardOutlineBig.Height);
@@ -33,7 +35,7 @@ namespace CourseworkClient.Gui
         public override void Draw(SpriteBatch sb)
         {
             Viewport v = Primary.game.GraphicsDevice.Viewport;
-            CardBuilder.DrawCard(card, loc, true, sb);
+            CardBuilder.DrawCard(card, loc, true, sb, Orientation.Up);
             foreach (GuiItem g in subItems) g.Draw(sb);
         }
 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace CourseworkClient.Gui
 {
-    public abstract class Form
+    public abstract class Form : IFormItem
     {
         public Texture2D background;
         public List<GuiItem> formItems = new List<GuiItem>();
@@ -15,11 +15,13 @@ namespace CourseworkClient.Gui
         string lockMessage = "";
         public int bufferAnimTimer = 0;
         public const int numBufferFrames = 8;
+
         public virtual void Update()
         {
             if (!locked) 
                 for (int i = 0; i < formItems.Count; i++) formItems[i].Update();
         }
+        
         public virtual void Draw(SpriteBatch sb)
         {
             sb.Draw(background == null ? Primary.game.mainMenuBackground : background, new Rectangle(0, 0, Primary.game.GraphicsDevice.Viewport.Width, Primary.game.GraphicsDevice.Viewport.Height), Color.White);

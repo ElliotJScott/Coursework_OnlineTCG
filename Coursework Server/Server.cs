@@ -267,18 +267,23 @@ namespace CourseworkServer
                 case Protocol.DefendWithUnit:
                 case Protocol.NoCounter:
                 case Protocol.EndTurn:
+                case Protocol.BeginSelection:
+                case Protocol.EndSelection:
+                case Protocol.AddCardToEnemyHand:
                     GetOpponent(sender).SendData(data);
                     break;
             }
         }
         private Client GetOpponent(Client c)
         {
+            string opponentName = null;
             foreach (Match m in currentMatches)
             {
-                if (m.players[0] == c) return m.players[1];
-                else if (m.players[1] == c) return m.players[0];
+                if (m.players[0] == c.userName) opponentName = m.players[1];
+                else if (m.players[1] == c.userName) opponentName = m.players[0];
             }
-            throw new ArgumentException();
+            if (opponentName == null) throw new ArgumentException();
+            else return GetClient(opponentName);
         }
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
@@ -319,6 +324,13 @@ namespace CourseworkServer
             }
             return false;
         }
-
+        public Client GetClient(string username)
+        {
+            foreach (Client c in connectedClients)
+            {
+                if (c.userName == username) return c;
+            }
+            throw new ArgumentException();
+        }
     }
 }
