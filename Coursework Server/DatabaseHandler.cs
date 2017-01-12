@@ -18,7 +18,14 @@ namespace CourseworkServer
             using (SqlConnection connection = new SqlConnection(Server.connectionString))
             using (SqlCommand sqlCommand = new SqlCommand(query, connection))
             {
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                }
+                catch
+                {
+                    DoParameterizedSQLQuery(query, parameters);
+                }
                 for (int i = 1; i <= parameters.Length; i++)
                 {
                     sqlCommand.Parameters.AddWithValue("@p" + i, parameters[i-1]);

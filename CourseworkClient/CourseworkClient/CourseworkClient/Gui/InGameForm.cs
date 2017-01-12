@@ -64,8 +64,7 @@ namespace CourseworkClient.Gui
     }
 
     struct SelectionCondition
-    {
-
+    { 
         public Effect[] requiredEffects;
         public CardType? type;
         public int maxCost;
@@ -447,7 +446,7 @@ namespace CourseworkClient.Gui
             enemyDiscardPile.Add(Card.getCard(s));
             numEnemyCardsInHand--;
         }
-        /*
+        
         Button[] getCommonCounterButtons()
         {
             IGCancelButton noSelectionButton = new IGCancelButton(new Rectangle(0, 40, 150, 30));
@@ -455,7 +454,7 @@ namespace CourseworkClient.Gui
 #warning Change this null later
             return new Button[] { noSelectionButton, counterButton };
         }
-        */
+        
         internal void AddTechToChain(string s, bool playerPlayed)
         {
             Card c = Card.getCard(s);

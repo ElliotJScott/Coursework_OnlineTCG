@@ -243,6 +243,9 @@ namespace CourseworkClient.Gui
         {
             buttonText = text;
             selection = s;
+            if (s.Length > 0) 
+                canBePressed = true;
+            else canBePressed = false;
         }
         public IGSelectButton(Rectangle r) : base(r, Primary.game.buttonTexture)
         {
