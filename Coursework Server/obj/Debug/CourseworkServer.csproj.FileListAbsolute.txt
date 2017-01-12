@@ -23,3 +23,8 @@ C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB.m
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB_log.ldf
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB.mdf
 C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkDB_log.ldf
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe.manifest
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.application
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.TrustInfo.xml
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.exe.manifest
+C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.application

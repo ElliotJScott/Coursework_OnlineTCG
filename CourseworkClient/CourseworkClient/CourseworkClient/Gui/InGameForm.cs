@@ -320,17 +320,19 @@ namespace CourseworkClient.Gui
             enemyDiscardPile.Add(Card.getCard(s));
             numEnemyCardsInHand--;
         }
+        /*
         Button[] getCommonCounterButtons()
         {
             
         }
+        */
         internal void AddTechToChain(string s, bool playerPlayed)
         {
 #warning need to create GetNeedTechSelection method
             Card c = Card.getCard(s);
             SmallCard smallCard = new SmallCard(c, GetNextID(), false);
-            bool needsSelection = GetNeedTechSelection(c);
-            chain.AddLast(new ChainItem(smallCard, playerPlayed, needsSelection));
+            //bool needsSelection = GetNeedTechSelection(c);
+            chain.AddLast(new ChainItem(smallCard, playerPlayed, false));
         }
 
         internal void WaitOnEnemySelection()

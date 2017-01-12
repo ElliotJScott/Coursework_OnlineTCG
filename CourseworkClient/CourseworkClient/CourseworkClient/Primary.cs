@@ -88,7 +88,7 @@ namespace CourseworkClient
             graphics.PreferredBackBufferHeight = 900;
             graphics.PreferredBackBufferWidth = 1600;
             Window.Title = "Hearthclone";
-
+            graphics.IsFullScreen = true;
         }
 
         protected override void Initialize()
@@ -384,7 +384,7 @@ namespace CourseworkClient
                     break;
                 case Protocol.AttackWithUnit:
                     ((InGameForm)currentForm).AddAttackingUnitToChain(Convert.ToInt32(s), true);//Add this attacking fellow to the chain
-                    ((InGameForm)currentForm).OfferAttackCounterOptions();
+                    //((InGameForm)currentForm).OfferAttackCounterOptions();
                     break;
                 case Protocol.DefendWithUnit:
                     ((InGameForm)currentForm).ResolveChainWithDefender(s, true);//s in the form id
@@ -428,7 +428,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).MoveUnitFromEnemy(s); //s in the form id
                     break;
                 case Protocol.PlayUnitFromDeck:
-                    ((InGameForm)currentForm).PlayUnitFromEnemyDeck(s); //s in the form name
+                    //((InGameForm)currentForm).PlayUnitFromEnemyDeck(s); //s in the form name
                     break;
                 case Protocol.NoCardsInDeck:
                     ((InGameForm)currentForm).cardsInEnemyDeck = false;
