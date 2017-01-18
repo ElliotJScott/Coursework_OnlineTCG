@@ -91,7 +91,7 @@ namespace CourseworkClient
             graphics.PreferredBackBufferHeight = 900;
             graphics.PreferredBackBufferWidth = 1600;
             Window.Title = "Hearthclone";
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
         }
 
         protected override void Initialize()
@@ -487,6 +487,31 @@ namespace CourseworkClient
                     break;
                 case Protocol.EndTurn:
                     ((InGameForm)currentForm).StartTurn();
+                    break;
+                case Protocol.AddToEnemyFromDiscard:
+                    ((InGameForm)currentForm).AddCardToEnemyHand(s);
+                    break;
+                case Protocol.Artillery:
+                    ((InGameForm)currentForm).DealDamageToUnit(Convert.ToInt32(s), 3, false);
+                    break;
+                case Protocol.DeathInHonour:
+                    ((InGameForm)currentForm).KillUnit(Convert.ToInt32(s));
+#warning put the damage component in later
+                    break;
+                case Protocol.RemoveCardFromEnemyHand:
+                    ((InGameForm)currentForm).numEnemyCardsInHand--;
+                    break;
+                case Protocol.HealHalf:
+                    ((InGameForm)currentForm).HealUnit(Convert.ToInt32(s), 0.5, false);
+                    break;
+                case Protocol.HealFull:
+                    ((InGameForm)currentForm).HealUnit(Convert.ToInt32(s), 1, false);
+                    break;
+                case Protocol.PowerExtraction:
+                    break;
+                case Protocol.AddCardFromDiscard:
+                    break;
+                case Protocol.ReturnUnitToHand:
                     break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());

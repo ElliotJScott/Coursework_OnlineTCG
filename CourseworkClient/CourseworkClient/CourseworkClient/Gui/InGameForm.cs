@@ -30,6 +30,18 @@ namespace CourseworkClient.Gui
         ReplaceUnit,
         PlayUnitFromDeck,
         AddCardToHand,
+        RepairPack,
+        ReturnUnitToHand,
+        EquivalentExchange,
+        DiscardCard,
+        AddFromEnemyDiscard,
+        ReturnCardFromDiscard,
+        PowerExtraction,
+        HealUnit,
+        DeathInHonour,
+        AntiVehicleArtillery,
+        HealHalf,
+        Counter,
     }
     class ChainItem
     {
@@ -64,7 +76,7 @@ namespace CourseworkClient.Gui
     }
 
     struct SelectionCondition
-    { 
+    {
         public Effect[] requiredEffects;
         public CardType? type;
         public int maxCost;
@@ -89,10 +101,11 @@ namespace CourseworkClient.Gui
         public static SelectionCondition enemyUnit = new SelectionCondition(true, Location.InEnemyUnits, CardType.Unit);
         public static SelectionCondition noPsychicHood = new SelectionCondition(false, null, CardType.Unit, 1000, null, Effect.GetEffect("Psychic Hood"));
         public static SelectionCondition psychicHoodAllowed = new SelectionCondition(false, null, CardType.Unit, 1000, null, Effect.GetEffect("Psyker"));
-        public static SelectionCondition handCard = new SelectionCondition(true, Location.InHand, null);
+        public static SelectionCondition handCard = new SelectionCondition(true, Location.InHand);
+        public static SelectionCondition playerDiscarded = new SelectionCondition(true, Location.InDiscardPile);
         #endregion
 
-        public SelectionCondition(bool f, Location? loc, CardType? t, int c = 1000, bool? tapped = null, params Effect[] ef)
+        public SelectionCondition(bool f, Location? loc, CardType? t = null, int c = 1000, bool? tapped = null, params Effect[] ef)
         {
             fulfil = f;
             location = loc;
@@ -107,7 +120,7 @@ namespace CourseworkClient.Gui
         public int quantity;
         public bool fulfilAll;
         public Function function;
-        public Selection(int num, bool f = true, params SelectionCondition[] sel)
+        public Selection(int num, Function func, bool f = true, params SelectionCondition[] sel)
         {
             fulfilAll = f;
             quantity = num;
@@ -257,19 +270,54 @@ namespace CourseworkClient.Gui
                 case Function.AddCardToHand:
                     DrawSpecificCard(card.card);
                     break;
+                case Function.AddFromEnemyDiscard:
+                    enemyDiscardPile.Remove(card.card);
+                    hand.Add(card);
+                    Primary.game.WriteDataToStream(Protocol.AddToEnemyFromDiscard, card.card.name);
+                    break;
+                case Function.AntiVehicleArtillery:
+                    DealDamageToUnit(card.id, 3, true);
+                    Primary.game.WriteDataToStream(Protocol.Artillery);
+                    break;
                 case Function.ControlUnit:
                     enemyUnits.Remove(card);
                     units.Add(card);
                     UpdateCardPositions();
                     Primary.game.WriteDataToStream(Protocol.ControlUnit, card.id.ToString());
                     break;
+                case Function.Counter:
+                    AddTechToChain(card.card.name, true);
+                    Primary.game.WriteDataToStream(Protocol.PlayTech, card.card.name);
+                    break;
+                case Function.DeathInHonour:
+                    KillUnit(card.id);
+                    Primary.game.WriteDataToStream(Protocol.DeathInHonour, card.id.ToString());
+#warning need to put the damage component in
+                    break;
                 case Function.DefendWithUnit:
                     ResolveChainWithDefender(card.id, false);
                     Primary.game.WriteDataToStream(Protocol.DefendWithUnit, card.id.ToString());
                     break;
+                case Function.DiscardCard:
+                    hand.Remove(card);
+                    Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, card.card.name);
+                    break;
                 case Function.EquipUpgrade:
                     AddUpgradeToCard(card.id, true);
                     Primary.game.WriteDataToStream(Protocol.EquipUpgrade, card.id.ToString());
+                    break;
+                case Function.EquivalentExchange:
+                    hand.Remove(card);
+                    Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, card.card.name);
+                    DrawACard();
+                    break;
+                case Function.HealHalf:
+                    HealUnit(card.id, 0.5, true);
+                    Primary.game.WriteDataToStream(Protocol.HealHalf, card.id.ToString());
+                    break;
+                case Function.HealUnit:
+                    HealUnit(card.id, 1, true);
+                    Primary.game.WriteDataToStream(Protocol.HealFull, card.id.ToString());
                     break;
                 case Function.KillUnit:
                     KillUnit(card.id);
@@ -280,11 +328,177 @@ namespace CourseworkClient.Gui
                     deck.Remove(card.card);
                     Primary.game.WriteDataToStream(Protocol.PlayUnitFromDeck, card.card.name);
                     break;
+                case Function.PowerExtraction:
+                    hand.Remove(card);
+                    playerResourcePT++;
+                    Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, card.card.name);
+                    Primary.game.WriteDataToStream(Protocol.PowerExtraction);
+                    break;
+                case Function.RepairPack:
+                    discardPile.Remove(card.card);
+                    hand.Add(card);
+                    Primary.game.WriteDataToStream(Protocol.AddCardFromDiscard, card.card.name);
+                    break;
                 case Function.ReplaceUnit:
                     ReplaceUnit(card.id);
                     break;
-
+                case Function.ReturnCardFromDiscard:
+                    discardPile.Remove(card.card);
+                    hand.Add(card);
+                    Primary.game.WriteDataToStream(Protocol.AddCardFromDiscard, card.card.name);
+                    break;
+                case Function.ReturnUnitToHand:
+                    ReturnUnitToHand(card.id, true);
+                    Primary.game.WriteDataToStream(Protocol.ReturnUnitToHand, card.id.ToString());
+                    break;
             }
+        }
+
+        private void ReturnUnitToHand(int id, bool p)
+        {
+            /*
+            foreach (SmallCard c in units)
+            {
+                if (c == u)
+                {
+                    if (playerCard)
+                    {
+                        units.Remove(c);
+                        discardPile.Add(Card.getCard(c.card.name));
+                        List<int> upgradesToRemove = new List<int>();
+                        for (int i = 0; i < upgradesInPlay.Count; i++)
+                        {
+                            if (upgradesInPlay[i].unitID == c.id)
+                            {
+                                upgradesToRemove.Add(i);
+                            }
+                        }
+                        foreach (int i in upgradesToRemove)
+                        {
+                            Upgrade m = upgradesInPlay[i];
+                            SmallCard upgrade = GetUpgradeFromID(m.upgradeID, playerCard);
+                            playerUpgrades.Remove(upgrade);
+                            discardPile.Add(Card.getCard(upgrade.card.name));
+                            upgradesInPlay.RemoveAt(i);
+                        }
+                    }
+                    else
+                    {
+                        enemyUnits.Remove(c);
+                        enemyDiscardPile.Add(Card.getCard(c.card.name));
+                        List<int> upgradesToRemove = new List<int>();
+                        for (int i = 0; i < upgradesInPlay.Count; i++)
+                        {
+                            if (upgradesInPlay[i].unitID == c.id)
+                            {
+                                upgradesToRemove.Add(i);
+                            }
+                        }
+                        foreach (int i in upgradesToRemove)
+                        {
+                            Upgrade m = upgradesInPlay[i];
+                            SmallCard upgrade = GetUpgradeFromID(m.upgradeID, playerCard);
+                            enemyUpgrades.Remove(upgrade);
+                            enemyDiscardPile.Add(Card.getCard(upgrade.card.name));
+                            upgradesInPlay.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+            */
+            if (p)
+            {
+                foreach (SmallCard c in units)
+                {
+                    if (c.id == id)
+                    {
+                        units.Remove(c);
+                        hand.Add(new SmallCard(Card.getCard(c.card.name), new Vector2(0)));
+                        List<int> upgradesToRemove = new List<int>();
+                        for (int i = 0; i < upgradesInPlay.Count; i++)
+                        {
+                            if (upgradesInPlay[i].unitID == c.id)
+                            {
+                                upgradesToRemove.Add(i);
+                            }
+                        }
+                        foreach (int i in upgradesToRemove)
+                        {
+                            Upgrade m = upgradesInPlay[i];
+                            SmallCard upgrade = GetUpgradeFromID(m.upgradeID, p);
+                            playerUpgrades.Remove(upgrade);
+                            discardPile.Add(Card.getCard(upgrade.card.name));
+                            upgradesInPlay.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                foreach (SmallCard c in enemyUnits)
+                {
+                    if (c.id == id)
+                    {
+                        enemyUnits.Remove(c);
+                        numEnemyCardsInHand++;
+                        List<int> upgradesToRemove = new List<int>();
+                        for (int i = 0; i < upgradesInPlay.Count; i++)
+                        {
+                            if (upgradesInPlay[i].unitID == c.id)
+                            {
+                                upgradesToRemove.Add(i);
+                            }
+                        }
+                        foreach (int i in upgradesToRemove)
+                        {
+                            Upgrade m = upgradesInPlay[i];
+                            SmallCard upgrade = GetUpgradeFromID(m.upgradeID, p);
+                            enemyUpgrades.Remove(upgrade);
+                            enemyDiscardPile.Add(Card.getCard(upgrade.card.name));
+                            upgradesInPlay.RemoveAt(i);
+                        }
+                    }
+                }
+            }
+        }
+
+        internal void AddCardToEnemyHand(string s)
+        {
+            throw new NotImplementedException();
+#warning this method needs writing
+        }
+
+        public void HealUnit(int id, double f, bool p)
+        {
+            List<SmallCard> list = p ? units : enemyUnits;
+            foreach (SmallCard c in list)
+            {
+                if (c.id == id)
+                {
+
+                    HealUnit(c, f);
+                    break;
+                }
+            }
+        }
+        public void HealUnit(SmallCard c, double factor)
+        {
+
+            double maxHealth = Card.getCard(c.card.name).health.Value;
+            int change = (int)Math.Ceiling(factor * maxHealth);
+            c.card.health = Math.Min((int)maxHealth, c.card.health.Value + change);
+        }
+
+        public void DealDamageToUnit(int id, int damage, bool p)
+        {
+            List<SmallCard> list = p? units : enemyUnits;
+            foreach (SmallCard card in list)
+            {
+                if (card.id == id)
+                    card.card.health -= damage;
+                if (card.card.health <= 0) KillUnit(card.id);
+            }
+            
         }
 
         private void UpdateCardPositions()
@@ -446,15 +660,40 @@ namespace CourseworkClient.Gui
             enemyDiscardPile.Add(Card.getCard(s));
             numEnemyCardsInHand--;
         }
-        
+
         Button[] getCommonCounterButtons()
         {
             IGCancelButton noSelectionButton = new IGCancelButton(new Rectangle(0, 40, 150, 30));
-            IGSelectButton counterButton = new IGSelectButton(new Rectangle(0, 0, 150, 30), "Counter", null);
+            IGCounterButton counterButton = new IGCounterButton(new Rectangle(0, 0, 150, 30), "Counter", GetCounterCards(), Function.Counter);
 #warning Change this null later
             return new Button[] { noSelectionButton, counterButton };
         }
-        
+        public List<SmallCard> GetCounterCards()
+        {
+            List<SmallCard> output = new List<SmallCard>();
+            foreach (SmallCard c in hand)
+            {
+                if (c.card.type == CardType.Tech)
+                {
+                    if (c.card.hasEffect("Tech Jammer"))
+                    {
+                        if (chain.Last.Value.card.card.type == CardType.Tech) output.Add(c);
+                    }
+                    else if (c.card.hasEffect("Ambush"))
+                    {
+                        if (chain.Last.Value.card.card.type == CardType.Unit && chain.Last.Value.card.id >= 0) output.Add(c);
+                    }
+                    else output.Add(c);
+                }
+            }
+            return output;
+        }
+        Button[] getSelectionButtons(SelectionItem s)
+        {
+            IGCancelButton noSelectionButton = new IGCancelButton(new Rectangle(0, 40, 150, 30));
+            IGSelectButton selectButton = new IGSelectButton(new Rectangle(0, 0, 150, 30), "Select", s);
+            return new Button[] { noSelectionButton, selectButton };
+        }
         internal void AddTechToChain(string s, bool playerPlayed)
         {
             Card c = Card.getCard(s);
@@ -464,12 +703,55 @@ namespace CourseworkClient.Gui
         }
         private bool GetNeedTechSelection(Card c)
         {
-            string[] effectsRequiringSelection = { "Repair Pack", "Demilitarisation", "Equivalent Exchange", "Propoganda", "Purify", "Repair and Recover", "Salvage", "Power Extraction", "Stimpack", "Call to Arms", "Two-Pronged Attack", "Death in Honour", "Anti-Vehicle Artillery", "Repair Vehicle", "Call the Void" };
-            foreach (string s in effectsRequiringSelection)
-                if (c.hasEffect(s)) return true;
-            return false;
+            return EffectSelection.GetTechSelection(c).Equals(null);
         }
+        private class EffectSelection
+        {
+            static EffectSelection[] techSelections = {
+                new EffectSelection("Repair Pack", Function.RepairPack, SelectionCondition.playerDiscarded),
+                    new EffectSelection("Demilitarisation", Function.ReturnUnitToHand, SelectionCondition.alliedUnit),
+                    new EffectSelection("Equivalent Exchange", Function.EquivalentExchange, SelectionCondition.handCard),
+                    new EffectSelection("Propoganda", Function.ControlUnit, SelectionCondition.enemyUnit),
+                    new EffectSelection("Purify", Function.DiscardCard, SelectionCondition.handCard),
+                    new EffectSelection("Repair and Recover", new Selection(2, Function.ReturnCardFromDiscard, true, SelectionCondition.playerDiscarded)),
+                    new EffectSelection("Salvage", Function.AddFromEnemyDiscard, new SelectionCondition(true, Location.InEnemyDiscardPile)),
+                    new EffectSelection("Power Extraction", Function.PowerExtraction, new SelectionCondition(true, Location.InHand, CardType.Tech)),
+                    new EffectSelection("Stimpack", new Selection(1, Function.HealUnit, true, SelectionCondition.alliedUnit, SelectionCondition.notVehicle)),
+                    new EffectSelection("Call to Arms", Function.PlayUnitFromDeck, new SelectionCondition(true, Location.InMainDeck, CardType.Unit, 3)),
+                    new EffectSelection("Death in Honour", Function.DeathInHonour, new SelectionCondition(true, Location.InUnits, CardType.Unit, 1000, null, Effect.GetEffect("Leader"))),
+                    new EffectSelection("Anti-Vehicle Artillery", Function.AntiVehicleArtillery, SelectionCondition.enemyUnit),
+                    new EffectSelection("Repair Vehicle", Function.HealHalf, new SelectionCondition(true, Location.InUnits, CardType.Unit, 1000, null, Effect.GetEffect("Vehicle"))),
+                    new EffectSelection("Call the Void", Function.AddCardToHand, new SelectionCondition(true, Location.InMainDeck, CardType.Tech, 1000, null, Effect.GetEffect("Corrupt"))),
+            };
+            Selection selection;
+            Effect effect;
+            EffectSelection(string f, Selection s)
+            {
+                selection = s;
+                effect = Effect.GetEffect(f);
+            }
+            EffectSelection(string f, Function func, SelectionCondition s)
+            {
+                selection = new Selection(1, func, true, s);
+                effect = Effect.GetEffect(f);
+            }
+            public static Selection GetTechSelection(Card c)
+            {
+                foreach (EffectSelection s in techSelections)
+                {
+                    if (c.effects.Contains(s.effect)) return s.selection;
+                }
+                return null;
+            }
+        }
+        private SelectionItem GetSelectionFromTechCard(Card c)
+        {
 
+            Selection s = EffectSelection.GetTechSelection(c);
+            if (s.Equals(null)) throw new ArgumentException();
+            else return new SelectionItem(s, "Make a selection");
+#warning this is probably ok now but might not be
+        }
         internal void WaitOnEnemySelection()
         {
             Lock("Waiting on input from the enemy");
@@ -504,6 +786,7 @@ namespace CourseworkClient.Gui
             int attack = attacker.attack.Value;
             if (attackerPlayerOwned) enemyHealth -= attack;
             else playerHealth -= attack;
+#warning add code for when a player wins/loses
             if (enemyHealth <= 0)
             {
                 throw new NotImplementedException();
@@ -516,12 +799,14 @@ namespace CourseworkClient.Gui
 
         public void DiscardUnit(SmallCard u, bool playerCard)
         {
-            foreach (SmallCard c in units)
+#warning this doesn't work obviously
+            if (playerCard)
             {
-                if (c == u)
+                foreach (SmallCard c in units)
                 {
-                    if (playerCard)
+                    if (c == u)
                     {
+
                         units.Remove(c);
                         discardPile.Add(Card.getCard(c.card.name));
                         List<int> upgradesToRemove = new List<int>();
@@ -541,8 +826,15 @@ namespace CourseworkClient.Gui
                             upgradesInPlay.RemoveAt(i);
                         }
                     }
-                    else
+                }
+            }
+            else
+            {
+                foreach (SmallCard c in enemyUnits)
+                {
+                    if (c == u)
                     {
+
                         enemyUnits.Remove(c);
                         enemyDiscardPile.Add(Card.getCard(c.card.name));
                         List<int> upgradesToRemove = new List<int>();
@@ -646,7 +938,7 @@ namespace CourseworkClient.Gui
         {
             if (!locked)
             {
-
+                UpdateCardPositions();
                 UpdateYOffset();
                 bigCard?.Update();
                 foreach (SmallCard c in hand) c.Update();
@@ -910,11 +1202,16 @@ namespace CourseworkClient.Gui
         }
         public bool GetSelectionNeeded(Card c)
         {
-            string[] effectsRequiringSelection = { "Transport" };
-            foreach (string s in effectsRequiringSelection)
-                if (c.hasEffect(s))
-                    return true;
-            return false;
+            return !(GetSelectionFromUnit(c) == null);
+        }
+
+        public SelectionItem? GetSelectionFromUnit(Card c)
+        {
+            if (c.hasEffect("Transport"))
+            {
+                return new SelectionItem(new Selection(1, Function.PlayUnitFromDeck, true, SelectionCondition.transportUnit), "Select a unit to put into play");
+            }
+            return null;
         }
         public static int GetHandCardX(int numCards, int ord)
         {

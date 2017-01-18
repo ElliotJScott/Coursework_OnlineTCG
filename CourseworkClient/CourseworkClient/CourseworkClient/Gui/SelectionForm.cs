@@ -10,32 +10,46 @@ namespace CourseworkClient.Gui
     class SelectionForm : Form
     {
         public InGameForm gameForm;
-        public List<SelectionItem> selection;
         public BigCard bigCard;
         public List<SmallCard> cards = new List<SmallCard>();
-        public SelectionForm(InGameForm form, SelectionItem[] s)
+        public Function function;
+        public SelectionForm(InGameForm form, SelectionItem s)
         {
+            function = s.selection.function;
             gameForm = form;
-            selection = s.ToList();
             bigCard = null;
-            PopulateCards();
+            PopulateCards(s);
             Viewport v = Primary.game.GraphicsDevice.Viewport;
             formItems.Add(new sBackButton(new Rectangle( ((v.Width * 7)/8) - (Primary.game.buttonTexture.Width / 2), 200 + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height ) ) );
             formItems.Add(new sSelectButton(new Rectangle(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 210 + Primary.game.buttonTexture.Height + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height)));
 
         }
-        void PopulateCards()
+        public SelectionForm(InGameForm form, List<SmallCard> c, Function f)
+        {
+            function = f;
+            gameForm = form;
+            bigCard = null;
+            AddSmallCards(c);
+            Viewport v = Primary.game.GraphicsDevice.Viewport;
+            formItems.Add(new sBackButton(new Rectangle(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 200 + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height)));
+            formItems.Add(new sSelectButton(new Rectangle(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 210 + Primary.game.buttonTexture.Height + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height)));
+
+        }
+        void PopulateCards(SelectionItem item)
         {
             cards.Clear();
-            SelectionItem currentSelection = selection[selection.Count - 1];
-            List<SmallCard> selectionResult = currentSelection.selection.GetCards();
+            List<SmallCard> selectionResult = item.selection.GetCards();
+            AddSmallCards(selectionResult);
+        }
+        void AddSmallCards(List<SmallCard> cards)
+        {
             int cardAreaWidth = (Primary.game.GraphicsDevice.Viewport.Width * 3) / 4;
             int numCardsAcross = cardAreaWidth / Primary.game.cardOutlineSmall.Width;
-            for (int i = 0; i < selectionResult.Count; i++)
+            for (int i = 0; i < cards.Count; i++)
             {
                 int cardX = Primary.game.cardOutlineSmall.Width * (i % numCardsAcross);
                 int cardY = Primary.game.cardOutlineSmall.Height * (i / numCardsAcross);
-                SmallCard c = selectionResult[i].CloneWithoutReferenceForSelection();
+                SmallCard c = cards[i].CloneWithoutReferenceForSelection();
                 c.UpdateLocation(new Vector2(cardX, cardY));
                 cards.Add(c);
             }

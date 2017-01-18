@@ -56,7 +56,7 @@ namespace CourseworkServer
             new DeckItem(2, "Stimpack"),
             new DeckItem(1, "Equivalent Exchange"),
             new DeckItem(2, "Demilitarisation"),
-            new DeckItem(2, "Two-Pronged Attack"),
+            new DeckItem(2, "Purify"),
             new DeckItem(1, "Anti-Vehicle Artillery"),
             new DeckItem(1, "Sabotage"),
             new DeckItem(2, "Bonesword"),

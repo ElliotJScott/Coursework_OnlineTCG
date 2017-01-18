@@ -41,5 +41,14 @@
         AddCardToEnemyHand,
         BeginSelection,
         EndSelection,
+        AddToEnemyFromDiscard,
+        Artillery,
+        DeathInHonour,
+        RemoveCardFromEnemyHand,
+        HealHalf,
+        HealFull,
+        PowerExtraction,
+        AddCardFromDiscard,
+        ReturnUnitToHand,
     }
 }

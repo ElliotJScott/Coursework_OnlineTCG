@@ -238,24 +238,25 @@ namespace CourseworkClient.Gui
     }
     class IGSelectButton : TexturedButton
     {
-        SelectionItem[] selection;
-        public IGSelectButton(Rectangle r, string text, SelectionItem[] s) : base(r, Primary.game.buttonTexture)
+        SelectionItem? selection;
+        public IGSelectButton(Rectangle r, string text, SelectionItem? s) : base(r, Primary.game.buttonTexture)
         {
             buttonText = text;
             selection = s;
-            if (s.Length > 0) 
+            if (s.Equals(null))
                 canBePressed = true;
             else canBePressed = false;
         }
         public IGSelectButton(Rectangle r) : base(r, Primary.game.buttonTexture)
         {
             buttonText = "Defend";
-            selection = new SelectionItem[] { new SelectionItem(new Selection(1, true, SelectionCondition.alliedUntappedUnit), "Choose a unit to defend with") };
+            selection = new SelectionItem(new Selection(1, Function.DefendWithUnit, true, SelectionCondition.alliedUntappedUnit), "Choose a unit to defend with");
 
         }
         public override void OnPress()
         {
-            Primary.game.currentForm = new SelectionForm((InGameForm)Primary.game.currentForm, selection);
+            if (canBePressed)
+                Primary.game.currentForm = new SelectionForm((InGameForm)Primary.game.currentForm, selection.Value);
 
         }
         public override void Draw(SpriteBatch sb)
@@ -264,6 +265,33 @@ namespace CourseworkClient.Gui
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
     }
+
+    class IGCounterButton : TexturedButton
+    {
+        List<SmallCard> cards = new List<SmallCard>();
+        Function function;
+        public IGCounterButton(Rectangle r, string text, List<SmallCard> c, Function f) : base(r, Primary.game.buttonTexture)
+        {
+            function = f;
+            buttonText = text;
+            cards = c;
+            if (c.Count != 0)
+                canBePressed = true;
+            else canBePressed = false;
+        }
+        public override void OnPress()
+        {
+            if (canBePressed)
+                Primary.game.currentForm = new SelectionForm((InGameForm)Primary.game.currentForm, cards, function);
+
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
+        }
+    }
+
     class IGCancelButton : Button
     {
         public IGCancelButton(Rectangle r) : base(r, "Make no selection")
@@ -298,14 +326,12 @@ namespace CourseworkClient.Gui
             if (pressable)
             {
                 SelectionForm currentForm = (SelectionForm)Primary.game.currentForm;
-                currentForm.gameForm.HandleSelection(currentForm.GetSelectedCard(), currentForm.selection[currentForm.selection.Count - 1].selection.function);
-                currentForm.selection.RemoveAt(currentForm.selection.Count - 1);
-                if (currentForm.selection.Count == 0)
-                {
-                    currentForm.gameForm.chain.RemoveLast();
-                    currentForm.gameForm.ResolveChain();
-                    Primary.game.currentForm = currentForm.gameForm;
-                }
+                currentForm.gameForm.HandleSelection(currentForm.GetSelectedCard(), currentForm.function);
+
+                currentForm.gameForm.chain.RemoveLast();
+                currentForm.gameForm.ResolveChain();
+                Primary.game.currentForm = currentForm.gameForm;
+
             }
         }
     }

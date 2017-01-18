@@ -270,6 +270,15 @@ namespace CourseworkServer
                 case Protocol.BeginSelection:
                 case Protocol.EndSelection:
                 case Protocol.AddCardToEnemyHand:
+                case Protocol.AddToEnemyFromDiscard:
+                case Protocol.Artillery:
+                case Protocol.DeathInHonour:
+                case Protocol.RemoveCardFromEnemyHand:
+                case Protocol.HealHalf:
+                case Protocol.HealFull:
+                case Protocol.PowerExtraction:
+                case Protocol.AddCardFromDiscard:
+                case Protocol.ReturnUnitToHand:
                     GetOpponent(sender).SendData(data);
                     break;
             }

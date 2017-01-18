@@ -28,3 +28,8 @@ C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServ
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.TrustInfo.xml
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.exe.manifest
 C:\Users\Lisa\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.application
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.exe.manifest
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\bin\Debug\CourseworkServer.application
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.TrustInfo.xml
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.exe.manifest
+C:\Users\Robert\Source\Repos\Coursework\Coursework Server\obj\Debug\CourseworkServer.application

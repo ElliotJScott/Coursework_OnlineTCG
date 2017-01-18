@@ -8,15 +8,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CourseworkClient.Gui
 {
-    enum SmallCardUse
-    {
-        InPlay,
-        SelectorScreen,
-        DeckBuilder,
-    }
     class SmallCard : GuiItem
     {
-        SmallCardUse func;
         public Card card;
         public bool tapped;
         public bool drawnBig;
@@ -25,7 +18,6 @@ namespace CourseworkClient.Gui
         
         public SmallCard(Card c, Vector2 l)
         {
-            func = SmallCardUse.InPlay;
             tapped = false;
             wasDrawnBig = false;
             card = c;
@@ -34,7 +26,6 @@ namespace CourseworkClient.Gui
         }
         public SmallCard(Card c, int ID, bool tap)
         {
-            func = SmallCardUse.SelectorScreen;
             wasDrawnBig = false;
             card = c;
             drawnBig = false;
@@ -119,7 +110,7 @@ namespace CourseworkClient.Gui
         {
             if (ReferenceEquals(a, b)) return true;
             else if (a.Equals(null) || b.Equals(null)) return false;
-            else return a.id == b.id && a.card.name == b.card.name && a.boundingBox == b.boundingBox;
+            else return a.id == b.id && a.card.name == b.card.name;
         }
         public static bool operator !=(SmallCard a, SmallCard b) => !(a == b);
         public override bool Equals(object obj)
