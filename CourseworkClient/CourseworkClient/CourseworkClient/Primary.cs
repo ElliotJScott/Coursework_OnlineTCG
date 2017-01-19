@@ -462,7 +462,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).MoveUnitFromEnemy(s); //s in the form id
                     break;
                 case Protocol.PlayUnitFromDeck:
-                    //((InGameForm)currentForm).PlayUnitFromEnemyDeck(s); //s in the form name
+                    ((InGameForm)currentForm).PlayUnitFromEnemyDeck(s); //s in the form name
                     break;
                 case Protocol.NoCardsInDeck:
                     ((InGameForm)currentForm).cardsInEnemyDeck = false;
@@ -489,17 +489,18 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).StartTurn();
                     break;
                 case Protocol.AddToEnemyFromDiscard:
-                    ((InGameForm)currentForm).AddCardToEnemyHand(s);
+                    ((InGameForm)currentForm).AddCardToEnemyHand(s, true);
                     break;
                 case Protocol.Artillery:
                     ((InGameForm)currentForm).DealDamageToUnit(Convert.ToInt32(s), 3, false);
                     break;
                 case Protocol.DeathInHonour:
                     ((InGameForm)currentForm).KillUnit(Convert.ToInt32(s));
-#warning put the damage component in later
+#warning put the damage component in later. Remember to put it in before the line above
                     break;
                 case Protocol.RemoveCardFromEnemyHand:
                     ((InGameForm)currentForm).numEnemyCardsInHand--;
+                    ((InGameForm)currentForm).enemyDiscardPile.Add(Card.getCard(s));
                     break;
                 case Protocol.HealHalf:
                     ((InGameForm)currentForm).HealUnit(Convert.ToInt32(s), 0.5, false);
@@ -508,10 +509,15 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).HealUnit(Convert.ToInt32(s), 1, false);
                     break;
                 case Protocol.PowerExtraction:
+                    ((InGameForm)currentForm).numEnemyCardsInHand--;
+                    ((InGameForm)currentForm).enemyResource++;
+                    ((InGameForm)currentForm).enemyDiscardPile.Add(Card.getCard(s));
                     break;
                 case Protocol.AddCardFromDiscard:
+                    ((InGameForm)currentForm).AddCardToEnemyHand(s, false);
                     break;
                 case Protocol.ReturnUnitToHand:
+                    ((InGameForm)currentForm).ReturnUnitToHand(Convert.ToInt32(s), false);
                     break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());

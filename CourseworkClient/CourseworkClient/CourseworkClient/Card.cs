@@ -83,5 +83,8 @@ namespace CourseworkClient
         {
             return string.Format("Card[Name : {0} | Cost : {1} | Rarity : {2} | Type : {3}]", name, cost, rarity, type);
         }
+        public static bool operator ==(Card a, Card b) => a.name == b.name;
+        public static bool operator !=(Card a, Card b) => !(a==b);
+
     }
 }

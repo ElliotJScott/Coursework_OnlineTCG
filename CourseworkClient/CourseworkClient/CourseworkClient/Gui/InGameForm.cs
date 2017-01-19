@@ -199,7 +199,7 @@ namespace CourseworkClient.Gui
         public int numEnemyCardsInHand;
         public bool cardsInEnemyDeck = true;
         public bool cardsInEnemyUpgradeDeck = true;
-        List<Card> enemyDiscardPile = new List<Card>();
+        public List<Card> enemyDiscardPile = new List<Card>();
         public List<SmallCard> enemyUnits = new List<SmallCard>();
         public List<SmallCard> playerUpgrades = new List<SmallCard>();
         public List<SmallCard> enemyUpgrades = new List<SmallCard>();
@@ -220,7 +220,7 @@ namespace CourseworkClient.Gui
         int playerHealth, enemyHealth;
         const int startingCardsInHand = 5;
         const int deckPlacementModifier = 23;
-        double playerResourcePT, enemyRPT, playerResource, enemyResource, playerResearch, enemyResearch;
+        public double playerResourcePT, enemyRPT, playerResource, enemyResource, playerResearch, enemyResearch;
 
         public InGameForm(Deck d, bool start, string e)
         {
@@ -292,7 +292,7 @@ namespace CourseworkClient.Gui
                 case Function.DeathInHonour:
                     KillUnit(card.id);
                     Primary.game.WriteDataToStream(Protocol.DeathInHonour, card.id.ToString());
-#warning need to put the damage component in
+#warning need to put the damage component in before the unit is killed
                     break;
                 case Function.DefendWithUnit:
                     ResolveChainWithDefender(card.id, false);
@@ -354,7 +354,7 @@ namespace CourseworkClient.Gui
             }
         }
 
-        private void ReturnUnitToHand(int id, bool p)
+        public void ReturnUnitToHand(int id, bool p)
         {
             /*
             foreach (SmallCard c in units)
@@ -462,12 +462,6 @@ namespace CourseworkClient.Gui
             }
         }
 
-        internal void AddCardToEnemyHand(string s)
-        {
-            throw new NotImplementedException();
-#warning this method needs writing
-        }
-
         public void HealUnit(int id, double f, bool p)
         {
             List<SmallCard> list = p ? units : enemyUnits;
@@ -481,6 +475,22 @@ namespace CourseworkClient.Gui
                 }
             }
         }
+
+        internal void AddCardToEnemyHand(string s, bool p)
+        {
+#warning not finished yet
+            List<Card> list = !p ? discardPile : enemyDiscardPile;
+            foreach (Card c in list)
+            {
+                if (c == Card.getCard(s))
+                {
+                    list.Remove(c);
+                    numEnemyCardsInHand++;
+
+                }
+            }
+        }
+
         public void HealUnit(SmallCard c, double factor)
         {
 
