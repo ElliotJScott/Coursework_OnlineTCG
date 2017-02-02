@@ -37,14 +37,14 @@ namespace CourseworkServer
         {
             #region Change this before hand-in: this is so that it works on both my desktop and laptop
             Console.WriteLine("Use Laptop or Desktop connection string? L/D");
-            switch (Console.Read())
+            switch (Console.ReadLine())
             {
-                case 'l':
-                case 'L':
+                case "l":
+                case "L":
                     connectionString = laptopConnectionString;
                     break;
-                case 'd':
-                case 'D':
+                case "d":
+                case "D":
                     connectionString = desktopConnectionString;
                     break;
                 default:
