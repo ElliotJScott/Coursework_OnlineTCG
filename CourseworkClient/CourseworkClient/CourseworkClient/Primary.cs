@@ -17,12 +17,18 @@ using System.Threading;
 
 namespace CourseworkClient
 {
+    /// <summary>
+    /// An enum to describe the shape of the window
+    /// </summary>
     public enum ScreenRatio
     {
         FourByThree,
         SixteenByNine,
         Other
     }
+    /// <summary>
+    /// An item to map card art to card names
+    /// </summary>
     public struct CardArtItem
     {
         public Texture2D art;
@@ -76,6 +82,10 @@ namespace CourseworkClient
         public string username;
         public int selectedDeckNum = 0;
 
+        /// <summary>
+        /// Entry point of the program
+        /// </summary>
+        /// <param name="args">Input data on entry</param>
         static void Main(string[] args)
         {
             Log("Starting program");
@@ -83,6 +93,9 @@ namespace CourseworkClient
             game.Run();
         }
 
+        /// <summary>
+        /// Creates a new instance of the game
+        /// </summary>
         public Primary()
         {
             Log("Creating instance of game");
@@ -94,6 +107,9 @@ namespace CourseworkClient
             graphics.IsFullScreen = false;
         }
 
+        /// <summary>
+        /// Called when an instance of the game is created
+        /// </summary>
         protected override void Initialize()
         {
             Log("Initialising the game");
@@ -111,6 +127,9 @@ namespace CourseworkClient
             base.Initialize();
             Log("Finished initialising");
         }
+        /// <summary>
+        /// Loads any media that needs to be loaded on starting the game
+        /// </summary>
         protected override void LoadContent()
         {
             Log("Beginning loading content");
@@ -149,7 +168,10 @@ namespace CourseworkClient
             cardBack = Content.Load<Texture2D>("Card Back");
             Log("Finished loading content");
         }
-
+        /// <summary>
+        /// Performs game logic every tick
+        /// </summary>
+        /// <param name="gameTime">The game timing state</param>
         protected override void Update(GameTime gameTime)
         {
             currentForm.Update();
@@ -168,6 +190,10 @@ namespace CourseworkClient
             }
         }
 
+        /// <summary>
+        /// Describes what to draw every frame
+        /// </summary>
+        /// <param name="gameTime">The game timing state</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
@@ -178,7 +204,11 @@ namespace CourseworkClient
 
             base.Draw(gameTime);
         }
-
+        /// <summary>
+        /// Gets the art for a given card
+        /// </summary>
+        /// <param name="name">The name of the card</param>
+        /// <returns>The art of the card</returns>
         internal Texture2D GetCardArt(string name)
         {
             try
@@ -199,7 +229,11 @@ namespace CourseworkClient
             throw new ArgumentException();
         }
 
-        //Do not change this method ever!
+        /// <summary>
+        /// Computes the hash of a given string
+        /// </summary>
+        /// <param name="s">The string to hash</param>
+        /// <returns>The hashed string</returns>
         public string ComputeHash(string s)
         {
             Log("Calculating password hash");
@@ -217,6 +251,10 @@ namespace CourseworkClient
 
         }
 
+        /// <summary>
+        /// Gets the ratio of the screen
+        /// </summary>
+        /// <returns>Returns the ratio of the screen</returns>
         public ScreenRatio CalculateRatio()
         {
             Log("Calculating screen ration");
@@ -230,18 +268,36 @@ namespace CourseworkClient
             }
             else return ScreenRatio.Other;
         }
+        /// <summary>
+        /// Loads the In Game Background
+        /// </summary>
+        /// <returns>The In game background</returns>
         public Texture2D LoadInGameBackground()
         {
             return loadBackground("InGameBackground4x3", "InGameBackground16x9");
         }
+        /// <summary>
+        /// Loads the loading screen background
+        /// </summary>
+        /// <returns>The loading screen background</returns>
         public Texture2D LoadLoadingScreenBackground()
         {
             return loadBackground("4x3 Background", "16x9 Background");
         }
+        /// <summary>
+        /// Loads the main menu background
+        /// </summary>
+        /// <returns>The main menu background</returns>
         public Texture2D LoadMainMenuBackground()
         {
             return loadBackground("MainMenuBackground4x3", "MainMenuBackground16x9");
         }
+        /// <summary>
+        /// Loads the correct background texture
+        /// </summary>
+        /// <param name="fourbythree">The name of the 4x3 background</param>
+        /// <param name="sixteenbynine">The name of the 16x9 background</param>
+        /// <returns>The correct background texture</returns>
         public Texture2D loadBackground(string fourbythree, string sixteenbynine)
         {
             switch (ratio)
@@ -254,6 +310,9 @@ namespace CourseworkClient
             }
             throw new InvalidOperationException();
         }
+        /// <summary>
+        /// Attempts to connect the client to the server
+        /// </summary>
         public void ConnectClient()
         {
             try
@@ -302,6 +361,10 @@ namespace CourseworkClient
             }
             catch { }
         }
+        /// <summary>
+        /// Called whenever data is received from the server
+        /// </summary>
+        /// <param name="ar">Used to get the number of bytes received</param>
         private void StreamReceived(IAsyncResult ar)
         {
             Log("Data received");
@@ -330,12 +393,19 @@ namespace CourseworkClient
                 connected = false;
             }
         }
+        /// <summary>
+        /// Exits the game
+        /// </summary>
         public void ExitGame()
         {
             Log("A fatal error has been encountered. Exiting now");
             System.Windows.Forms.MessageBox.Show("Game has encountered issue. Closing now");
             Environment.Exit(0);
         }
+        /// <summary>
+        /// Processes input data so that it can be handled effectively
+        /// </summary>
+        /// <param name="data">The data to process</param>
         private void ProcessData(byte[] data)
         {
 
@@ -348,7 +418,11 @@ namespace CourseworkClient
 
 
         }
-
+        /// <summary>
+        /// Converts an input byte array to a string
+        /// </summary>
+        /// <param name="b">The byte array</param>
+        /// <returns>The input byte array as a string</returns>
         static string byteArrayToString(byte[] b)
         {
             string output = "";
@@ -358,6 +432,11 @@ namespace CourseworkClient
             }
             return output;
         }
+        /// <summary>
+        /// Handles received data based on the protocol it was sent with
+        /// </summary>
+        /// <param name="p">The received protocol</param>
+        /// <param name="s">The data received</param>
         private void HandleData(Protocol p, string s)
         {
             //Console.WriteLine("{0} : {1}", p, s);
@@ -439,8 +518,8 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).OfferCardPlayCounters();
                     break;
                 case Protocol.PlayUnit:
-                    ((InGameForm)currentForm).OfferCardPlayCounters();
-                    ((InGameForm)currentForm).AddUnitPlayToChain(s);//Add this played fellow to the chain
+                    ((InGameForm)currentForm).AddUnitPlayToChain(s);
+                    ((InGameForm)currentForm).OfferCardPlayCounters();//Add this played fellow to the chain
                     break;
                 case Protocol.ControlUnit:
                     ((InGameForm)currentForm).MoveUnitToEnemy(s);
@@ -526,6 +605,10 @@ namespace CourseworkClient
 
             }
         }
+        /// <summary>
+        /// Adds a new card
+        /// </summary>
+        /// <param name="s">The card data to use</param>
         private void AddNewCard(string s)
         {
             string[] data = s.Split('|');
@@ -535,16 +618,28 @@ namespace CourseworkClient
             }
             else Card.allCards.Add(new Card(data[0], (CardType)Convert.ToInt32(data[1]), Convert.ToInt32(data[5]), (Rarity)Convert.ToInt32(data[2])));
         }
+        /// <summary>
+        /// Adds a new effect
+        /// </summary>
+        /// <param name="s">The effect data to use</param>
         private void AddNewEffect(string s)
         {
             string[] data = s.Split('|');
             Effect.allEffects.Add(new Effect(data[0], data[1], data[2]));
         }
+        /// <summary>
+        /// Adds an effect to a card
+        /// </summary>
+        /// <param name="s">The card and the effect</param>
         private void AddEffectToCard(string s)
         {
             string[] data = s.Split('|');
             Card.AddEffectToBaseCard(data[0], data[1]);
         }
+        /// <summary>
+        /// Adds a new deck
+        /// </summary>
+        /// <param name="s">The deck data to use</param>
         private void AddNewDeck(string s)
         {
             string[] data = s.Split('|');
@@ -552,11 +647,19 @@ namespace CourseworkClient
                 Deck.allOwnedCards = new Deck(Convert.ToInt32(data[0]));
             else Deck.decks.Add(new Deck(Convert.ToInt32(data[0])));
         }
+        /// <summary>
+        /// Adds a card to a deck
+        /// </summary>
+        /// <param name="s">The deck and card data to use</param>
         private void AddCardToDeck(string s)
         {
             string[] data = s.Split('|');
             Deck.AddCardToDeck(Card.getCard(data[0]), Convert.ToInt32(data[1]), Convert.ToInt32(data[2]));
         }
+        /// <summary>
+        /// Adds art to a given card
+        /// </summary>
+        /// <param name="cardName">The name of the card</param>
         public void AddNewCardArt(string cardName)
         {
             Texture2D art;
@@ -571,11 +674,20 @@ namespace CourseworkClient
             }
             cardArt.Add(new CardArtItem(art, cardName));
         }
+        /// <summary>
+        /// Displays a message in a popup window
+        /// </summary>
+        /// <param name="s">The message to display</param>
         public static void ShowMessage(string s)
         {
             Log("Displaying message");
             System.Windows.Forms.MessageBox.Show(s);
         }
+        /// <summary>
+        /// Gets the data from a given memory stream
+        /// </summary>
+        /// <param name="ms">The memory stream to get the data from</param>
+        /// <returns>The data from the memorystream</returns>
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
             lock (ms)
@@ -592,6 +704,10 @@ namespace CourseworkClient
 
 
         }
+        /// <summary>
+        /// Send the given data to the server
+        /// </summary>
+        /// <param name="b">The data to send</param>
         public void SendData(byte[] b)
         {
             try
@@ -607,6 +723,10 @@ namespace CourseworkClient
                 Log("Failed to send data length " + b.Length);
             }
         }
+        /// <summary>
+        /// Send the given protocol to the server
+        /// </summary>
+        /// <param name="p">The protocol to send</param>
         public void WriteDataToStream(Protocol p)
         {
 
@@ -616,6 +736,11 @@ namespace CourseworkClient
 
 
         }
+        /// <summary>
+        /// Send the given protocol and string to the server
+        /// </summary>
+        /// <param name="p">The protocol to send</param>
+        /// <param name="o">The string to send</param>
         public void WriteDataToStream(Protocol p, string o)
         {
             Log(string.Format("Sending data Protocol : {0} Element : {1}", p, o));
@@ -624,6 +749,10 @@ namespace CourseworkClient
 
 
         }
+        /// <summary>
+        /// Logs a given piece of data to the console with a timestamp
+        /// </summary>
+        /// <param name="s">The data to log</param>
         public static void Log(object s)
         {
             DateTime now = DateTime.Now;
@@ -631,6 +760,12 @@ namespace CourseworkClient
             Thread t = new Thread(() => Console.WriteLine(f));
             t.Start();
         }
+        /// <summary>
+        /// Adds a given protocol to the front of a byte array
+        /// </summary>
+        /// <param name="b">The byte array to add the protocol to</param>
+        /// <param name="p">The protocol to add</param>
+        /// <returns>The byte array with the protocol added</returns>
         public static byte[] addProtocolToArray(byte[] b, Protocol p)
         {
             byte[] e = new byte[b.Length + 1];
@@ -641,6 +776,11 @@ namespace CourseworkClient
             }
             return e;
         }
+        /// <summary>
+        /// Converts a given string to a byte array
+        /// </summary>
+        /// <param name="s">The string to convert</param>
+        /// <returns>The converted string</returns>
         public static byte[] toByteArray(string s)
         {
             char[] c = s.ToCharArray();

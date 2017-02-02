@@ -12,12 +12,23 @@ namespace CourseworkClient
         public string description;
         public Color colour;
         public static List<Effect> allEffects = new List<Effect>();
+        /// <summary>
+        /// Creates a new Effect
+        /// </summary>
+        /// <param name="n">The name of the effect</param>
+        /// <param name="d">The description of the effect</param>
+        /// <param name="colourName">The name of the colour to draw the effect name</param>
         public Effect(string n, string d, string colourName)
         {
             colour = GetColourFromName(colourName);
             name = n;
             description = d;
         }
+        /// <summary>
+        /// Gets an effect with a given name
+        /// </summary>
+        /// <param name="s">The name of the effect to get</param>
+        /// <returns>The effect</returns>
         public static Effect GetEffect(string s) //Replace this with a binary search if i get time
         {
             foreach (Effect e in allEffects)
@@ -26,6 +37,11 @@ namespace CourseworkClient
             }
             throw new ArgumentException();
         }
+        /// <summary>
+        /// Gets the colour from a given name
+        /// </summary>
+        /// <param name="name">The name of the colour to get</param>
+        /// <returns>The colour</returns>
         static Color GetColourFromName(string name)
         {
             switch (name)
@@ -72,10 +88,11 @@ namespace CourseworkClient
         {
             return base.GetHashCode();
         }
-
+        
         public int CompareTo(object obj) //For if i use a binary search
         {
             return ((Effect)obj).name.CompareTo(name);
         }
+        
     }
 }

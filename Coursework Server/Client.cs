@@ -6,6 +6,9 @@ using System.Threading;
 
 namespace CourseworkServer
 {
+    /// <summary>
+    /// This is the status of a player
+    /// </summary>
     public enum Status
     {
         Offline,
@@ -29,6 +32,10 @@ namespace CourseworkServer
         public int elo;
         public const byte transmissionDemarcator = (byte)'`';
 
+        /// <summary>
+        /// Creates a new client connected to the server.
+        /// </summary>
+        /// <param name="c">The client that has connected</param>
         public Client(TcpClient c)
         {
             tcpClient = c;
@@ -36,10 +43,17 @@ namespace CourseworkServer
             tcpClient.NoDelay = true;
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null); //Listen for new data and call the DataReceived method when data has been received
         }
+        /// <summary>
+        /// Disconnect the player from the server
+        /// </summary>
         public void Disconnect()
         {
             DisconnectEvent(this);
         }
+        /// <summary>
+        /// This method is called whenever data is received from 
+        /// </summary>
+        /// <param name="a">This is the result of the data reception</param>
         public void DataReceived(IAsyncResult a)
         {
             int length = 0; //The number of bytes of data that were received from the end user
@@ -55,8 +69,8 @@ namespace CourseworkServer
             {
                 Console.WriteLine("Error reading data");
             }
-            byte[] d = new byte[length]; //An array to write the bytes into from the buffer where they were before. The buffer is used as the number of bytes needed is uncertain but now it is known.
-            if (length == 0)
+            byte[] d = new byte[length];
+            if (length == 0) //If bad data was received from the client
             {
                 Disconnect();
                 Console.WriteLine("Client disconnecting");
@@ -71,7 +85,10 @@ namespace CourseworkServer
             DataReceivedEvent?.Invoke(this, d);
 
         }
-
+        /// <summary>
+        /// Send data to this client
+        /// </summary>
+        /// <param name="b">The data to send to the client</param>
         public void SendData(byte[] b)
         {
             try
@@ -104,6 +121,9 @@ namespace CourseworkServer
         {
             return base.GetHashCode();
         }
+        /// <summary>
+        /// Notifies all friends of a change in status
+        /// </summary>
         public void NotifyFriendsStatus()
         {
             foreach (string s in friends)

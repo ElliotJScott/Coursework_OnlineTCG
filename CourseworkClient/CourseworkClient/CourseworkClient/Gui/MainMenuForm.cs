@@ -5,6 +5,9 @@ namespace CourseworkClient.Gui
 {
     class MainMenuForm : Form
     {
+        /// <summary>
+        /// Creates a new MainMenuForm
+        /// </summary>
         public MainMenuForm()
         {
             background = Primary.game.mainMenuBackground;

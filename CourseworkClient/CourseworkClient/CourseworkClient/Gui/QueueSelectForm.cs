@@ -9,6 +9,9 @@ namespace CourseworkClient.Gui
 {
     public class QueueSelectForm : Form
     {
+        /// <summary>
+        /// Creates a new QueueSelectForm
+        /// </summary>
         public QueueSelectForm()
         {
             background = Primary.game.mainMenuBackground;

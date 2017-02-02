@@ -29,6 +29,10 @@ namespace CourseworkClient.Gui
        
             if (bufferAnimTimer++ >= (numBufferFrames * 10 - 1)) bufferAnimTimer = 0;
         }
+        /// <summary>
+        /// This is like Draw but called afterwards so deals with anything that needs to be drawn last
+        /// </summary>
+        /// <param name="sb">The SpriteBatch used to draw</param>
         public void PostDraw(SpriteBatch sb)
         {
 
@@ -41,11 +45,18 @@ namespace CourseworkClient.Gui
                 sb.DrawString(Primary.game.mainFont, lockMessage, new Vector2((v.Width / 2) - 190, v.Height / 2), Color.Red);
             }
         }
+        /// <summary>
+        /// Locks the form so it cannot be used.
+        /// </summary>
+        /// <param name="s">The text to display while the form is locked</param>
         public void Lock(string s)
         {
             locked = true;
             lockMessage = s;
         }
+        /// <summary>
+        /// Unlocks the form so it can be used again.
+        /// </summary>
         public void Unlock()
         {
             locked = false;

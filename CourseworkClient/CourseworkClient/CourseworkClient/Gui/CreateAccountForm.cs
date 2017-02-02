@@ -11,6 +11,9 @@ namespace CourseworkClient.Gui
     class CreateAccountForm : Form
     {
         public string errorMessageText = "";
+        /// <summary>
+        /// Creates a new CreateAccountForm and adds the appropriate items to it
+        /// </summary>
         public CreateAccountForm()
         {
             background = Primary.game.loginScreenBackground;
@@ -22,6 +25,10 @@ namespace CourseworkClient.Gui
             formItems.Add(new FormChangeButton(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.buttonTexture.Width) / 2, 170 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), 180, 30), "Back", FormChangeButtonTypes.CreateAccountToLogIn));
             formItems.Add(new ExitButton(new Rectangle((Primary.game.GraphicsDevice.Viewport.Width - Primary.game.buttonTexture.Width) / 2, 210 + ((Primary.game.GraphicsDevice.Viewport.Height - Primary.game.textFieldTexture.Height) / 2), 180, 30)));
         }
+        /// <summary>
+        /// Checks if the two entered passwords match
+        /// </summary>
+        /// <returns>Whether the passwords match</returns>
         public bool PasswordsMatch()
         {
             return ((TextField)formItems[1]).text == ((TextField)formItems[2]).text;

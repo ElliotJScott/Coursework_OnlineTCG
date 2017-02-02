@@ -6,6 +6,9 @@ using System.Text;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// The different transitions that a FormChangeButton can make
+    /// </summary>
     enum FormChangeButtonTypes
     {
         LogInToCreateAccount,
@@ -22,6 +25,11 @@ namespace CourseworkClient.Gui
     }
     class FormBuilder
     {
+        /// <summary>
+        /// Gets a new form from a transition
+        /// </summary>
+        /// <param name="type">The form transition to make</param>
+        /// <returns>The form to transition to</returns>
         public static Form BuildNewForm(FormChangeButtonTypes type)
         {
             switch (type)
@@ -35,7 +43,8 @@ namespace CourseworkClient.Gui
                 case FormChangeButtonTypes.MainMenuToQueueSelect:
                     return new QueueSelectForm();
                 case FormChangeButtonTypes.MainMenuToDeckManager:
-                    return new InGameForm(Deck.decks[Primary.game.selectedDeckNum], true, "Test");//This will most certainly need to be changed
+#warning This will most certainly need to be changed
+                    return new InGameForm(Deck.decks[Primary.game.selectedDeckNum], true, "Test");
                 case FormChangeButtonTypes.OptionsToMainMenu:
                 case FormChangeButtonTypes.QueueSelectToMainMenu:
                 case FormChangeButtonTypes.StoreToMainMenu:

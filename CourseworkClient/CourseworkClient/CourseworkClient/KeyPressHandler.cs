@@ -38,8 +38,19 @@ namespace CourseworkClient
             new Dictionary(Keys.Space, ' ', ' ')
         };
         #endregion
+        /// <summary>
+        /// Checks whether a given key has been pressed
+        /// </summary>
+        /// <param name="k">The key to check</param>
+        /// <returns>Whether the key has been pressed</returns>
         public bool HasKeyBeenPressed(Keys k) => oldKeyboardState.IsKeyUp(k) && Keyboard.GetState().IsKeyDown(k);
 
+        /// <summary>
+        /// Gets any changes to a given string based on keys pressed
+        /// </summary>
+        /// <param name="initstring">The initial string</param>
+        /// <param name="maxLength">The maximum length of the string</param>
+        /// <returns>The updated string</returns>
         public string NewTypedString(string initstring, int maxLength)
         {
             KeyboardState currentKeyboardState = Keyboard.GetState();
@@ -89,6 +100,12 @@ namespace CourseworkClient
             return initstring;
 
         }
+        /// <summary>
+        /// Gets the string outputted when a key is pressed
+        /// </summary>
+        /// <param name="key">The key pressed</param>
+        /// <param name="shift">Whether shift is held</param>
+        /// <returns>The string produced by the key</returns>
         string OnKeyDownType(Keys key, bool shift)
         {
             string keyname = key.ToString();
@@ -99,6 +116,11 @@ namespace CourseworkClient
                     if (d.key == key) return shift ? d.shiftCharacter.ToString() : d.character.ToString();
             return "";
         }
+        /// <summary>
+        /// Gets the index of the timer for a given key
+        /// </summary>
+        /// <param name="k">The key to get the timer of</param>
+        /// <returns>The timer of the key</returns>
         int GetIndexOfTimer(Keys k)
         {
             for (int i = 0; i < timers.Count; i++)
@@ -107,17 +129,28 @@ namespace CourseworkClient
             }
             return -1;
         }
+        /// <summary>
+        /// Updates the keyboard state once all logic has been performed
+        /// </summary>
         public void UpdateOldState()
         {
             oldKeyboardState = Keyboard.GetState();
         }
     }
-
+    /// <summary>
+    /// A mapping of a key to what it produces when it is pressed with and without shift pressed
+    /// </summary>
     class Dictionary
     {
         public Keys key;
         public char character;
         public char shiftCharacter;
+        /// <summary>
+        /// Creates a new mapping of a key
+        /// </summary>
+        /// <param name="k">The key</param>
+        /// <param name="c">The output when shift is not held</param>
+        /// <param name="sc">The output when shift is held</param>
         public Dictionary(Keys k, char c, char sc)
         {
             key = k;
@@ -125,10 +158,17 @@ namespace CourseworkClient
             shiftCharacter = sc;
         }
     }
+    /// <summary>
+    /// A timer for how long a given key has been pressed.
+    /// </summary>
     public class KeyPressTimer
     {
         public int timer;
         public Keys key;
+        /// <summary>
+        /// Creates a new timer for a key
+        /// </summary>
+        /// <param name="k">The key to create the timer for</param>
         public KeyPressTimer(Keys k)
         {
             key = k;

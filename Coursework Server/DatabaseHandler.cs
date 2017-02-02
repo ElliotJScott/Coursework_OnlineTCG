@@ -12,6 +12,12 @@ namespace CourseworkServer
 
     class DatabaseHandler
     {
+        /// <summary>
+        /// Executes the given query
+        /// </summary>
+        /// <param name="query">The query to execute</param>
+        /// <param name="parameters">Any parameters to be put into the query. All parameters should be sequentially named @p1, @p2 etc.</param>
+        /// <returns>The result of the query</returns>
         public object[][] DoParameterizedSQLQuery(string query, params object[] parameters)
         {
 
@@ -46,6 +52,12 @@ namespace CourseworkServer
 
 
         }
+        /// <summary>
+        /// Executes the given command
+        /// </summary>
+        /// <param name="command">The command to execute</param>
+        /// <param name="parameters">Any parameters to be put into the command. All parameters should be sequentially named @p1, @p2 etc.</param>
+        /// <returns>The number of rows affected by the command</returns>
         public int DoParameterizedSQLCommand(string command, params object[] parameters)
         {
             lock (command)

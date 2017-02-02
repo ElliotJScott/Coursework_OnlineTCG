@@ -8,11 +8,21 @@ using System.Text;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// Used to draw the effects on a big card and allows for them to be hovered over to examine their effects. Also allows for them to be scrolled through.
+    /// </summary>
     class CardText : ScrollableTextPane
     {
         const int charWidth = 9;
         const int charsPerLine = 30;
         const int maxLines = 8;
+        /// <summary>
+        /// Initialises a CardText item in a BigCard.
+        /// </summary>
+        /// <param name="rect">The bounding box of the </param>
+        /// <param name="s">The lines to draw</param>
+        /// <param name="p">Has no effect for a CardText item</param>
+        /// <param name="c">The colours to draw each line at</param>
         public CardText(Rectangle rect, List<string> s, int p, List<Color> c = null) : base(rect, s, 14358, p, c)
         {
             position = 0;
@@ -49,6 +59,12 @@ namespace CourseworkClient.Gui
             }
            
         }
+        /// <summary>
+        /// Turns a piece of text into a number of lines.
+        /// </summary>
+        /// <param name="numChars">The maximum number of characters per line</param>
+        /// <param name="s">The input text</param>
+        /// <returns>A string array containing the lines</returns>
         public static string[] stringToLines(int numChars, string s)
         {
             string[] splitted = s.Split(' ');

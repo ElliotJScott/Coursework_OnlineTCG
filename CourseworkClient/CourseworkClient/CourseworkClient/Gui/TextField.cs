@@ -15,6 +15,13 @@ namespace CourseworkClient
         int drawBarTimer = 0;
         const int drawBarTimePeriod = 40;
 
+        /// <summary>
+        /// Creates a new TextField
+        /// </summary>
+        /// <param name="r">The bounding box of the card</param>
+        /// <param name="maxLen">The maximum length of string that the field can contain</param>
+        /// <param name="cap">The caption that the textfield should have. "" means no caption</param>
+        /// <param name="hide">Whether the text should be hidden (like a password field)</param>
         public TextField(Rectangle r, int maxLen, string cap = "", bool hide = false)
         {
             hideText = hide;

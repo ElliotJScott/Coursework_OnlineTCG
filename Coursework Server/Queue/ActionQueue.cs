@@ -9,14 +9,21 @@ namespace CourseworkServer
 {
     class ActionQueue
     {
-        List<ActionItem> items = new List<ActionItem>();
-        List<ActionItem> priorityItems = new List<ActionItem>();
+
+        List<ActionItem> items = new List<ActionItem>(); //The standard priority item queue
+        List<ActionItem> priorityItems = new List<ActionItem>(); //The high priority item queue
+        /// <summary>
+        /// Constructor to set up the queue. The queue operates entirely in its own thread.
+        /// </summary>
         public ActionQueue()
         {
             Console.WriteLine("Queue set up");
             Thread t = new Thread(new ThreadStart(BeginDelegating));
             t.Start();
         }
+        /// <summary>
+        /// Begins executing all of the items in the queue in order.
+        /// </summary>
         public void BeginDelegating()
         {
             while (true)
@@ -37,6 +44,10 @@ namespace CourseworkServer
                 }
             }
         }
+        /// <summary>
+        /// Executes the given ActionItem in a new thread.
+        /// </summary>
+        /// <param name="i">The ActionItem to execute</param>
         public void Execute(ActionItem i)
         {
             Executor e = new Executor();
@@ -44,6 +55,10 @@ namespace CourseworkServer
             Thread t = new Thread(new ThreadStart(e.Execute));
             t.Start();
         }
+        /// <summary>
+        /// Adds an item to the end of the correct queue
+        /// </summary>
+        /// <param name="a">The item to add to the queue. The priority is stored in the item.</param>
         public void Enqueue(ActionItem a)
         {
             switch (a.priority)

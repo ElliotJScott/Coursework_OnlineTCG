@@ -10,6 +10,11 @@ namespace CourseworkServer
     {
         public int number;
         public string name;
+        /// <summary>
+        /// Creates a new item for a default deck.
+        /// </summary>
+        /// <param name="n">The quantity of the card in the deck</param>
+        /// <param name="s">The name of the card</param>
         public DeckItem(int n, string s)
         {
             number = n;
@@ -62,6 +67,10 @@ namespace CourseworkServer
             new DeckItem(2, "Bonesword"),
             new DeckItem(1, "Psyker: Leech Essence")
         };
+        /// <summary>
+        /// Gives the player either the ultramarine or tyranid default deck at random. This should be called whenever a new account is created.
+        /// </summary>
+        /// <param name="u">The username of the player to give the deck to</param>
         public static void AddDefaultDeckToPlayer(string u)
         {
             int f = Server.server.rng.Next(2);
