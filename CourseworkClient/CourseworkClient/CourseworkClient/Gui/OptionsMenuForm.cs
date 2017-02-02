@@ -9,6 +9,9 @@ namespace CourseworkClient.Gui
 {
     class OptionsMenuForm : Form
     {
+        /// <summary>
+        /// Temporary Method for testing purposes
+        /// </summary>
         public OptionsMenuForm()
         {
             background = Primary.game.loginScreenBackground;

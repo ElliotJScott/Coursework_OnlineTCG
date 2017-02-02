@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace CourseworkServer
 {
-    enum Priority //If needed add a third priority for really important things and maybe a low priority for unimportant things
+    /// <summary>
+    /// The priorities for the queue
+    /// </summary>
+    enum Priority
     {
         standard,
         high
     }
+    /// <summary>
+    /// The different operations that can be done to the items in the queue
+    /// </summary>
     public enum Operation
     {
         AddNewAccount,
@@ -26,6 +32,13 @@ namespace CourseworkServer
         public Operation operation;
         public object data;
         public Client sender;
+        /// <summary>
+        /// Constructor for an ActionItem, which is the items that are put into the queue to be processed
+        /// </summary>
+        /// <param name="op">The operation that needs to be done to the data</param>
+        /// <param name="d">The data that needs to be processed</param>
+        /// <param name="c">The client that sent the data</param>
+        /// <param name="p">The priority of the item in the queue. Default value is standard priority.</param>
         public ActionItem(Operation op, object d, Client c, Priority p = Priority.standard)
         {
             sender = c;

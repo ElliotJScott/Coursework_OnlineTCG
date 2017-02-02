@@ -8,6 +8,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// Defines a label which displays text that can be scrolled through
+    /// </summary>
     class ScrollableTextPane : GuiItem
     {
         public List<string> text = new List<string>();
@@ -15,6 +18,14 @@ namespace CourseworkClient.Gui
         public int position;
         public int pixelHeight;
         public List<Color> colours;
+        /// <summary>
+        /// Creates a new ScrollableTextPane
+        /// </summary>
+        /// <param name="rect">The bounding box of the pane</param>
+        /// <param name="s">The text that the pane contains</param>
+        /// <param name="n">The number of lines that can be displayed at one time</param>
+        /// <param name="p">The height of each line</param>
+        /// <param name="c">The colours of each line</param>
         public ScrollableTextPane(Rectangle rect, List<string> s, int n, int p, List<Color> c = null)
         {
             boundingBox = rect;
@@ -40,6 +51,12 @@ namespace CourseworkClient.Gui
                 }
             }
         }
+        /// <summary>
+        /// Creates a list of the same colour
+        /// </summary>
+        /// <param name="c">The colour to use</param>
+        /// <param name="l">The length of the list</param>
+        /// <returns>The filled list</returns>
         public List<Color> fillColourArray(Color c, int l)
         {
             List<Color> output = new List<Color>();
@@ -64,6 +81,10 @@ namespace CourseworkClient.Gui
             }
 
         }
+        /// <summary>
+        /// Gets whether each scroll arrow can be used
+        /// </summary>
+        /// <returns>Array of whether each line can be used</returns>
         public bool[] canScroll()
         {
             if (text.Count <= numLines) return new bool[]{ false, false };
@@ -73,6 +94,11 @@ namespace CourseworkClient.Gui
             if (position < text.Count - numLines) down = true;
             return new bool[] { up, down };
         }
+        /// <summary>
+        /// Adds a line to the text
+        /// </summary>
+        /// <param name="s">The line to add</param>
+        /// <param name="c">The colour to make the line, null makes the line black</param>
         public void addLine(string s, Color? c)
         {
             text.Add(s);

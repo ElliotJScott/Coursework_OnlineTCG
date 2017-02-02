@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// The state of an item in the chain
+    /// </summary>
     enum PlayState
     {
         Success,
         Countered,
         NotExecuted,
     }
+    /// <summary>
+    /// The location of a given card
+    /// </summary>
     enum Location
     {
         InHand,
@@ -21,6 +28,9 @@ namespace CourseworkClient.Gui
         InEnemyUnits,
         InEnemyDiscardPile,
     }
+    /// <summary>
+    /// The different things that can be done with a card selected from the SelectionForm
+    /// </summary>
     enum Function
     {
         KillUnit,
@@ -43,12 +53,21 @@ namespace CourseworkClient.Gui
         HealHalf,
         Counter,
     }
+    /// <summary>
+    /// An item in the chain
+    /// </summary>
     class ChainItem
     {
         public SmallCard card;
         public PlayState state;
         public bool playerPlayed;
         public bool needSelection;
+        /// <summary>
+        /// Creates a new item to add to the chain
+        /// </summary>
+        /// <param name="c">The card that is performing some action</param>
+        /// <param name="plPlayed">Whether or not the player played the card</param>
+        /// <param name="select">Whether the card requires any selection</param>
         public ChainItem(SmallCard c, bool plPlayed, bool select)
         {
             needSelection = select;
@@ -74,7 +93,9 @@ namespace CourseworkClient.Gui
             else return string.Format("{0} played {1}", username, card.card.name);
         }
     }
-
+    /// <summary>
+    /// A condition to filter down cards that can be selected
+    /// </summary>
     struct SelectionCondition
     {
         public Effect[] requiredEffects;
@@ -126,6 +147,10 @@ namespace CourseworkClient.Gui
             quantity = num;
             conditions = sel;
         }
+        /// <summary>
+        /// Gets all valid cards for the selection
+        /// </summary>
+        /// <returns>A list of all valid cards</returns>
         public List<SmallCard> GetCards()
         {
             List<SmallCard> output = new List<SmallCard>();
@@ -173,6 +198,9 @@ namespace CourseworkClient.Gui
             return output;
         }
     }
+    /// <summary>
+    /// A selection with accompanying text to display
+    /// </summary>
     struct SelectionItem
     {
         public Selection selection;
@@ -221,7 +249,12 @@ namespace CourseworkClient.Gui
         const int startingCardsInHand = 5;
         const int deckPlacementModifier = 23;
         public double playerResourcePT, enemyRPT, playerResource, enemyResource, playerResearch, enemyResearch;
-
+        /// <summary>
+        /// Creates a new InGameForm
+        /// </summary>
+        /// <param name="d">The deck that the player should use</param>
+        /// <param name="start">Whether the player starts first</param>
+        /// <param name="e">The enemy's username</param>
         public InGameForm(Deck d, bool start, string e)
         {
             myTurn = start;
@@ -262,7 +295,11 @@ namespace CourseworkClient.Gui
             if (start) StartTurn();
             else StartEnemyTurn();
         }
-
+        /// <summary>
+        /// Performs the appropriate action for a selection
+        /// </summary>
+        /// <param name="card">The card selected</param>
+        /// <param name="func">The function that should be performed</param>
         internal void HandleSelection(SmallCard card, Function func)
         {
             switch (func)
@@ -353,7 +390,11 @@ namespace CourseworkClient.Gui
                     break;
             }
         }
-
+        /// <summary>
+        /// Returns a unit to the owner's hand
+        /// </summary>
+        /// <param name="id">The id of the unit</param>
+        /// <param name="p">Whether the player played the unit</param>
         public void ReturnUnitToHand(int id, bool p)
         {
             /*
@@ -461,7 +502,12 @@ namespace CourseworkClient.Gui
                 }
             }
         }
-
+        /// <summary>
+        /// Heals a unit
+        /// </summary>
+        /// <param name="id">The id of the unit</param>
+        /// <param name="f">The amount to heal the unit by</param>
+        /// <param name="p">Whether the player played the unit</param>
         public void HealUnit(int id, double f, bool p)
         {
             List<SmallCard> list = p ? units : enemyUnits;
@@ -475,10 +521,14 @@ namespace CourseworkClient.Gui
                 }
             }
         }
-
+        /// <summary>
+        /// Adds a card from a discard pile to the enemy's hand
+        /// </summary>
+        /// <param name="s">The card to add</param>
+        /// <param name="p">Whether the player's discard pile will be used</param>
         internal void AddCardToEnemyHand(string s, bool p)
         {
-#warning not finished yet
+#warning this might be fine
             List<Card> list = !p ? discardPile : enemyDiscardPile;
             foreach (Card c in list)
             {
@@ -490,7 +540,11 @@ namespace CourseworkClient.Gui
                 }
             }
         }
-
+        /// <summary>
+        /// Heals a unit as a fraction of its max health
+        /// </summary>
+        /// <param name="c">The card to heal</param>
+        /// <param name="factor">The factor by which to heal the unit</param>
         public void HealUnit(SmallCard c, double factor)
         {
 
@@ -498,7 +552,12 @@ namespace CourseworkClient.Gui
             int change = (int)Math.Ceiling(factor * maxHealth);
             c.card.health = Math.Min((int)maxHealth, c.card.health.Value + change);
         }
-
+        /// <summary>
+        /// Damages the given unit
+        /// </summary>
+        /// <param name="id">The unit to damage</param>
+        /// <param name="damage">The amount to damage the unit by</param>
+        /// <param name="p">Whether the unit is owned by the player</param>
         public void DealDamageToUnit(int id, int damage, bool p)
         {
             List<SmallCard> list = p? units : enemyUnits;
@@ -510,7 +569,9 @@ namespace CourseworkClient.Gui
             }
             
         }
-
+        /// <summary>
+        /// Ensures all cards in play and in hands are drawn in the correct positions
+        /// </summary>
         private void UpdateCardPositions()
         {
             List<SmallCard>[] lists = new List<SmallCard>[] { hand, units, enemyUnits, };
@@ -608,7 +669,9 @@ namespace CourseworkClient.Gui
                 DrawChain(chain.First, sb);
             }
         }
-
+        /// <summary>
+        /// Adds the appropriate buttons for the player to counter an enemy's attack appropriately
+        /// </summary>
         internal void OfferAttackCounterOptions()
         {
             Button[] b = getCommonCounterButtons();
@@ -618,7 +681,12 @@ namespace CourseworkClient.Gui
             f[f.Length - 1] = defendButton;
             counterOptionButtons = f;
         }
-
+        /// <summary>
+        /// Draws the chain in text to screen. Note that I use recursion here.
+        /// </summary>
+        /// <param name="c">The current node to draw</param>
+        /// <param name="sb">The SpriteBatch to draw with</param>
+        /// <param name="ticker">How many nodes have been drawn</param>
         void DrawChain(LinkedListNode<ChainItem> c, SpriteBatch sb, int ticker = 0)
         {
             try
@@ -628,9 +696,12 @@ namespace CourseworkClient.Gui
             catch { }
             if (ticker < chain.Count - 1)
             {
-                DrawChain(c.Next, sb, ticker);
+                DrawChain(c.Next, sb, ticker + 1);
             }
         }
+        /// <summary>
+        /// Performs the actions when the player's turn begins
+        /// </summary>
         public void StartTurn()
         {
             myTurn = true;
@@ -639,13 +710,21 @@ namespace CourseworkClient.Gui
             playerResource += playerResourcePT;
             playerResearch += researchPT;
         }
-
+        /// <summary>
+        /// Adds an attacking unit to the end of the chain
+        /// </summary>
+        /// <param name="id">The id of the unit</param>
+        /// <param name="enemy">Whether it is the enemy's unit attacking</param>
         internal void AddAttackingUnitToChain(int id, bool enemy)
         {
             SmallCard card = getCardFromId(id);
             chain.AddLast(new ChainItem(card, enemy, false));
         }
-
+        /// <summary>
+        /// Resolves the chain using a defending unit
+        /// </summary>
+        /// <param name="id">The unit of the defending unit</param>
+        /// <param name="attackerPlayerOwned">Whether the player controls the attacking unit</param>
         internal void ResolveChainWithDefender(int id, bool attackerPlayerOwned)
         {
             SmallCard defender = getCardFromId(id);
@@ -653,24 +732,36 @@ namespace CourseworkClient.Gui
             CalculateCombat(attacker, defender, attackerPlayerOwned);
             chain.Clear();
         }
-
+        /// <summary>
+        /// Adds the playing of an upgrade to the chain
+        /// </summary>
+        /// <param name="s">The name of the upgrade being played</param>
+        /// <param name="playerPlayed">Whether the player played the upgrade</param>
         internal void AddUpgradeToChain(string s, bool playerPlayed)
         {
             SmallCard smallCard = new SmallCard(Card.getCard(s), GetNextID(), false);
             chain.AddLast(new ChainItem(smallCard, playerPlayed, true));
         }
-
+        /// <summary>
+        /// Adds the buttons for countering without the option to defend to the screen
+        /// </summary>
         internal void OfferCardPlayCounters()
         {
             counterOptionButtons = getCommonCounterButtons();
         }
-
+        /// <summary>
+        /// Discards a card from the enemy hand
+        /// </summary>
+        /// <param name="s">The name of the card to discard</param>
         internal void DiscardCardFromEnemyHand(string s)
         {
             enemyDiscardPile.Add(Card.getCard(s));
             numEnemyCardsInHand--;
         }
-
+        /// <summary>
+        /// Gets the buttons for countering
+        /// </summary>
+        /// <returns>An array of the buttons for countering</returns>
         Button[] getCommonCounterButtons()
         {
             IGCancelButton noSelectionButton = new IGCancelButton(new Rectangle(0, 40, 150, 30));
@@ -678,6 +769,11 @@ namespace CourseworkClient.Gui
 #warning Change this null later
             return new Button[] { noSelectionButton, counterButton };
         }
+
+        /// <summary>
+        /// Gets all cards that could be used as counters
+        /// </summary>
+        /// <returns>A list of all cards that could be used as counters</returns>
         public List<SmallCard> GetCounterCards()
         {
             List<SmallCard> output = new List<SmallCard>();
@@ -698,23 +794,42 @@ namespace CourseworkClient.Gui
             }
             return output;
         }
+        /// <summary>
+        /// Gets the buttons for making a selection
+        /// </summary>
+        /// <param name="s">The selection that would be made</param>
+        /// <returns>An array of the buttons for selection</returns>
         Button[] getSelectionButtons(SelectionItem s)
         {
             IGCancelButton noSelectionButton = new IGCancelButton(new Rectangle(0, 40, 150, 30));
             IGSelectButton selectButton = new IGSelectButton(new Rectangle(0, 0, 150, 30), "Select", s);
             return new Button[] { noSelectionButton, selectButton };
         }
+        /// <summary>
+        /// Adds the playing of a tech card to the end of the chain
+        /// </summary>
+        /// <param name="s"></param>
+        /// <param name="playerPlayed"></param>
         internal void AddTechToChain(string s, bool playerPlayed)
         {
+#warning change this later
             Card c = Card.getCard(s);
             SmallCard smallCard = new SmallCard(c, GetNextID(), false);
-            //bool needsSelection = GetNeedTechSelection(c);
+            //bool needsSelection = GetNeedTechSelection(c); 
             chain.AddLast(new ChainItem(smallCard, playerPlayed, false));
         }
+        /// <summary>
+        /// Gets whether a given card needs a selection when it is played
+        /// </summary>
+        /// <param name="c">The card to check</param>
+        /// <returns>Whether the card needs selection</returns>
         private bool GetNeedTechSelection(Card c)
         {
             return EffectSelection.GetTechSelection(c).Equals(null);
         }
+        /// <summary>
+        /// A mapping of the selections that different effects need and what selections they make
+        /// </summary>
         private class EffectSelection
         {
             static EffectSelection[] techSelections = {
@@ -754,6 +869,11 @@ namespace CourseworkClient.Gui
                 return null;
             }
         }
+        /// <summary>
+        /// Gets the selection item that a given tech card need
+        /// </summary>
+        /// <param name="c">The tech card</param>
+        /// <returns>The appropriate SelectionItem</returns>
         private SelectionItem GetSelectionFromTechCard(Card c)
         {
 
@@ -766,6 +886,12 @@ namespace CourseworkClient.Gui
         {
             Lock("Waiting on input from the enemy");
         }
+        /// <summary>
+        /// Processes combat between an attacker and a defender
+        /// </summary>
+        /// <param name="attacker">The attacking unit</param>
+        /// <param name="defender">The defending unit</param>
+        /// <param name="attackerPlayerOwned">Whether the attacking unit is controlled by the player</param>
         public void CalculateCombat(SmallCard attacker, SmallCard defender, bool attackerPlayerOwned)
         {
             if (attacker.id < 0 || defender.id < 0) throw new ArgumentException("Not good.");
@@ -785,12 +911,19 @@ namespace CourseworkClient.Gui
             }
 
         }
-
+        /// <summary>
+        /// Plays a unit for the enemy from their deck
+        /// </summary>
+        /// <param name="s">The name of the unit to play</param>
         internal void PlayUnitFromEnemyDeck(string s)
         {
             PlayUnit(Card.getCard(s), false);
         }
-
+        /// <summary>
+        /// Calculates the combat for an attacker with no defending unit
+        /// </summary>
+        /// <param name="attacker">The attacking unit</param>
+        /// <param name="attackerPlayerOwned">Whether the unit is controlled by the player</param>
         public void CalculateCombat(Card attacker, bool attackerPlayerOwned)
         {
             int attack = attacker.attack.Value;
@@ -806,10 +939,13 @@ namespace CourseworkClient.Gui
                 throw new NotImplementedException();
             }
         }
-
+        /// <summary>
+        /// Discards a given unit from the field
+        /// </summary>
+        /// <param name="u">The unit to discard</param>
+        /// <param name="playerCard">Whether the unit is controlled by the player</param>
         public void DiscardUnit(SmallCard u, bool playerCard)
         {
-#warning this doesn't work obviously
             if (playerCard)
             {
                 foreach (SmallCard c in units)
@@ -867,10 +1003,19 @@ namespace CourseworkClient.Gui
                 }
             }
         }
+        /// <summary>
+        /// Gets the next available ID for a unit or upgrade
+        /// </summary>
+        /// <returns>The next ID</returns>
         int GetNextID()
         {
             return nextID++ - 1;
         }
+        /// <summary>
+        /// Adds an upgrade from the chain to the correct unit
+        /// </summary>
+        /// <param name="id">The unit to add the upgrade to</param>
+        /// <param name="player">Whether the upgrade/unit is player controlled</param>
         internal void AddUpgradeToCard(int id, bool player)
         {
             LinkedListNode<ChainItem> item = chain.Last;
@@ -881,7 +1026,10 @@ namespace CourseworkClient.Gui
             else enemyUpgrades.Add(upgrade);
             upgradesInPlay.Add(new Upgrade(upgrade.id, id));
         }
-
+        /// <summary>
+        /// Kills a given unit
+        /// </summary>
+        /// <param name="id">The id of the unit to kill</param>
         internal void KillUnit(int id)
         {
             SmallCard c = getCardFromId(id);
@@ -891,25 +1039,40 @@ namespace CourseworkClient.Gui
             else throw new ArgumentException();
             DiscardUnit(c, playerOwned);
         }
-
+        /// <summary>
+        /// Moves a unit from the enemy to the player
+        /// </summary>
+        /// <param name="s">The id to move (as a string)</param>
         internal void MoveUnitFromEnemy(string s)
         {
             SmallCard c = getCardFromId(Convert.ToInt32(s));
             enemyUnits.Remove(c);
             units.Add(c);
         }
+        /// <summary>
+        /// Moves a unit to the enemy to the player
+        /// </summary>
+        /// <param name="s">The id to move (as a string)</param>
         internal void MoveUnitToEnemy(string s)
         {
             SmallCard c = getCardFromId(Convert.ToInt32(s));
             enemyUnits.Add(c);
             units.Remove(c);
         }
-
+        /// <summary>
+        /// Replaces a given unit
+        /// </summary>
+        /// <param name="id">The id of the unit to replace</param>
         internal void ReplaceUnit(int id)
         {
             SmallCard card = getCardFromId(id);
             card.card = GetReplacementCard(card.card);
         }
+        /// <summary>
+        /// Gets the card that a given card should be replaced with
+        /// </summary>
+        /// <param name="c">The card to be replaced</param>
+        /// <returns>The card to replace it with</returns>
         Card GetReplacementCard(Card c)
         {
             if (c.hasEffect("Ultramarine") && !c.hasEffect("Uncorruptable")) return Card.getCard("Chaos " + c.name);
@@ -919,6 +1082,12 @@ namespace CourseworkClient.Gui
             else if (c.name == "Transcendent Deceiver") return Card.getCard("C'tan Shard of the Deceiver");
             else return c;
         }
+        /// <summary>
+        /// Gets the upgrade with a given id
+        /// </summary>
+        /// <param name="id">The id of the upgrade</param>
+        /// <param name="playerOwned">Whether the upgrade is controlled by the player. If it is not know null will check both.</param>
+        /// <returns></returns>
         public SmallCard GetUpgradeFromID(int id, bool? playerOwned)
         {
             if (playerOwned != true)
@@ -931,6 +1100,9 @@ namespace CourseworkClient.Gui
             }
             throw new ArgumentException();
         }
+        /// <summary>
+        /// Performs the actions for starting the enemy's turn
+        /// </summary>
         public void StartEnemyTurn()
         {
             myTurn = false;
@@ -939,6 +1111,9 @@ namespace CourseworkClient.Gui
             enemyResource += enemyRPT;
             enemyResearch += researchPT;
         }
+        /// <summary>
+        /// Calculates the initial Y-offset of form items for when the game begins
+        /// </summary>
         private void CalculateYOffset()
         {
             yOffset = -Primary.game.GraphicsDevice.Viewport.Height + Primary.game.inGamePlayAreaTop.Height + Primary.game.inGamePlayAreaBottom.Height;
@@ -967,9 +1142,9 @@ namespace CourseworkClient.Gui
                                 b.Update();
                             }
                         }
-                        catch
+                        catch (Exception e)
                         {
-                            Primary.Log("FF");
+                            Primary.Log(e);
                         }
                     }
                 }
@@ -977,6 +1152,9 @@ namespace CourseworkClient.Gui
 
             }
         }
+        /// <summary>
+        /// Updates whether the buttons to perform actions with the selected card can be pressed
+        /// </summary>
         void UpdateButtonPressable()
         {
             int location = GetDrawnCardLocation();
@@ -994,7 +1172,9 @@ namespace CourseworkClient.Gui
             if (playerResource >= card.cost && units.Count < maxUnitsInPlay && location == 0) play = true;
             UpdateButtons(play, attack, discard);
         }
-
+        /// <summary>
+        /// Resolves the last item in the chain
+        /// </summary>
         internal void ResolveChain()
         {
             LinkedListNode<ChainItem> end = chain.Last;
@@ -1005,7 +1185,18 @@ namespace CourseworkClient.Gui
                 {
                     if (item.playerPlayed)
                     {
-                        Primary.game.WriteDataToStream(Protocol.EndSelection);//this must be removed before the stuff is done
+                        switch (item.card.card.type)
+                        {
+                            case CardType.Unit:
+                                throw new NotImplementedException();
+                                break;
+                            case CardType.Tech:
+                                counterOptionButtons = getSelectionButtons(GetSelectionFromTechCard(item.card.card));
+                                break;
+                            case CardType.Upgrade:
+                                throw new NotImplementedException();
+                                break;
+                        }
 #warning add selection for the player based on the card- will leave for the moment
                     }
                     else WaitOnEnemySelection();
@@ -1036,7 +1227,11 @@ namespace CourseworkClient.Gui
             chain.RemoveLast();
             if (chain.Count > 0) ResolveChain();
         }
-
+        /// <summary>
+        /// Executes a given tech card
+        /// </summary>
+        /// <param name="card">The tech card to execute</param>
+        /// <param name="playerPlayed">Whether the card is controlled by the player or not</param>
         private void ExecuteTech(Card card, bool playerPlayed)
         {
             if (!playerPlayed)
@@ -1045,7 +1240,11 @@ namespace CourseworkClient.Gui
             }
 #warning not finished yet, doesn't matter just yet though
         }
-
+        /// <summary>
+        /// Plays a given unit
+        /// </summary>
+        /// <param name="card">The unit to play</param>
+        /// <param name="playerPlayed">Whether the player played the unit</param>
         private void PlayUnit(Card card, bool playerPlayed)
         {
             if (playerPlayed)
@@ -1064,13 +1263,20 @@ namespace CourseworkClient.Gui
                 numEnemyCardsInHand--;
             }
         }
-
+        /// <summary>
+        /// Discards a given card from the enemy's deck
+        /// </summary>
+        /// <param name="s">The name of the card to discard</param>
         internal void DiscardCardFromEnemyDeck(string s)
         {
             enemyDiscardPile.Add(Card.getCard(s));
         }
 
 
+        /// <summary>
+        /// Updates the buttons for choosing what to do with the currently selected card
+        /// </summary>
+        /// <param name="b">The buttons to update</param>
         void UpdateButtons(params bool[] b) //should be given as play, attack, discard
         {
             for (int i = 0; i < b.Length; i++)
@@ -1078,6 +1284,10 @@ namespace CourseworkClient.Gui
                 ((TexturedButton)formItems[i]).canBePressed = b[i];
             }
         }
+        /// <summary>
+        /// Gets the location of the currently selected card
+        /// </summary>
+        /// <returns>The location of the currently draw card (Probably should change this to use the Location enum)</returns>
         private int GetDrawnCardLocation()
         {
             foreach (SmallCard c in hand)
@@ -1092,6 +1302,10 @@ namespace CourseworkClient.Gui
                 if (c.drawnBig) return 4;
             return -1;
         }
+        /// <summary>
+        /// Gets the currently drawn card
+        /// </summary>
+        /// <returns>The currently drawn card</returns>
         public SmallCard GetDrawnSmallCard()
         {
             foreach (SmallCard c in hand)
@@ -1106,7 +1320,9 @@ namespace CourseworkClient.Gui
                 if (c.drawnBig) return c;
             return null;
         }
-
+        /// <summary>
+        /// Updates the Y-Offset based on the position of the mouse
+        /// </summary>
         void UpdateYOffset()
         {
             MouseState m = Mouse.GetState();
@@ -1115,8 +1331,12 @@ namespace CourseworkClient.Gui
             else if (m.Y > (9 * v.Height) / 10 && yOffset + yAccel <= maxYOffset) yOffset += yAccel;
             UpdateCardPositions();
         }
+        /// <summary>
+        /// Adds to the chain to discard the currently selected card
+        /// </summary>
         public void DiscardSelectedCard()
         {
+#warning need to transmit this
             foreach (SmallCard c in hand)
             {
                 if (c.drawnBig)
@@ -1129,6 +1349,9 @@ namespace CourseworkClient.Gui
                 }
             }
         }
+        /// <summary>
+        /// Adds to the chain to play the currently selected card and transmits it
+        /// </summary>
         public void PlaySelectedCard()
         {
             foreach (SmallCard c in hand)
@@ -1159,22 +1382,41 @@ namespace CourseworkClient.Gui
                 }
             }
         }
+        /// <summary>
+        /// Gets the Y position that cards in the player's hand should be drawn on screen
+        /// </summary>
+        /// <returns>The Y position</returns>
         public int GetHandCardY()
         {
             return (135 + Primary.game.inGamePlayAreaBottom.Height + Primary.game.inGamePlayAreaTop.Height) - (yOffset + Primary.game.playSpace.Height);
         }
+        /// <summary>
+        /// Gets the Y position that cards in the enemy's hand should be drawn on screen
+        /// </summary>
+        /// <returns>The Y position</returns>
         public int GetEnemyHandCardY()
         {
             return 70 - yOffset;
         }
+        /// <summary>
+        /// Gets the Y position that the player's units should be drawn at
+        /// </summary>
+        /// <returns>The Y position</returns>
         public int GetUnitCardY()
         {
             return (-35 + Primary.game.inGamePlayAreaBottom.Height + Primary.game.inGamePlayAreaTop.Height) - (yOffset + Primary.game.playSpace.Height);
         }
+        /// <summary>
+        /// Gets the Y position that the enemy's units should be drawn at
+        /// </summary>
+        /// <returns>The Y position</returns>
         public int GetEnemyUnitCardY()
         {
             return 170 - yOffset;
         }
+        /// <summary>
+        /// Draws a card from the player's deck
+        /// </summary>
         public void DrawACard()
         {
 
@@ -1183,6 +1425,10 @@ namespace CourseworkClient.Gui
             deck.RemoveAt(0);
 
         }
+        /// <summary>
+        /// Draws a specific card from the deck
+        /// </summary>
+        /// <param name="c">The card to draw</param>
         public void DrawSpecificCard(Card c)
         {
             hand.Add(new SmallCard(c, new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY())));
@@ -1190,6 +1436,11 @@ namespace CourseworkClient.Gui
             deck.Remove(c);
             Shuffle(deck);
         }
+        /// <summary>
+        /// Gets the card with the given id
+        /// </summary>
+        /// <param name="id">The id of the card to get</param>
+        /// <returns>The card</returns>
         public SmallCard getCardFromId(int id)
         {
             foreach (SmallCard c in units) if (c.id == id) return c;
@@ -1198,23 +1449,40 @@ namespace CourseworkClient.Gui
             foreach (SmallCard c in enemyUpgrades) if (c.id == id) return c;
             return null;
         }
+        /// <summary>
+        /// Adds the play of an enemy unit to the chain
+        /// </summary>
+        /// <param name="s">The name of the card to add</param>
         public void AddUnitPlayToChain(string s)
         {
             Card f = Card.getCard(s);
             SmallCard c = new SmallCard(f, -1, !f.hasEffect("Assault"));
             chain.AddLast(new ChainItem(c, false, GetSelectionNeeded(f)));
         }
+        /// <summary>
+        /// Adds the play of a player's unit to the chain
+        /// </summary>
+        /// <param name="c">The unit to play</param>
         public void AddPlayersUnitPlayToChain(SmallCard c)
         {
             c.tapped = !c.card.hasEffect("Assault");
             bool needSelection = GetSelectionNeeded(c.card);
             chain.AddLast(new ChainItem(c, true, needSelection));
         }
+        /// <summary>
+        /// Gets whether a given card requires selection
+        /// </summary>
+        /// <param name="c">The card to check</param>
+        /// <returns>Whether the card needs selection</returns>
         public bool GetSelectionNeeded(Card c)
         {
             return !(GetSelectionFromUnit(c) == null);
         }
-
+        /// <summary>
+        /// Gets what selection a given unit needs
+        /// </summary>
+        /// <param name="c">The card to check</param>
+        /// <returns>What selection the card needs</returns>
         public SelectionItem? GetSelectionFromUnit(Card c)
         {
             if (c.hasEffect("Transport"))
@@ -1223,6 +1491,12 @@ namespace CourseworkClient.Gui
             }
             return null;
         }
+        /// <summary>
+        /// Gets the X Position on the screen for a card in the hand
+        /// </summary>
+        /// <param name="numCards">The number of cards in the hand</param>
+        /// <param name="ord">The position of the card in the hand</param>
+        /// <returns>The X Position</returns>
         public static int GetHandCardX(int numCards, int ord)
         {
             if (numCards <= 5)
@@ -1238,6 +1512,10 @@ namespace CourseworkClient.Gui
                 return leftX + (ord * (diff / numCards));
             }
         }
+        /// <summary>
+        /// Shuffles a list of cards (The deck)
+        /// </summary>
+        /// <param name="c">The list to shuffle</param>
         public static void Shuffle(List<Card> c)
         {
             List<ShuffleItem> items = new List<ShuffleItem>();
@@ -1247,11 +1525,20 @@ namespace CourseworkClient.Gui
             foreach (ShuffleItem i in items) c.Add((Card)i);
 
         }
+        /// <summary>
+        /// Removes any counter buttons
+        /// </summary>
         public void ClearCounterOptions()
         {
             counterOptionButtons = new Button[0];
         }
-
+        /// <summary>
+        /// Gets the valid cards for some conditions at a location
+        /// </summary>
+        /// <param name="l">The location to check</param>
+        /// <param name="conditions">The conditions to fulfil</param>
+        /// <param name="allConditions">Whether all conditions need to be fulfilled or just one</param>
+        /// <returns></returns>
         internal List<SmallCard> GetValidCardsAtLocation(Location l, SelectionCondition[] conditions, bool allConditions)
         {
             List<SmallCard> output = new List<SmallCard>();
@@ -1305,7 +1592,9 @@ namespace CourseworkClient.Gui
             }
             return output;
         }
-
+        /// <summary>
+        /// An item used to shuffle the deck
+        /// </summary>
         struct ShuffleItem : IComparable
         {
             Card item;
@@ -1322,6 +1611,9 @@ namespace CourseworkClient.Gui
             public static explicit operator Card(ShuffleItem f) => f.item;
         }
     }
+    /// <summary>
+    /// Defines an upgrade in play and what unit it is equipped to
+    /// </summary>
     struct Upgrade
     {
         public int upgradeID, unitID;

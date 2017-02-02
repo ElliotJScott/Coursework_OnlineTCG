@@ -8,6 +8,9 @@ namespace CourseworkClient.Gui
     class LoginScreenForm : Form
     {
         public string errorMessageText = "";
+        /// <summary>
+        /// Creates a new LoginScreenForm
+        /// </summary>
         public LoginScreenForm()
         {
             background = Primary.game.loginScreenBackground;

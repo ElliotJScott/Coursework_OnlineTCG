@@ -11,10 +11,19 @@ namespace CourseworkServer
     class Executor
     {
         public ActionItem currentItem = null;
+        /// <summary>
+        /// The constructor does no extra important things other than printing that the Executor has been created.
+        /// </summary>
         public Executor()
         {
             Console.WriteLine("Creating executor");
         }
+        /// <summary>
+        /// Transmits the data given to the client given
+        /// </summary>
+        /// <param name="o">The data to send</param>
+        /// <param name="c">The client to send the data to</param>
+        /// <param name="p">The protocol that should be attached to the data</param>
         public static void TransmitObjectArray(object[] o, Client c, Protocol p)
         {
             string s = "";
@@ -27,12 +36,15 @@ namespace CourseworkServer
             byte[] b = Server.addProtocolToArray(Server.toByteArray(s), p);
             c.SendData(b);
         }
+        /// <summary>
+        /// Executes the item that the executor has stored based on its operation.
+        /// </summary>
         public void Execute()
         {
             switch (currentItem.operation)
             {
-                #region AddNewAccount
-                case Operation.AddNewAccount:
+                #region AddNewAccount 
+                case Operation.AddNewAccount: //Checks if the username sent is in use or not and returns the result to the sender. If the account does not exist it is created.
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(1).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1", usernameAndPasswordHash[0]);
@@ -49,9 +61,9 @@ namespace CourseworkServer
                         }
                     }
                     break;
-                #endregion
+                #endregion 
                 #region CheckCredentials
-                case Operation.CheckCredentials:
+                case Operation.CheckCredentials: //Checks if the given username and password are correct or if the player is already logged in. Returns the result of this. If the player is not logged in their decks, all the cards in the game and other details are sent to them.
                     {
                         string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(1).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
@@ -74,7 +86,7 @@ namespace CourseworkServer
                     break;
                 #endregion
                 #region CheckFriendStatus
-                case Operation.CheckFriendStatus:
+                case Operation.CheckFriendStatus: //Adds the given username to the sender's friends
                     {
                         string username = ((string)currentItem.data).Substring(1);
                         currentItem.sender.friends.Add(username);
@@ -82,7 +94,7 @@ namespace CourseworkServer
                     break;
                 #endregion
                 #region AddToQueue
-                case Operation.AddToQueue:
+                case Operation.AddToQueue: //Adds the sender to the queue to play a game
                     {
                         int qs = Convert.ToInt32(((string)currentItem.data).Substring(1));
                         currentItem.sender.status = Status.InQueue;
@@ -92,7 +104,7 @@ namespace CourseworkServer
                     break;
                 #endregion
                 #region GetPlayerElo
-                case Operation.GetPlayerElo:
+                case Operation.GetPlayerElo: //Gets the sender's elo and sends it back to them
                     {
                         string username = currentItem.sender.userName;
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select elo from accounts where username = @p1", username);
@@ -102,7 +114,7 @@ namespace CourseworkServer
                     break;
                 #endregion
                 #region TransmitDBData
-                case Operation.TransmitDBData:
+                case Operation.TransmitDBData: //Transmits all of the cards, their effects and all the sender's deck to them. Finally sends to them that it is fine to enter the game.
                     {
                         object[][] allCards = Server.server.dbHandler.DoParameterizedSQLQuery("select cardname, cardtype, cardrarity, cardattack, carddefence, cardcost from cards");
                         object[][] allEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select effectname, effectdescription, effectcolour from effect");

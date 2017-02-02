@@ -5,6 +5,9 @@ using System.Text;
 
 namespace CourseworkClient
 {
+    /// <summary>
+    /// Not implemented yet
+    /// </summary>
     public class FriendManager
     {
         List<Friend> friends = new List<Friend>();

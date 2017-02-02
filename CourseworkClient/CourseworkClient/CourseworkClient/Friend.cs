@@ -5,6 +5,9 @@ using System.Text;
 
 namespace CourseworkClient
 {
+    /// <summary>
+    /// Not implemented yet
+    /// </summary>
     public enum Status
     {
         Offline,
@@ -12,7 +15,9 @@ namespace CourseworkClient
         InQueue,
         InGame
     }
-   
+   /// <summary>
+   /// Not implemented yet
+   /// </summary>
     public class Friend
     {
         public string userName;

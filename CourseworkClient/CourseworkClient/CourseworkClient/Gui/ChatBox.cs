@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// Not implemented yet
+    /// </summary>
     class ChatBox : GuiItem
     {
         List<string> chatMessages = new List<string>();

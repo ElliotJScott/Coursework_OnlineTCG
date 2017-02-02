@@ -8,8 +8,12 @@ using System.Text;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// This is the base class of all buttons
+    /// </summary>
     abstract class Button : GuiItem
     {
+
         public Button(Rectangle rect, string text)
         {
             texture = Primary.game.buttonTexture;
@@ -21,8 +25,11 @@ namespace CourseworkClient.Gui
         {
 
         }
-        public string buttonText;
-        public abstract void OnPress();
+        public string buttonText; //The text on the button
+        /// <summary>
+        /// This is called when the button is pressed
+        /// </summary>
+        public abstract void OnPress(); 
         public bool previouslyClicked = false;
         public override void Update()
         {
@@ -45,10 +52,12 @@ namespace CourseworkClient.Gui
             return string.Format("Button[Bounding Box : {0} | Text : {1}]", boundingBox, buttonText);
         }
     }
-
+    /// <summary>
+    /// A FormChangeButton changes the current form
+    /// </summary>
     class FormChangeButton : Button
     {
-        FormChangeButtonTypes type;
+        FormChangeButtonTypes type; //This is the transition to make
         public FormChangeButton(Rectangle rect, string text, FormChangeButtonTypes f)
         {
             type = f;
@@ -64,7 +73,9 @@ namespace CourseworkClient.Gui
         }
 
     }
-
+    /// <summary>
+    /// Sends the username and password to try to create an account, if the inputs are all in order.
+    /// </summary>
     class CreateAccountButton : Button
     {
         public CreateAccountButton(Rectangle rect, string text) : base(rect, text) { }
@@ -95,7 +106,9 @@ namespace CourseworkClient.Gui
             //throw new NotImplementedException();
         }
     }
-
+    /// <summary>
+    /// Adds the player to the queue when pressed
+    /// </summary>
     class AddToQueueButton : FormChangeButton
     {
         int queueID;
@@ -110,7 +123,9 @@ namespace CourseworkClient.Gui
             Primary.game.currentForm = FormBuilder.BuildNewForm(FormChangeButtonTypes.QueueSelectToMainMenu);
         }
     }
-
+    /// <summary>
+    /// Sends the credentials to check their validity when pressed
+    /// </summary>
     class LogInButton : Button
     {
         public LogInButton(Rectangle rect, string text) : base(rect, text) { }
@@ -130,7 +145,9 @@ namespace CourseworkClient.Gui
             Primary.game.currentForm.Lock("Checking credentials");
         }
     }
-
+    /// <summary>
+    /// Closes the program when pressed
+    /// </summary>
     class ExitButton : Button
     {
         public ExitButton(Rectangle rect)
@@ -143,7 +160,9 @@ namespace CourseworkClient.Gui
             Primary.game.Exit();
         }
     }
-
+    /// <summary>
+    /// Not implemented yet.
+    /// </summary>
     class SendButton : Button
     {
         public SendButton(Rectangle rect)
@@ -156,7 +175,9 @@ namespace CourseworkClient.Gui
             System.Windows.Forms.MessageBox.Show("Not implemented yet!");
         }
     }
-
+    /// <summary>
+    /// Not implemented yet.
+    /// </summary>
     class AddFriendButton : Button
     {
         public AddFriendButton(Rectangle rect)
@@ -169,7 +190,9 @@ namespace CourseworkClient.Gui
             System.Windows.Forms.MessageBox.Show("Not implemented yet!");
         }
     }
-
+    /// <summary>
+    /// For buttons that have textures other than the default or can't always be pressed
+    /// </summary>
     abstract class TexturedButton : Button
     {
         public bool canBePressed;
@@ -190,7 +213,9 @@ namespace CourseworkClient.Gui
             sb.Draw(texture == null ? Primary.game.buttonTexture : texture, boundingBox, c);
         }
     }
-
+    /// <summary>
+    /// Plays the currently selected BigCard
+    /// </summary>
     class BCPlayButton : TexturedButton
     {
         public BCPlayButton(Rectangle r, Texture2D t) : base(r, t) { }
@@ -206,7 +231,9 @@ namespace CourseworkClient.Gui
             }
         }
     }
-
+    /// <summary>
+    /// Discards the currently selected BigCard
+    /// </summary>
     class BCDiscardButton : TexturedButton
     {
         public BCDiscardButton(Rectangle r, Texture2D t) : base(r, t) { }
@@ -221,7 +248,9 @@ namespace CourseworkClient.Gui
             }
         }
     }
-
+    /// <summary>
+    /// Attack with the currently selected BigCard
+    /// </summary>
     class BCAttackButton : TexturedButton
     {
         public BCAttackButton(Rectangle r, Texture2D t) : base(r, t) { }
@@ -236,6 +265,9 @@ namespace CourseworkClient.Gui
             }
         }
     }
+    /// <summary>
+    /// Changes the form to SelectionForm.
+    /// </summary>
     class IGSelectButton : TexturedButton
     {
         SelectionItem? selection;
@@ -247,6 +279,10 @@ namespace CourseworkClient.Gui
                 canBePressed = true;
             else canBePressed = false;
         }
+        /// <summary>
+        /// Special case button for defending against an attack with a unit
+        /// </summary>
+        /// <param name="r">The bounding box of the button</param>
         public IGSelectButton(Rectangle r) : base(r, Primary.game.buttonTexture)
         {
             buttonText = "Defend";
@@ -264,8 +300,14 @@ namespace CourseworkClient.Gui
             base.Draw(sb);
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
+        public override void Update()
+        {
+            base.Update();
+        }
     }
-
+    /// <summary>
+    /// Changes the current form to SelectionForm. Only used for countering enemy card plays.
+    /// </summary>
     class IGCounterButton : TexturedButton
     {
         List<SmallCard> cards = new List<SmallCard>();
@@ -290,8 +332,14 @@ namespace CourseworkClient.Gui
             base.Draw(sb);
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
+        public override void Update()
+        {
+            base.Update();
+        }
     }
-
+    /// <summary>
+    /// Button to make no selection if the user is offered a selection
+    /// </summary>
     class IGCancelButton : Button
     {
         public IGCancelButton(Rectangle r) : base(r, "Make no selection")
@@ -309,6 +357,9 @@ namespace CourseworkClient.Gui
             base.Update();
         }
     }
+    /// <summary>
+    /// Accept the selection in the SelectionForm
+    /// </summary>
     class sSelectButton : Button
     {
         bool pressable;
@@ -318,7 +369,11 @@ namespace CourseworkClient.Gui
         }
         public override void Update()
         {
-            pressable = ((SelectionForm)Primary.game.currentForm).bigCard != null;
+            try
+            {
+                pressable = ((SelectionForm)Primary.game.currentForm).bigCard != null;
+            }
+            catch { }
             base.Update();
         }
         public override void OnPress()
@@ -328,13 +383,16 @@ namespace CourseworkClient.Gui
                 SelectionForm currentForm = (SelectionForm)Primary.game.currentForm;
                 currentForm.gameForm.HandleSelection(currentForm.GetSelectedCard(), currentForm.function);
 
-                currentForm.gameForm.chain.RemoveLast();
-                currentForm.gameForm.ResolveChain();
+                //currentForm.gameForm.chain.RemoveLast();
+                //currentForm.gameForm.ResolveChain();
                 Primary.game.currentForm = currentForm.gameForm;
 
             }
         }
     }
+    /// <summary>
+    /// Return to the InGameForm from the SelectionForm
+    /// </summary>
     class sBackButton : Button
     {
         public sBackButton(Rectangle r) : base(r, "Back") { }

@@ -7,12 +7,23 @@ using System.Text;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// Used just to draw cards
+    /// </summary>
     class CardBuilder
     {
         const int cardArtDispX = 12;
         const int cardArtDispY = 52;
         const int maxNamePixelWidth = 140;
         const int maxCharsPerNameLine = 16;
+        /// <summary>
+        /// Draw a card
+        /// </summary>
+        /// <param name="c">The card to draw</param>
+        /// <param name="pos">The position on the screen to draw the card</param>
+        /// <param name="big">Whether or not to draw the card as a BigCard</param>
+        /// <param name="sb">The SpriteBatch used to draw the card</param>
+        /// <param name="orientation">What orientation to draw the card. May not include this in the final version because it is difficult to accurately draw the different images in the right places when rotated</param>
         public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, Orientation orientation) //Note this doesn't include the text which only applies to the big cards
         {
             #region Inner and Outer Texture Setting
@@ -85,12 +96,26 @@ namespace CourseworkClient.Gui
             }
             sb.Draw(cardOutline, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
         }
+        /// <summary>
+        /// Works out what scaling to draw a string at in the given font. Note the recursion used here.
+        /// </summary>
+        /// <param name="str">The string to draw</param>
+        /// <param name="font">The font the string will be drawn in</param>
+        /// <param name="width">The maximum width that the string can be drawn at in pixels</param>
+        /// <param name="height">The maximum height that the string can be drawn at in pixels</param>
+        /// <param name="max">The scaling currently being tested. Initialised at 30</param>
+        /// <returns>The scaling the string will be drawn at</returns>
         static float CalculateScale(string str, SpriteFont font, int width, int height = int.MaxValue, float max = 30f)
         {
             Vector2 v = font.MeasureString(str) * max;
             if (v.X > width || v.Y > height) return CalculateScale(str, font, width, height, max - 0.05f);
             else return max;
         }
+        /// <summary>
+        /// Splits a number of words neatly into two lines.
+        /// </summary>
+        /// <param name="words">The words to be splitted</param>
+        /// <returns>The two lines produced</returns>
         static string[] GetLines(string[] words)
         {
             

@@ -13,6 +13,11 @@ namespace CourseworkClient.Gui
         public BigCard bigCard;
         public List<SmallCard> cards = new List<SmallCard>();
         public Function function;
+        /// <summary>
+        /// Creates a new SelectionForm with a pre-existing SelectionItem
+        /// </summary>
+        /// <param name="form">The InGameForm that the user came from</param>
+        /// <param name="s">The SelectionItem to select from</param>
         public SelectionForm(InGameForm form, SelectionItem s)
         {
             function = s.selection.function;
@@ -24,6 +29,12 @@ namespace CourseworkClient.Gui
             formItems.Add(new sSelectButton(new Rectangle(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 210 + Primary.game.buttonTexture.Height + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height)));
 
         }
+        /// <summary>
+        /// Creates a new SelectionForm with a list of cards and a function
+        /// </summary>
+        /// <param name="form">The InGameForm that the user came from</param>
+        /// <param name="c">The list of cards to select from</param>
+        /// <param name="f">The function to perform on the selection</param>
         public SelectionForm(InGameForm form, List<SmallCard> c, Function f)
         {
             function = f;
@@ -35,33 +46,44 @@ namespace CourseworkClient.Gui
             formItems.Add(new sSelectButton(new Rectangle(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 210 + Primary.game.buttonTexture.Height + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height)));
 
         }
+        /// <summary>
+        /// Populates the form with the cards from the SelectionItem given
+        /// </summary>
+        /// <param name="item">The SelectionItem passed to the form</param>
         void PopulateCards(SelectionItem item)
         {
             cards.Clear();
             List<SmallCard> selectionResult = item.selection.GetCards();
             AddSmallCards(selectionResult);
         }
-        void AddSmallCards(List<SmallCard> cards)
+        /// <summary>
+        /// Populates the form with the list of cards given
+        /// </summary>
+        /// <param name="f">The list of cards to populate the form with</param>
+        void AddSmallCards(List<SmallCard> f)
         {
             int cardAreaWidth = (Primary.game.GraphicsDevice.Viewport.Width * 3) / 4;
             int numCardsAcross = cardAreaWidth / Primary.game.cardOutlineSmall.Width;
-            for (int i = 0; i < cards.Count; i++)
+            for (int i = 0; i < f.Count; i++)
             {
                 int cardX = Primary.game.cardOutlineSmall.Width * (i % numCardsAcross);
                 int cardY = Primary.game.cardOutlineSmall.Height * (i / numCardsAcross);
-                SmallCard c = cards[i].CloneWithoutReferenceForSelection();
+                SmallCard c = f[i].CloneWithoutReferenceForSelection();
                 c.UpdateLocation(new Vector2(cardX, cardY));
                 cards.Add(c);
             }
         }
         public override void Draw(SpriteBatch sb)
         {
+            base.Draw(sb);
             foreach (SmallCard c in cards)
             {
-                c.Draw(sb);
+                if (!c.drawnBig)
+                    c.Draw(sb);
             }
-            if (bigCard != null) CardBuilder.DrawCard(bigCard.card, new Vector2(200, 200), true, sb, Orientation.Up);
-            base.Draw(sb);
+            if (bigCard != null)
+                bigCard.Draw(sb);
+
         }
         public override void Update()
         {
@@ -69,7 +91,10 @@ namespace CourseworkClient.Gui
             bigCard?.Update();
             base.Update();
         }
-
+        /// <summary>
+        /// Gets the currently selected card
+        /// </summary>
+        /// <returns>The currently selected card</returns>
         internal SmallCard GetSelectedCard()
         {
             foreach (SmallCard c in cards)

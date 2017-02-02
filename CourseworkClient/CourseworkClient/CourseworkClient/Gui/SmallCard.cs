@@ -16,6 +16,11 @@ namespace CourseworkClient.Gui
         public bool wasDrawnBig;
         public int id = -1;
         
+        /// <summary>
+        /// Creates a new SmallCard
+        /// </summary>
+        /// <param name="c">The card to create the SmallCard from</param>
+        /// <param name="l">The position of the SmallCard</param>
         public SmallCard(Card c, Vector2 l)
         {
             tapped = false;
@@ -24,6 +29,12 @@ namespace CourseworkClient.Gui
             boundingBox = new Rectangle((int)l.X, (int)l.Y, Primary.game.cardOutlineSmall.Width, Primary.game.cardOutlineSmall.Height);
             drawnBig = false;
         }
+        /// <summary>
+        /// Creates a new SmallCard
+        /// </summary>
+        /// <param name="c">The card to create the SmallCard from</param>
+        /// <param name="ID">The ID of the SmallCard</param>
+        /// <param name="tap">Whether or not the card is tapped</param>
         public SmallCard(Card c, int ID, bool tap)
         {
             wasDrawnBig = false;
@@ -31,11 +42,20 @@ namespace CourseworkClient.Gui
             drawnBig = false;
             id = ID;
             tapped = tap;
+            boundingBox = new Rectangle(0, 0, Primary.game.cardOutlineSmall.Width, Primary.game.cardOutlineSmall.Height);
         }
+        /// <summary>
+        /// Returns a copy of the card without the pointer
+        /// </summary>
+        /// <returns>The value of this card</returns>
         public SmallCard CloneWithoutReferenceForSelection()
         {
             return new SmallCard(card, id, tapped);
         }
+        /// <summary>
+        /// Updates the location of this card
+        /// </summary>
+        /// <param name="v">The new location of this card</param>
         public void UpdateLocation(Vector2 v)
         {
             boundingBox.X = (int)v.X;
@@ -56,6 +76,10 @@ namespace CourseworkClient.Gui
         {
             Draw(sb, Orientation.Up);
         }
+        /// <summary>
+        /// Adds an effect to this card
+        /// </summary>
+        /// <param name="e">The effect to add</param>
         public void AddEffect(Effect e)
         {
             if (!card.effects.Contains(e))
@@ -91,14 +115,18 @@ namespace CourseworkClient.Gui
                     {
                         foreach (SmallCard c in ((SelectionForm)Primary.game.currentForm).cards) StopDrawBig(c);
                         drawnBig = true;
-                        ((SelectionForm)Primary.game.currentForm).bigCard = new BigCard(card);
+                        ((SelectionForm)Primary.game.currentForm).bigCard = new BigCard(card, new Vector2(200, 200));
                     }
                 }
                 wasDrawnBig = false;
             }
             //Update this
         }
-        public void StopDrawBig(SmallCard c)
+        /// <summary>
+        /// Stop drawing the given card from being drawn big
+        /// </summary>
+        /// <param name="c">The card to stop drawing big</param>
+        public static void StopDrawBig(SmallCard c)
         {
             if (c.drawnBig == true)
             {

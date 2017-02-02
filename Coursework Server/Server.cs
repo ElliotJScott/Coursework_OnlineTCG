@@ -26,12 +26,16 @@ namespace CourseworkServer
         public Random rng = new Random();
         const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True";
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
-        public static string connectionString;
+        public static string connectionString; //The correct connection string out of the two available ones
         static bool isReadingForCommand = false;
 
+        /// <summary>
+        /// The entry point of the program
+        /// </summary>
+        /// <param name="args">Has no effect</param>
         static void Main(string[] args)
         {
-            #region Change this before hand-in
+            #region Change this before hand-in: this is so that it works on both my desktop and laptop
             Console.WriteLine("Use Laptop or Desktop connection string? L/D");
             switch (Console.Read())
             {
@@ -65,11 +69,18 @@ namespace CourseworkServer
 
             }
         }
+        /// <summary>
+        /// Gets the range of elos that a player could face
+        /// </summary>
+        /// <param name="t">The time that the player has been connected to the server</param>
+        /// <returns>The range of elos</returns>
         public static int GetRangeFromTime(double t)
         {
             return (int)(50 * Math.Atan((t / 15) - 6) + 120);
         }
-
+        /// <summary>
+        /// Checks if there is a valid match that could be created out of all of the players queued
+        /// </summary>
         public static void UpdateQueues()
         {
             for (int i = 0; i < server.connectedClients.Count; i++)
@@ -92,6 +103,11 @@ namespace CourseworkServer
                 }
             }
         }
+        /// <summary>
+        /// Creates a match between the two connected players
+        /// </summary>
+        /// <param name="a">One player</param>
+        /// <param name="b">The other player</param>
         public static void CreateMatch(Client a, Client b)
         {
             Match m = new Match(a, b);
@@ -102,6 +118,12 @@ namespace CourseworkServer
             a.status = Status.InGame;
             b.status = Status.InGame;
         }
+        /// <summary>
+        /// Adds the protocol to the beginning of the byte array
+        /// </summary>
+        /// <param name="b">The initial byte array</param>
+        /// <param name="p">The protocol to add</param>
+        /// <returns>The byte array after the protocol is added</returns>
         public static byte[] addProtocolToArray(byte[] b, Protocol p)
         {
             byte[] e = new byte[b.Length + 1];
@@ -112,6 +134,11 @@ namespace CourseworkServer
             }
             return e;
         }
+        /// <summary>
+        /// Converts a string to an array of bytes
+        /// </summary>
+        /// <param name="s">The input string</param>
+        /// <returns>The string as a byte array</returns>
         public static byte[] toByteArray(string s)
         {
             char[] c = s.ToCharArray();
@@ -122,11 +149,17 @@ namespace CourseworkServer
             }
             return b;
         }
+        /// <summary>
+        /// Executes a command read from the console. This will possibly go before hand-in
+        /// </summary>
         public static void ReadCommand()
         {
             server.ExecuteCommand(Console.ReadLine());
             isReadingForCommand = false;
         }
+        /// <summary>
+        /// Creates a new instance of the server and sets it up.
+        /// </summary>
         public Server()
         {
             if (!File.Exists("Messages.txt"))
@@ -143,7 +176,10 @@ namespace CourseworkServer
             writer = new BinaryWriter(writeStream);
             listener.userAdded += new OnConnect(listener_userAdded);
         }
-
+        /// <summary>
+        /// Called whenever a client is added to the server. Adds events for when the client does something.
+        /// </summary>
+        /// <param name="user">The connected client</param>
         public void listener_userAdded(Client user)
         {
             Console.WriteLine("Adding user to list of users");
@@ -152,18 +188,25 @@ namespace CourseworkServer
 
             connectedClients.Add(user);
         }
-
+        /// <summary>
+        /// Called when a user disconnects from the server
+        /// </summary>
+        /// <param name="user">The user that disconnected</param>
         public void user_UserDisconnected(Client user)
         {
             Console.WriteLine("Removing user");
             connectedClients.Remove(user);
         }
+        /// <summary>
+        /// Executes the given console command
+        /// </summary>
+        /// <param name="s">The command to execute</param>
         private void ExecuteCommand(string s)
         {
             string[] splitted = s.Split(' ');
             switch (splitted[0])
             {
-                case "/sql":
+                case "/sql": //Executes a sql command and prints the number of rows affected
                     string genericSQLString = "";
                     for (int i = 1; i < splitted.Length; i++) genericSQLString += " " + splitted[i];
                     try
@@ -175,7 +218,7 @@ namespace CourseworkServer
                         Console.WriteLine("Error encountered: " + e);
                     }
                     break;
-                case "/sqlQuery":
+                case "/sqlQuery": //Executes a sql query and prints the result
                     string sqlQuery = "";
                     for (int i = 1; i < splitted.Length; i++) sqlQuery += " " + splitted[i];
                     try
@@ -201,16 +244,16 @@ namespace CourseworkServer
                     }
                     break;
 
-                case "/close":
+                case "/close": //Closes the server
                     Environment.Exit(0);
                     break;
-                case "/help":
+                case "/help": //Gets available commands. Very outdated and needs to be changed
                     Console.WriteLine("/sql <command> : Executes the command given and prints the number of rows affected");
                     Console.WriteLine("/checkCredentials <Username> <PasswordHash> : Checks to see if the given user exists in the DB");
                     Console.WriteLine("/help : Prints all usable commands to the console");
                     Console.WriteLine("/close : Exits the program safely");
                     break;
-                case "/testDataTransmission":
+                case "/testDataTransmission": //Tests connection to every connected client
                     foreach (Client c in connectedClients)
                     {
                         for (int i = 0; i < 1000; i++) c.SendData(addProtocolToArray(toByteArray("test string data " + i), Protocol.DataTransmissionTest));
@@ -221,6 +264,11 @@ namespace CourseworkServer
                     break;
             }
         }
+        /// <summary>
+        /// Called whenever data is received from a client
+        /// </summary>
+        /// <param name="sender">The client sending the data</param>
+        /// <param name="data">The data sent</param>
         private void user_DataReceived(Client sender, byte[] data)
         {
             Protocol p = (Protocol)data[0];
@@ -279,10 +327,16 @@ namespace CourseworkServer
                 case Protocol.PowerExtraction:
                 case Protocol.AddCardFromDiscard:
                 case Protocol.ReturnUnitToHand:
+                    //If the data does not need to be processed by the server
                     GetOpponent(sender).SendData(data);
                     break;
             }
         }
+        /// <summary>
+        /// Gets the opponent of a player in a match
+        /// </summary>
+        /// <param name="c">The player</param>
+        /// <returns>The player's opponent</returns>
         private Client GetOpponent(Client c)
         {
             string opponentName = null;
@@ -294,6 +348,11 @@ namespace CourseworkServer
             if (opponentName == null) throw new ArgumentException();
             else return GetClient(opponentName);
         }
+        /// <summary>
+        /// Gets the data from the given memory stream
+        /// </summary>
+        /// <param name="ms">The memory stream</param>
+        /// <returns>The data</returns>
         private byte[] GetDataFromMemoryStream(MemoryStream ms)
         {
             byte[] result;
@@ -309,6 +368,11 @@ namespace CourseworkServer
 
             return result;
         }
+        /// <summary>
+        /// Gets the status of the given user
+        /// </summary>
+        /// <param name="s">The user's username</param>
+        /// <returns>The user's status</returns>
         public Status StatusOf(string s)
         {
             foreach (Client c in connectedClients)
@@ -317,6 +381,11 @@ namespace CourseworkServer
             }
             return Status.Offline;
         }
+        /// <summary>
+        /// Gets the index of the player in the list of clients
+        /// </summary>
+        /// <param name="s">The username</param>
+        /// <returns>The index of the client</returns>
         public int GetClientIndex(string s)
         {
             for (int i = 0; i < connectedClients.Count; i++)
@@ -325,6 +394,11 @@ namespace CourseworkServer
             }
             throw new ArgumentException(s);
         }
+        /// <summary>
+        /// Checks whether the given username is in use
+        /// </summary>
+        /// <param name="username">The username to check</param>
+        /// <returns>Whether the username is in use or not</returns>
         public bool usernameInUse(string username)
         {
             foreach (Client c in connectedClients)
@@ -333,6 +407,11 @@ namespace CourseworkServer
             }
             return false;
         }
+        /// <summary>
+        /// Gets the connected client with the given username
+        /// </summary>
+        /// <param name="username">The username</param>
+        /// <returns>The client with that username</returns>
         public Client GetClient(string username)
         {
             foreach (Client c in connectedClients)

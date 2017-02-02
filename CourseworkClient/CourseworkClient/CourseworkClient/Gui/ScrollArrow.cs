@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// Enumeration of rotation for various things
+    /// </summary>
     enum Orientation
     {
         Up,
@@ -18,6 +21,11 @@ namespace CourseworkClient.Gui
     {
         Orientation orientation;
         public bool usable;
+        /// <summary>
+        /// Creates a new ScrollArrow
+        /// </summary>
+        /// <param name="r">The bounding box of the arrow</param>
+        /// <param name="o">The orientation that the arrow should be drawn at</param>
         public ScrollArrow(Rectangle r, Orientation o)
         {
             boundingBox = r;
