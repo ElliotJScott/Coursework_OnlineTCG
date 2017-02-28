@@ -815,8 +815,8 @@ namespace CourseworkClient.Gui
 #warning change this later
             Card c = Card.getCard(s);
             SmallCard smallCard = new SmallCard(c, GetNextID(), false);
-            //bool needsSelection = GetNeedTechSelection(c); 
-            chain.AddLast(new ChainItem(smallCard, playerPlayed, false));
+            bool needsSelection = GetNeedTechSelection(c); 
+            chain.AddLast(new ChainItem(smallCard, playerPlayed, needsSelection));
         }
         /// <summary>
         /// Gets whether a given card needs a selection when it is played
@@ -825,7 +825,7 @@ namespace CourseworkClient.Gui
         /// <returns>Whether the card needs selection</returns>
         private bool GetNeedTechSelection(Card c)
         {
-            return EffectSelection.GetTechSelection(c).Equals(null);
+            return EffectSelection.GetNeedsTechSelection(c);
         }
         /// <summary>
         /// A mapping of the selections that different effects need and what selections they make
@@ -867,6 +867,14 @@ namespace CourseworkClient.Gui
                     if (c.effects.Contains(s.effect)) return s.selection;
                 }
                 return null;
+            }
+            public static bool GetNeedsTechSelection(Card c)
+            {
+                foreach (EffectSelection s in techSelections)
+                {
+                    if (c.effects.Contains(s.effect)) return true;
+                }
+                return false;
             }
         }
         /// <summary>

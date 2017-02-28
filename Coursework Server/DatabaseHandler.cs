@@ -28,8 +28,9 @@ namespace CourseworkServer
                 {
                     connection.Open();
                 }
-                catch
+                catch (Exception e)
                 {
+                    Console.WriteLine(e);
                     DoParameterizedSQLQuery(query, parameters);
                 }
                 for (int i = 1; i <= parameters.Length; i++)
