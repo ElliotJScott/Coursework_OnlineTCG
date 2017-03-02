@@ -248,12 +248,6 @@ namespace CourseworkServer
                 case "/close": //Closes the server
                     Environment.Exit(0);
                     break;
-                case "/help": //Gets available commands. Very outdated and needs to be changed
-                    Console.WriteLine("/sql <command> : Executes the command given and prints the number of rows affected");
-                    Console.WriteLine("/checkCredentials <Username> <PasswordHash> : Checks to see if the given user exists in the DB");
-                    Console.WriteLine("/help : Prints all usable commands to the console");
-                    Console.WriteLine("/close : Exits the program safely");
-                    break;
                 case "/testDataTransmission": //Tests connection to every connected client
                     foreach (Client c in connectedClients)
                     {
