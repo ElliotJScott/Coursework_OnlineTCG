@@ -59,7 +59,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>6go78zCae4deC9Wf+uMNy1Qx2pkAP7vExNbb/e0/qRA=</dsig:DigestValue>
+      <dsig:DigestValue>0/UoUc2nF5m9OfbvprqasOqAwn/s6Eta1hRwCM8CyRk=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CourseworkDB_log.ldf" size="8388608" writeableType="applicationData">
@@ -68,7 +68,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>0F6BIZqF1FpYuzu9IHXpEpT3QA1mYP32g8onaRMBVtI=</dsig:DigestValue>
+      <dsig:DigestValue>zm5rOhQIqBQNOEgAAgRKcBnuHioWh+Oy/9tS0o2dkrY=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CourseworkServer.exe.config" size="189">

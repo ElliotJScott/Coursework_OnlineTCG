@@ -349,6 +349,7 @@ namespace CourseworkClient.Gui
 
         public override void OnPress()
         {
+#warning need to change this depending on whether the end item of the chain was player played or not
             ((InGameForm)Primary.game.currentForm).ResolveChain();
             Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter });
         }

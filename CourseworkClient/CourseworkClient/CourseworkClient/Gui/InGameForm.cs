@@ -86,7 +86,7 @@ namespace CourseworkClient.Gui
             {
                 username = ((InGameForm)Primary.game.currentForm).enemyUsername;
             }
-            if (card.id > 0)
+            if (card.id > 0 && card.id < 10000)
             {
                 return string.Format("{0} attacked with {1}", username, card.card.name);
             }
@@ -143,6 +143,7 @@ namespace CourseworkClient.Gui
         public Function function;
         public Selection(int num, Function func, bool f = true, params SelectionCondition[] sel)
         {
+            function = func;
             fulfilAll = f;
             quantity = num;
             conditions = sel;
@@ -240,6 +241,7 @@ namespace CourseworkClient.Gui
         readonly int maxYOffset;
         const int yAccel = 20;
         int nextID = 0;
+        int nextHandID = 10000;
         const double researchPT = 0.3;
         const double startingResource = 3;
         const double startingRPT = 3;
@@ -309,6 +311,7 @@ namespace CourseworkClient.Gui
                     break;
                 case Function.AddFromEnemyDiscard:
                     enemyDiscardPile.Remove(card.card);
+                    card.id = GetNextHandID();
                     hand.Add(card);
                     Primary.game.WriteDataToStream(Protocol.AddToEnemyFromDiscard, card.card.name);
                     break;
@@ -373,6 +376,7 @@ namespace CourseworkClient.Gui
                     break;
                 case Function.RepairPack:
                     discardPile.Remove(card.card);
+                    card.id = GetNextHandID();
                     hand.Add(card);
                     Primary.game.WriteDataToStream(Protocol.AddCardFromDiscard, card.card.name);
                     break;
@@ -381,6 +385,7 @@ namespace CourseworkClient.Gui
                     break;
                 case Function.ReturnCardFromDiscard:
                     discardPile.Remove(card.card);
+                    card.id = GetNextHandID();
                     hand.Add(card);
                     Primary.game.WriteDataToStream(Protocol.AddCardFromDiscard, card.card.name);
                     break;
@@ -454,7 +459,9 @@ namespace CourseworkClient.Gui
                     if (c.id == id)
                     {
                         units.Remove(c);
-                        hand.Add(new SmallCard(Card.getCard(c.card.name), new Vector2(0)));
+                        SmallCard f = new SmallCard(Card.getCard(c.card.name), new Vector2(0));
+                        f.id = GetNextHandID();
+                        hand.Add(f);
                         List<int> upgradesToRemove = new List<int>();
                         for (int i = 0; i < upgradesInPlay.Count; i++)
                         {
@@ -653,20 +660,21 @@ namespace CourseworkClient.Gui
             {
                 if (!chain.Last.Value.playerPlayed && !locked)
                 {
-                    try
-                    {
-                        foreach (Button b in counterOptionButtons)
-                        {
-                            b.Draw(sb);
-                            b.Update();
-                        }
-                    }
-                    catch
-                    {
-                        Primary.Log("FF");
-                    }
+
                 }
                 DrawChain(chain.First, sb);
+            }
+            try
+            {
+                foreach (Button b in counterOptionButtons)
+                {
+                    b.Draw(sb);
+                    b.Update();
+                }
+            }
+            catch
+            {
+                Primary.Log("FF");
             }
         }
         /// <summary>
@@ -1026,6 +1034,7 @@ namespace CourseworkClient.Gui
         /// <param name="player">Whether the upgrade/unit is player controlled</param>
         internal void AddUpgradeToCard(int id, bool player)
         {
+#warning need to add the effect from the upgrade to the unit it is equipped to
             LinkedListNode<ChainItem> item = chain.Last;
             SmallCard upgrade = item.Value.card;
             if (upgrade.card.type != CardType.Upgrade) throw new InvalidOperationException("very not good");
@@ -1215,7 +1224,7 @@ namespace CourseworkClient.Gui
                     switch (item.card.card.type)
                     {
                         case CardType.Unit:
-                            if (item.card.id < 0)
+                            if (item.card.id < 0 || item.card.id >= 10000)
                             {
                                 PlayUnit(item.card.card, item.playerPlayed);
                             }
@@ -1427,19 +1436,29 @@ namespace CourseworkClient.Gui
         /// </summary>
         public void DrawACard()
         {
-
-            hand.Add(new SmallCard(deck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY())));
+            SmallCard c = new SmallCard(deck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
+            c.id = GetNextHandID();
+            hand.Add(c);
             UpdateCardPositions();
             deck.RemoveAt(0);
 
         }
+        
+        /// <summary>
+        /// Gets the next SmallCard id for a card in the player's hand
+        /// </summary>
+        /// <returns>The next id</returns>
+        public int GetNextHandID() => nextHandID++ - 1;
+        
         /// <summary>
         /// Draws a specific card from the deck
         /// </summary>
         /// <param name="c">The card to draw</param>
         public void DrawSpecificCard(Card c)
         {
-            hand.Add(new SmallCard(c, new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY())));
+            SmallCard f = new SmallCard(c, new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
+            f.id = GetNextHandID();
+            hand.Add(f);
             UpdateCardPositions();
             deck.Remove(c);
             Shuffle(deck);
