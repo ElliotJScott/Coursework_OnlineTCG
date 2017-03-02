@@ -349,9 +349,18 @@ namespace CourseworkClient.Gui
 
         public override void OnPress()
         {
-#warning need to change this depending on whether the end item of the chain was player played or not
-            ((InGameForm)Primary.game.currentForm).ResolveChain();
-            Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter });
+            InGameForm currentForm = (InGameForm)Primary.game.currentForm;
+            ChainItem last = currentForm.chain.Last.Value;
+            if (last.playerPlayed)
+            {
+                Primary.game.SendData(new byte[] { (byte)Protocol.EndSelection });
+                currentForm.chain.RemoveLast();
+            }
+            else
+            { 
+                Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter });
+            }
+            currentForm.ResolveChain();
         }
         public override void Update()
         {

@@ -56,7 +56,6 @@ namespace CourseworkServer
             server = new Server();
             Console.Clear();
             Console.WriteLine("Server online");
-            Console.ReadLine();
             while (true)
             {
                 if (!isReadingForCommand)
