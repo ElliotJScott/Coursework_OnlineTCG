@@ -104,7 +104,7 @@ namespace CourseworkClient
             graphics.PreferredBackBufferHeight = 900;
             graphics.PreferredBackBufferWidth = 1600;
             Window.Title = "Hearthclone";
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
         }
 
         /// <summary>

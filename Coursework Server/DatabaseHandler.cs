@@ -20,7 +20,6 @@ namespace CourseworkServer
         /// <returns>The result of the query</returns>
         public object[][] DoParameterizedSQLQuery(string query, params object[] parameters)
         {
-
             using (SqlConnection connection = new SqlConnection(Server.connectionString))
             using (SqlCommand sqlCommand = new SqlCommand(query, connection))
             {
