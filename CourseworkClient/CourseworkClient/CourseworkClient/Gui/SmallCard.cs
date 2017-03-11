@@ -61,11 +61,11 @@ namespace CourseworkClient.Gui
             boundingBox.X = (int)v.X;
             boundingBox.Y = (int)v.Y;
         }
-        public void Draw(SpriteBatch sb, Orientation o)
+        public void Draw(SpriteBatch sb, bool playerPlayed)
         {
             if (!drawnBig)
             {
-                CardBuilder.DrawCard(card, new Vector2(boundingBox.X, boundingBox.Y), false, sb, o);
+                CardBuilder.DrawCard(card, new Vector2(boundingBox.X, boundingBox.Y), false, sb, playerPlayed, tapped);
             }
             else
             {
@@ -74,7 +74,7 @@ namespace CourseworkClient.Gui
         }
         public override void Draw(SpriteBatch sb)
         {
-            Draw(sb, Orientation.Up);
+            Draw(sb, true);
         }
         /// <summary>
         /// Adds an effect to this card

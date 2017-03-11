@@ -241,10 +241,14 @@ namespace CourseworkClient.Gui
         {
             if (canBePressed)
             {
-                BigCard bigcard = ((InGameForm)Primary.game.currentForm).bigCard;
+#warning not finished yet- add selection options and transmit this information
+                InGameForm currentForm = ((InGameForm)Primary.game.currentForm);
+                BigCard bigcard = currentForm.bigCard;
                 Card card = bigcard.card;
-                ((InGameForm)Primary.game.currentForm).DiscardSelectedCard();
-                ((InGameForm)Primary.game.currentForm).bigCard = null;
+                currentForm.DiscardSelectedCard();
+                Primary.game.WriteDataToStream(Protocol.DiscardTech, card.name);
+                currentForm.bigCard = null;
+              
             }
         }
     }
@@ -350,8 +354,21 @@ namespace CourseworkClient.Gui
         public override void OnPress()
         {
 #warning need to change this depending on whether the end item of the chain was player played or not
-            ((InGameForm)Primary.game.currentForm).ResolveChain();
-            Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter });
+            InGameForm currentForm = ((InGameForm)Primary.game.currentForm);
+            if (currentForm.chain.Last.Value.playerPlayed)
+            {
+                if (currentForm.chain.Last.Value.card.card.type != CardType.Unit)
+                {
+                    currentForm.DiscardCardFromHand(currentForm.chain.Last.Value.card.card);
+                    Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, currentForm.chain.Last.Value.card.card.name);
+                    Primary.game.WriteDataToStream(Protocol.EndSelection);
+                }
+            }
+            else
+            {
+                currentForm.ResolveChain();
+                Primary.game.SendData(new byte[] { (byte)Protocol.NoCounter });
+            }
         }
         public override void Update()
         {
@@ -400,6 +417,15 @@ namespace CourseworkClient.Gui
         public override void OnPress()
         {
             Primary.game.currentForm = ((SelectionForm)Primary.game.currentForm).gameForm;
+        }
+    }
+    class EndTurnButton : Button
+    {
+        public EndTurnButton(Rectangle r) : base(r, "End Turn") { }
+        public override void OnPress()
+        {
+            ((InGameForm)Primary.game.currentForm).StartEnemyTurn();
+            Primary.game.WriteDataToStream(Protocol.EndTurn);
         }
     }
 }

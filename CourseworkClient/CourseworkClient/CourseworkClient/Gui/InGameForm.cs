@@ -216,6 +216,7 @@ namespace CourseworkClient.Gui
     class InGameForm : Form
     {
         public bool myTurn;
+        int turnNum; //This is the number of turns that the player has taken. Doesn't count enemy turns
         MouseState oldState;
         List<Card> deck = new List<Card>();
         List<Card> upgradeDeck = new List<Card>();
@@ -233,14 +234,16 @@ namespace CourseworkClient.Gui
         public List<SmallCard> playerUpgrades = new List<SmallCard>();
         public List<SmallCard> enemyUpgrades = new List<SmallCard>();
         public LinkedList<ChainItem> chain = new LinkedList<ChainItem>();
-        List<Upgrade> upgradesInPlay = new List<Upgrade>();
+        public List<Upgrade> upgradesInPlay = new List<Upgrade>();
         const int maxUnitsInPlay = 10;
         int yOffset;
         public string enemyUsername;
         const int minYOffset = 0;
+        string[] races = {"Ultramarine", "Chaos Space Marine", "Eldar", "Necron", "Tyranid"};
         readonly int maxYOffset;
         const int yAccel = 20;
         int nextID = 0;
+        int upgradesDrawn = 0;
         int nextHandID = 10000;
         const double researchPT = 0.3;
         const double startingResource = 3;
@@ -251,6 +254,7 @@ namespace CourseworkClient.Gui
         const int startingCardsInHand = 5;
         const int deckPlacementModifier = 23;
         public double playerResourcePT, enemyRPT, playerResource, enemyResource, playerResearch, enemyResearch;
+        EndTurnButton endTurnButton;
         /// <summary>
         /// Creates a new InGameForm
         /// </summary>
@@ -291,6 +295,7 @@ namespace CourseworkClient.Gui
             for (int i = 0; i < startingCardsInHand; i++) DrawACard();
             numEnemyCardsInHand = startingCardsInHand;
             Viewport v = Primary.game.GraphicsDevice.Viewport;
+            endTurnButton = new EndTurnButton(new Rectangle(v.Width - Primary.game.buttonTexture.Width, 0, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height));
             formItems.Add(new BCPlayButton(new Rectangle(((v.Width / 6) - (Primary.game.playButton.Width * 3)) / 2, 10 + (Primary.game.cardOutlineBig.Height + v.Height / 2), Primary.game.playButton.Width, Primary.game.playButton.Height), Primary.game.playButton));
             formItems.Add(new BCAttackButton(new Rectangle(((v.Width / 6) - Primary.game.attackButton.Width) / 2, 10 + (Primary.game.cardOutlineBig.Height + v.Height / 2), Primary.game.attackButton.Width, Primary.game.attackButton.Height), Primary.game.attackButton));
             formItems.Add(new BCDiscardButton(new Rectangle(((v.Width / 6) + Primary.game.discardButton.Width) / 2, 10 + (Primary.game.cardOutlineBig.Height + v.Height / 2), Primary.game.discardButton.Width, Primary.game.discardButton.Height), Primary.game.discardButton));
@@ -308,6 +313,7 @@ namespace CourseworkClient.Gui
             {
                 case Function.AddCardToHand:
                     DrawSpecificCard(card.card);
+                    Primary.game.WriteDataToStream(Protocol.AddCardToEnemyHand);
                     break;
                 case Function.AddFromEnemyDiscard:
                     enemyDiscardPile.Remove(card.card);
@@ -366,6 +372,10 @@ namespace CourseworkClient.Gui
                 case Function.PlayUnitFromDeck:
                     PlayUnit(card.card, true);
                     deck.Remove(card.card);
+                    if (deck.Count == 0)
+                    {
+                        Primary.game.WriteDataToStream(Protocol.NoCardsInDeck);
+                    }
                     Primary.game.WriteDataToStream(Protocol.PlayUnitFromDeck, card.card.name);
                     break;
                 case Function.PowerExtraction:
@@ -394,6 +404,8 @@ namespace CourseworkClient.Gui
                     Primary.game.WriteDataToStream(Protocol.ReturnUnitToHand, card.id.ToString());
                     break;
             }
+            chain.RemoveLast();
+            if (chain.Count > 0) ResolveChain();
         }
         /// <summary>
         /// Returns a unit to the owner's hand
@@ -620,8 +632,8 @@ namespace CourseworkClient.Gui
             Texture2D cb = Primary.game.cardBack;
             for (int i = 0; i < numEnemyCardsInHand; i++)
                 sb.Draw(cb, new Rectangle(GetHandCardX(numEnemyCardsInHand, i), GetEnemyHandCardY(), cb.Width, cb.Height), null, Color.White, (float)Math.PI, new Vector2(cb.Width, cb.Height), SpriteEffects.None, 1);
-            foreach (SmallCard c in units) c.Draw(sb, c.tapped ? Orientation.Right : Orientation.Up);
-            foreach (SmallCard c in enemyUnits) c.Draw(sb, c.tapped ? Orientation.Left : Orientation.Down);
+            foreach (SmallCard c in units) c.Draw(sb, true);
+            foreach (SmallCard c in enemyUnits) c.Draw(sb, false);
             for (int i = 0; i < deck.Count; i++)
             {
                 int c = Color.White.B - (deck.Count - 1) + i;
@@ -651,6 +663,8 @@ namespace CourseworkClient.Gui
                 }
             }
             bigCard?.Draw(sb);
+
+            
             for (int i = 0; i < 3; i++)
             {
                 ((TexturedButton)formItems[i]).Draw(sb);
@@ -664,6 +678,10 @@ namespace CourseworkClient.Gui
                 }
                 DrawChain(chain.First, sb);
             }
+            else
+            {
+                if (myTurn) endTurnButton.Draw(sb);
+            }
             try
             {
                 foreach (Button b in counterOptionButtons)
@@ -676,6 +694,18 @@ namespace CourseworkClient.Gui
             {
                 Primary.Log("FF");
             }
+            DrawPlayerData(sb);
+        }
+
+        public void DrawPlayerData(SpriteBatch sb)
+        {
+            Viewport v = Primary.game.GraphicsDevice.Viewport;
+            int sw = v.Width;
+            int sh = v.Height;
+            sb.DrawString(Primary.game.mainFont, string.Format("Your ({0}) current resources : {1}\nResources Per Turn : {2}", Primary.game.username, playerResource, playerResourcePT), new Vector2(sw - 200, 100), Color.Red);
+            sb.DrawString(Primary.game.mainFont, string.Format("The enemy's ({0}) current resources : {1}\nResources Per Turn : {2}", enemyUsername, enemyResource, enemyRPT), new Vector2(sw - 200, 200), Color.Red);
+            sb.DrawString(Primary.game.mainFont, string.Format("Your ({0}) current research : {1}\nResearch Per Turn : {2}", Primary.game.username, playerResearch, researchPT), new Vector2(sw - 200, 300), Color.Red);
+            sb.DrawString(Primary.game.mainFont, string.Format("The enemy's ({0}) current research : {1}\nResearch Per Turn : {2}", enemyUsername, enemyResearch, researchPT), new Vector2(sw - 200, 400), Color.Red);
         }
         /// <summary>
         /// Adds the appropriate buttons for the player to counter an enemy's attack appropriately
@@ -713,10 +743,36 @@ namespace CourseworkClient.Gui
         public void StartTurn()
         {
             myTurn = true;
+            turnNum++;
             CalculateYOffset();
             DrawACard();
             playerResource += playerResourcePT;
             playerResearch += researchPT;
+            if (haveSufficientResearch())
+            {
+                DrawUpgradeCard();
+            }
+        }
+        public bool haveSufficientResearch()
+        {
+            double researchRequired = 12d * Math.Exp((upgradesDrawn / 8d) - (turnNum / 5d));
+            return playerResearch >= researchRequired;
+        }
+        public void DrawUpgradeCard()
+        {
+            Shuffle(upgradeDeck);
+            if (upgradeDeck.Count > 0)
+            {
+                SmallCard c = new SmallCard(upgradeDeck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
+                c.id = GetNextHandID();
+                hand.Add(c);
+                UpdateCardPositions();
+                upgradeDeck.RemoveAt(0);
+                if (upgradeDeck.Count == 0)
+                {
+                    Primary.game.WriteDataToStream(Protocol.NoCardsInUpgradeDeck);
+                }
+            }
         }
         /// <summary>
         /// Adds an attacking unit to the end of the chain
@@ -785,6 +841,11 @@ namespace CourseworkClient.Gui
         public List<SmallCard> GetCounterCards()
         {
             List<SmallCard> output = new List<SmallCard>();
+            List<int> idsInChain = new List<int>();
+            foreach (ChainItem c in chain)
+            {
+                idsInChain.Add(c.card.id);
+            }
             foreach (SmallCard c in hand)
             {
                 if (c.card.type == CardType.Tech)
@@ -797,7 +858,7 @@ namespace CourseworkClient.Gui
                     {
                         if (chain.Last.Value.card.card.type == CardType.Unit && chain.Last.Value.card.id >= 0) output.Add(c);
                     }
-                    else output.Add(c);
+                    else if (c.card.cost <= playerResource && !idsInChain.Contains(c.id)) output.Add(c);
                 }
             }
             return output;
@@ -1037,11 +1098,30 @@ namespace CourseworkClient.Gui
 #warning need to add the effect from the upgrade to the unit it is equipped to
             LinkedListNode<ChainItem> item = chain.Last;
             SmallCard upgrade = item.Value.card;
-            if (upgrade.card.type != CardType.Upgrade) throw new InvalidOperationException("very not good");
+            if (upgrade.card.type != CardType.Upgrade) throw new InvalidOperationException("very not good"); //If this gets called it means that the game is trying to equip a non-upgrade card
             upgrade.id = GetNextID();
             if (player) playerUpgrades.Add(upgrade);
             else enemyUpgrades.Add(upgrade);
             upgradesInPlay.Add(new Upgrade(upgrade.id, id));
+            AddUpgradeEffectsToCard(getCardFromId(id), upgrade);
+        }
+        public void AddUpgradeEffectsToCard(SmallCard unit, SmallCard upgrade)
+        {
+            string[] effectBlacklist = { "Ultramarine Upgrade", "Chaos Space Marine Upgrade", "Eldar Upgrade", "Necron Upgrade", "Tyranid Upgrade", "Semi-Unique", "Unique"};
+            //foreach (string s in upgrade.card.getEffectNames())
+            //{
+            //    if (!unit.card.hasEffect(s))
+            //    {
+            //        bool 
+            //        foreach (string x in effectBlacklist)
+            //        {
+            //            if (x == s) break;
+            //        }
+            //    }
+            //}
+            List<string> effects = upgrade.card.getEffectNames();
+            foreach (string s in effectBlacklist) effects.Remove(s);
+            foreach (string s in effects) if (!unit.card.hasEffect(s)) unit.AddEffect(Effect.GetEffect(s));
         }
         /// <summary>
         /// Kills a given unit
@@ -1128,6 +1208,18 @@ namespace CourseworkClient.Gui
             enemyResource += enemyRPT;
             enemyResearch += researchPT;
         }
+        public void DiscardCardFromHand(Card c)
+        {
+            foreach (SmallCard f in hand)
+            {
+                if (f.card == c)
+                {
+                    hand.Remove(f);
+                    discardPile.Add(c);
+                        
+                }
+            }
+        }
         /// <summary>
         /// Calculates the initial Y-offset of form items for when the game begins
         /// </summary>
@@ -1165,6 +1257,10 @@ namespace CourseworkClient.Gui
                         }
                     }
                 }
+                else
+                {
+                    if (myTurn) endTurnButton.Update();
+                }
                 base.Update();
 
             }
@@ -1189,6 +1285,7 @@ namespace CourseworkClient.Gui
             if (playerResource >= card.cost && units.Count < maxUnitsInPlay && location == 0) play = true;
             UpdateButtons(play, attack, discard);
         }
+#warning ResolveChain method
         /// <summary>
         /// Resolves the last item in the chain
         /// </summary>
@@ -1205,13 +1302,14 @@ namespace CourseworkClient.Gui
                         switch (item.card.card.type)
                         {
                             case CardType.Unit:
-                                throw new NotImplementedException();
+                                counterOptionButtons = getSelectionButtons(GetSelectionFromUnit(item.card.card).Value);
+                                //This here applies only to the transport ability
                                 break;
                             case CardType.Tech:
                                 counterOptionButtons = getSelectionButtons(GetSelectionFromTechCard(item.card.card));
                                 break;
                             case CardType.Upgrade:
-                                throw new NotImplementedException();
+                                counterOptionButtons = getSelectionButtons(GetSelectionFromUpgrade(item.card.card));
                                 break;
                         }
 #warning add selection for the player based on the card- will leave for the moment
@@ -1244,6 +1342,23 @@ namespace CourseworkClient.Gui
             chain.RemoveLast();
             if (chain.Count > 0) ResolveChain();
         }
+
+        private SelectionItem GetSelectionFromUpgrade(Card card)
+        {
+
+            string effectName = "";
+            foreach (string s in races)
+            {
+                if (card.hasEffect(s))
+                {
+                    effectName = s + " Upgrade";
+                    break;
+                }
+            }
+            if (effectName == "") throw new ArgumentException();
+            return new SelectionItem(new Selection(1, Function.EquipUpgrade, true, new SelectionCondition(true, Location.InUnits, CardType.Unit, 1000, null, Effect.GetEffect(effectName))), "Select a unit to equip " + card.name + " to.");
+        }
+
         /// <summary>
         /// Executes a given tech card
         /// </summary>
@@ -1255,6 +1370,7 @@ namespace CourseworkClient.Gui
             {
                 numEnemyCardsInHand--;
             }
+            else DiscardCardFromHand(card);
 #warning not finished yet, doesn't matter just yet though
         }
         /// <summary>
@@ -1353,7 +1469,7 @@ namespace CourseworkClient.Gui
         /// </summary>
         public void DiscardSelectedCard()
         {
-#warning need to transmit this
+#warning need to modify this
             foreach (SmallCard c in hand)
             {
                 if (c.drawnBig)
@@ -1436,12 +1552,18 @@ namespace CourseworkClient.Gui
         /// </summary>
         public void DrawACard()
         {
-            SmallCard c = new SmallCard(deck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
-            c.id = GetNextHandID();
-            hand.Add(c);
-            UpdateCardPositions();
-            deck.RemoveAt(0);
-
+            if (deck.Count > 0)
+            {
+                SmallCard c = new SmallCard(deck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
+                c.id = GetNextHandID();
+                hand.Add(c);
+                UpdateCardPositions();
+                deck.RemoveAt(0);
+                if (deck.Count == 0)
+                {
+                    Primary.game.WriteDataToStream(Protocol.NoCardsInDeck);
+                }
+            }
         }
         
         /// <summary>
@@ -1461,6 +1583,10 @@ namespace CourseworkClient.Gui
             hand.Add(f);
             UpdateCardPositions();
             deck.Remove(c);
+            if (deck.Count == 0)
+            {
+                Primary.game.WriteDataToStream(Protocol.NoCardsInDeck);
+            }
             Shuffle(deck);
         }
         /// <summary>

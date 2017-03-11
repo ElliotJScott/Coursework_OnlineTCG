@@ -64,6 +64,7 @@ namespace CourseworkClient
         public Texture2D screenDarkener;
         public Texture2D loadingIcon;
         public Texture2D cardBack;
+        public Texture2D cardTappedIndicator;
         public SpriteFont mainFont, cardTextFont;
         public static Primary game;
         public Form currentForm;
@@ -104,7 +105,7 @@ namespace CourseworkClient
             graphics.PreferredBackBufferHeight = 900;
             graphics.PreferredBackBufferWidth = 1600;
             Window.Title = "Hearthclone";
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
         }
 
         /// <summary>
@@ -166,6 +167,7 @@ namespace CourseworkClient
             attackButton = Content.Load<Texture2D>("AttackButton");
             discardButton = Content.Load<Texture2D>("DiscardButton");
             cardBack = Content.Load<Texture2D>("Card Back");
+            cardTappedIndicator = Content.Load<Texture2D>("Card Reddener");
             Log("Finished loading content");
         }
         /// <summary>
@@ -389,7 +391,7 @@ namespace CourseworkClient
             }
             catch
             {
-                Log("Connecting terminated with server");
+                Log("Connection terminated with server");
                 connected = false;
             }
         }

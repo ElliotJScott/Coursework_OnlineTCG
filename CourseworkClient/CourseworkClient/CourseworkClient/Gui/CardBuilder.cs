@@ -24,7 +24,7 @@ namespace CourseworkClient.Gui
         /// <param name="big">Whether or not to draw the card as a BigCard</param>
         /// <param name="sb">The SpriteBatch used to draw the card</param>
         /// <param name="orientation">What orientation to draw the card. May not include this in the final version because it is difficult to accurately draw the different images in the right places when rotated</param>
-        public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, Orientation orientation) //Note this doesn't include the text which only applies to the big cards
+        public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, bool playerPlayed, bool tapped) //Note this doesn't include the text which only applies to the big cards
         {
             #region Inner and Outer Texture Setting
             Texture2D innerTexture = null;
@@ -63,13 +63,19 @@ namespace CourseworkClient.Gui
                 }
             }
             #endregion
-            float rotation = ((float)Math.PI / 2) * (float)(orientation);
+            float rotation = playerPlayed ? 0f : ((float)Math.PI);
+            pos += !playerPlayed && !big? new Vector2(cardOutline.Width, cardOutline.Height) : new Vector2(0);
             Vector2 cardCentre = new Vector2(0, 0);
             sb.Draw(innerTexture, new Rectangle((int)pos.X, (int)pos.Y, innerTexture.Width, innerTexture.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
             int disp = big ? 13 : 6;
             Texture2D cardArt = Primary.game.GetCardArt(c.name);
             int artX = big ? (int)pos.X + cardArtDispX : (int)pos.X + (cardArtDispX / 2);
             int artY = big ? (int)pos.Y + cardArtDispY : (int)pos.Y + (cardArtDispY / 2);
+            if (!playerPlayed && !big)
+            {
+                artX += cardArt.Width;
+                artY += cardArt.Height;
+            }
             sb.Draw(cardArt, new Rectangle(artX, artY, big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
             if (big)
             {
@@ -93,8 +99,30 @@ namespace CourseworkClient.Gui
                 sb.DrawString(Primary.game.mainFont, c.cost >= 0 ? c.cost.ToString() : "-", new Vector2(pos.X + 160, pos.Y + 15), Color.Black);
                 if (c.type == 0)
                     sb.DrawString(Primary.game.mainFont, c.attack + "/" + c.health, new Vector2(pos.X + (cardOutline.Width / 2) - 20, pos.Y + cardOutline.Height - 40), Color.Black);
+                if (Primary.game.currentForm.GetType() == typeof(InGameForm))
+                {
+                    InGameForm currentForm = (InGameForm)Primary.game.currentForm;
+                    List<string> upgradeNames = new List<string>();
+                    SmallCard sc = currentForm.GetDrawnSmallCard();
+                    foreach (Upgrade u in currentForm.upgradesInPlay)
+                    {
+                        if (u.unitID == sc.id)
+                        {
+                            upgradeNames.Add(currentForm.GetUpgradeFromID(u.upgradeID, null).card.name);
+                        }
+                    }
+                    sb.DrawString(Primary.game.mainFont, "Equipped Upgrades:", new Vector2((int)pos.X, cardOutline.Height + (int)pos.Y), Color.Red);
+                    for (int i = 0; i < upgradeNames.Count; i++)
+                    {
+                        sb.DrawString(Primary.game.mainFont, upgradeNames[i], new Vector2((int)pos.X, ((i + 1) * 100) + cardOutline.Height + (int)pos.Y), Color.Red);
+                    }
+                }
             }
             sb.Draw(cardOutline, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
+            if (tapped && !big)
+            {
+                sb.Draw(Primary.game.cardTappedIndicator, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), Color.White);
+            }
         }
         /// <summary>
         /// Works out what scaling to draw a string at in the given font. Note the recursion used here.

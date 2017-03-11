@@ -45,7 +45,7 @@ namespace CourseworkClient.Gui
         public override void Draw(SpriteBatch sb)
         {
             Viewport v = Primary.game.GraphicsDevice.Viewport;
-            CardBuilder.DrawCard(card, loc, true, sb, Orientation.Up);
+            CardBuilder.DrawCard(card, loc, true, sb, true, false);
             foreach (GuiItem g in subItems) g.Draw(sb);
         }
         public override void Update()
