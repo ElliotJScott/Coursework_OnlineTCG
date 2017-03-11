@@ -830,7 +830,6 @@ namespace CourseworkClient.Gui
         {
             IGCancelButton noSelectionButton = new IGCancelButton(new Rectangle(0, 40, 150, 30));
             IGCounterButton counterButton = new IGCounterButton(new Rectangle(0, 0, 150, 30), "Counter", GetCounterCards(), Function.Counter);
-#warning Change this null later
             return new Button[] { noSelectionButton, counterButton };
         }
 
