@@ -1,5 +1,8 @@
 ﻿namespace CourseworkClient
 {
+    /// <summary>
+    /// The protocols that are attached to all data that is sent between the server and the client. The Protocols enumeration on the server should match this exactly.
+    /// </summary>
     public enum Protocol
     {
         Connect,
@@ -50,5 +53,7 @@
         PowerExtraction,
         AddCardFromDiscard,
         ReturnUnitToHand,
+        WonGame,
+        EloAndCoins,
     }
 }

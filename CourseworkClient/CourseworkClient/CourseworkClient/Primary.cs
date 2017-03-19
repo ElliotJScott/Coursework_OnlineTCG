@@ -65,6 +65,7 @@ namespace CourseworkClient
         public Texture2D loadingIcon;
         public Texture2D cardBack;
         public Texture2D cardTappedIndicator;
+        public Texture2D remainingHealth, missingHealth;
         public SpriteFont mainFont, cardTextFont;
         public static Primary game;
         public Form currentForm;
@@ -82,6 +83,8 @@ namespace CourseworkClient
         public int connectTimer = 0;
         public string username;
         public int selectedDeckNum = 0;
+        public int elo = 0;
+        public int coins = 0;
 
         /// <summary>
         /// Entry point of the program
@@ -168,6 +171,8 @@ namespace CourseworkClient
             discardButton = Content.Load<Texture2D>("DiscardButton");
             cardBack = Content.Load<Texture2D>("Card Back");
             cardTappedIndicator = Content.Load<Texture2D>("Card Reddener");
+            remainingHealth = Content.Load<Texture2D>("Remaining Health");
+            missingHealth = Content.Load<Texture2D>("Missing Health");
             Log("Finished loading content");
         }
         /// <summary>
@@ -499,7 +504,7 @@ namespace CourseworkClient
                     break;
                 case Protocol.AttackWithUnit:
                     ((InGameForm)currentForm).AddAttackingUnitToChain(Convert.ToInt32(s), true);//Add this attacking fellow to the chain
-                    //((InGameForm)currentForm).OfferAttackCounterOptions();
+                    ((InGameForm)currentForm).OfferAttackCounterOptions();
                     break;
                 case Protocol.DefendWithUnit:
                     ((InGameForm)currentForm).ResolveChainWithDefender(Convert.ToInt32(s), true);//s in the form id
@@ -516,7 +521,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).ResolveChain();
                     break;
                 case Protocol.PlayTech:
-                    ((InGameForm)currentForm).AddTechToChain(s, false);//s in the form name
+                    ((InGameForm)currentForm).AddTechToChain(s);//s in the form name
                     ((InGameForm)currentForm).OfferCardPlayCounters();
                     break;
                 case Protocol.PlayUnit:
@@ -524,7 +529,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).OfferCardPlayCounters();//Add this played fellow to the chain
                     break;
                 case Protocol.ControlUnit:
-                    ((InGameForm)currentForm).MoveUnitToEnemy(s);
+                    ((InGameForm)currentForm).MoveUnitToEnemy(Convert.ToInt32(s));
                     break;
                 case Protocol.DiscardFromUpgradeDeck:
                 case Protocol.DiscardFromDeck:
@@ -540,7 +545,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).ReplaceUnit(Convert.ToInt32(s));//s in the form id (of the card to be replaced). This is for the c'tan and convertible ultramarines
                     break;
                 case Protocol.ReturnUnit:
-                    ((InGameForm)currentForm).MoveUnitFromEnemy(s); //s in the form id
+                    ((InGameForm)currentForm).MoveUnitFromEnemy(Convert.ToInt32(s));
                     break;
                 case Protocol.PlayUnitFromDeck:
                     ((InGameForm)currentForm).PlayUnitFromEnemyDeck(s); //s in the form name
@@ -590,15 +595,20 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).HealUnit(Convert.ToInt32(s), 1, false);
                     break;
                 case Protocol.PowerExtraction:
-                    ((InGameForm)currentForm).numEnemyCardsInHand--;
-                    ((InGameForm)currentForm).enemyResource++;
-                    ((InGameForm)currentForm).enemyDiscardPile.Add(Card.getCard(s));
+                    ((InGameForm)currentForm).enemyResource += 2;
                     break;
                 case Protocol.AddCardFromDiscard:
                     ((InGameForm)currentForm).AddCardToEnemyHand(s, false);
                     break;
                 case Protocol.ReturnUnitToHand:
                     ((InGameForm)currentForm).ReturnUnitToHand(Convert.ToInt32(s), false);
+                    break;
+                case Protocol.EloAndCoins:
+                    string[] x = s.Split('a');
+                    elo = Convert.ToInt32(x[0]);
+                    coins = Convert.ToInt32(x[1]);
+                    if (currentForm.GetType() == typeof(InGameForm))
+                        currentForm = new EndGameForm();
                     break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());

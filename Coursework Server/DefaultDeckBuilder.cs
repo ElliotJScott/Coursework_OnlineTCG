@@ -43,7 +43,7 @@ namespace CourseworkServer
             new DeckItem(1, "Death in Honour"),
             new DeckItem(2, "Repair and Recover"),
             new DeckItem(2, "Terminator Armour"),
-            new DeckItem(1, "Psyker: Telekinesis")
+            new DeckItem(1, "Iron Halo")
         };
         public static DeckItem[] tyranidDefaultDeck =
             {
@@ -63,9 +63,9 @@ namespace CourseworkServer
             new DeckItem(2, "Demilitarisation"),
             new DeckItem(2, "Purify"),
             new DeckItem(1, "Anti-Vehicle Artillery"),
-            new DeckItem(1, "Sabotage"),
+            new DeckItem(1, "Dark Hole"),
             new DeckItem(2, "Bonesword"),
-            new DeckItem(1, "Psyker: Leech Essence")
+            new DeckItem(1, "Heavy Venom Cannon")
         };
         /// <summary>
         /// Gives the player either the ultramarine or tyranid default deck at random. This should be called whenever a new account is created.

@@ -279,7 +279,7 @@ namespace CourseworkClient.Gui
         {
             buttonText = text;
             selection = s;
-            if (s.Equals(null))
+            if (s != null)
                 canBePressed = true;
             else canBePressed = false;
         }
@@ -291,7 +291,7 @@ namespace CourseworkClient.Gui
         {
             buttonText = "Defend";
             selection = new SelectionItem(new Selection(1, Function.DefendWithUnit, true, SelectionCondition.alliedUntappedUnit), "Choose a unit to defend with");
-
+            canBePressed = selection.Value.selection.GetCards().Count > 0;
         }
         public override void OnPress()
         {
@@ -302,7 +302,7 @@ namespace CourseworkClient.Gui
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
-            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.White : Color.Black);
         }
         public override void Update()
         {
@@ -353,16 +353,18 @@ namespace CourseworkClient.Gui
 
         public override void OnPress()
         {
-#warning need to change this depending on whether the end item of the chain was player played or not
             InGameForm currentForm = ((InGameForm)Primary.game.currentForm);
+            currentForm.counterOptionButtons = new Button[0];
             if (currentForm.chain.Last.Value.playerPlayed)
             {
                 if (currentForm.chain.Last.Value.card.card.type != CardType.Unit)
                 {
                     currentForm.DiscardCardFromHand(currentForm.chain.Last.Value.card.card);
-                    Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, currentForm.chain.Last.Value.card.card.name);
-                    Primary.game.WriteDataToStream(Protocol.EndSelection);
+                    Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, currentForm.chain.Last.Value.card.card.name);                   
+                    currentForm.chain.RemoveLast();
                 }
+                Primary.game.WriteDataToStream(Protocol.EndSelection);
+                try { currentForm.ResolveChain(); } catch { }
             }
             else
             {
@@ -403,6 +405,7 @@ namespace CourseworkClient.Gui
 
                 //currentForm.gameForm.chain.RemoveLast();
                 //currentForm.gameForm.ResolveChain();
+                currentForm.gameForm.counterOptionButtons = new Button[0];
                 Primary.game.currentForm = currentForm.gameForm;
 
             }

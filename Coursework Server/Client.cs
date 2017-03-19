@@ -26,10 +26,10 @@ namespace CourseworkServer
         public event OnConnect DisconnectEvent;
         public event OnDataReceived DataReceivedEvent;
         public string userName = "";
-        public List<string> friends = new List<string>();
         public int queueStatus = 0;
         public int queuetime = 0;
         public int elo;
+        public int coins;
         public const byte transmissionDemarcator = (byte)'`';
 
         /// <summary>
@@ -120,21 +120,6 @@ namespace CourseworkServer
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
-        /// <summary>
-        /// Notifies all friends of a change in status
-        /// </summary>
-        public void NotifyFriendsStatus()
-        {
-            foreach (string s in friends)
-            {
-                char[] c = s.ToCharArray();
-                byte[] b = new byte[c.Length + 2];
-                b[0] = (byte)Protocol.FriendStatus;
-                for (int i = 1; i <= c.Length; i++) b[i] = (byte)c[i];
-                b[c.Length + 1] = (byte)status;
-                Server.server.connectedClients[Server.server.GetClientIndex(s)].SendData(b);
-            }
         }
 
     }

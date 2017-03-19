@@ -42,14 +42,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CourseworkServer.exe" size="27136">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="CourseworkServer.exe" size="26624">
       <assemblyIdentity name="CourseworkServer" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>VwRex5ng5mdoyIhzAVtW5AOGL62DYN/Kpi+H3Q/kOjQ=</dsig:DigestValue>
+        <dsig:DigestValue>yIoJZ9aPO9YDfs3vyLPmRMczm+QuYtRUB9ty1T6hDYQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -59,7 +59,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>Jxr6/KRYmlMKdtsv5Qg2soRA58/dLaXpgf0QFGV9uKk=</dsig:DigestValue>
+      <dsig:DigestValue>Nl0FX6iAhJ9LoxtIMgeyvijdJZGOY6538JZrvYrdUm8=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CourseworkDB_log.ldf" size="8388608" writeableType="applicationData">
@@ -68,7 +68,7 @@
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>ZPz+7/LrDd1mXobdHK6ymqF4p2EKlUYo3d6IW4qpDKQ=</dsig:DigestValue>
+      <dsig:DigestValue>hXdQKVdZq1OAx0nb2wRnyQU3rFO28F4VaeMAz1fosLc=</dsig:DigestValue>
     </hash>
   </file>
   <file name="CourseworkServer.exe.config" size="189">

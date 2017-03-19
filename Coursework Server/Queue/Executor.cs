@@ -80,16 +80,8 @@ namespace CourseworkServer
                             Server.server.queue.Enqueue(new ActionItem(Operation.TransmitDBData, null, currentItem.sender));
                             currentItem.sender.userName = usernameAndPasswordHash[0];
                             currentItem.sender.status = Status.Online;
-                            Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerElo, null, currentItem.sender));
+                            Server.server.queue.Enqueue(new ActionItem(Operation.GetPlayerEloAndCoin, null, currentItem.sender));
                         }
-                    }
-                    break;
-                #endregion
-                #region CheckFriendStatus
-                case Operation.CheckFriendStatus: //Adds the given username to the sender's friends
-                    {
-                        string username = ((string)currentItem.data).Substring(1);
-                        currentItem.sender.friends.Add(username);
                     }
                     break;
                 #endregion
@@ -104,12 +96,16 @@ namespace CourseworkServer
                     break;
                 #endregion
                 #region GetPlayerElo
-                case Operation.GetPlayerElo: //Gets the sender's elo and sends it back to them
+                case Operation.GetPlayerEloAndCoin:
                     {
                         string username = currentItem.sender.userName;
-                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select elo from accounts where username = @p1", username);
-                        int elo = (int)data[0][0];
+                        object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select elo, gold from accounts where username = @p1", username);
+                        object[] o = data[0];
+                        int elo = (int)o[0];
+                        int coins = (int)o[1];
                         currentItem.sender.elo = elo;
+                        currentItem.sender.coins = coins;
+                        currentItem.sender.SendData(Server.addProtocolToArray(Server.toByteArray(elo + "a" + coins), Protocol.EloAndCoins));
                     }
                     break;
                 #endregion
@@ -156,7 +152,22 @@ namespace CourseworkServer
                         currentItem.sender.SendData(new byte[] { (byte)Protocol.GoodCredentials });
                     }
                     break;
-                    #endregion
+                #endregion
+                case Operation.CalculateEloCoinChanges:
+                    Client winner = currentItem.sender;
+                    Client loser = Server.server.GetOpponent(winner);
+                    int diff = winner.elo - loser.elo;
+                    int g = 100 + (int)Math.Pow((double)diff / 60, 3d);
+                    g = Math.Min(g, loser.elo);
+                    winner.elo += g;
+                    loser.elo -= g;
+                    int winnerCoin = 35 + (int)(g * 1.2d);
+                    int loserCoin = 15 + (int)(g * 0.8d);
+                    Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", winner.elo, winnerCoin, winner.userName);
+                    Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loser.elo, loserCoin, loser.userName);
+                    winner.SendData(Server.addProtocolToArray(Server.toByteArray(winner.elo + "a" + winnerCoin), Protocol.EloAndCoins));
+                    loser.SendData(Server.addProtocolToArray(Server.toByteArray(loser.elo + "a" + loserCoin), Protocol.EloAndCoins));
+                    break;
             }
         }
     }

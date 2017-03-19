@@ -14,15 +14,16 @@ namespace CourseworkClient.Gui
         public bool tapped;
         public bool drawnBig;
         public bool wasDrawnBig;
-        public int id = -1;
+        public int id;
         
         /// <summary>
         /// Creates a new SmallCard
         /// </summary>
         /// <param name="c">The card to create the SmallCard from</param>
         /// <param name="l">The position of the SmallCard</param>
-        public SmallCard(Card c, Vector2 l)
+        public SmallCard(Card c, int ID, Vector2 l)
         {
+            id = ID;
             tapped = false;
             wasDrawnBig = false;
             card = c;

@@ -53,5 +53,7 @@
         PowerExtraction,
         AddCardFromDiscard,
         ReturnUnitToHand,
+        WonGame,
+        EloAndCoins,
     }
 }

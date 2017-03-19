@@ -21,10 +21,10 @@ namespace CourseworkServer
     {
         AddNewAccount,
         CheckCredentials,
-        CheckFriendStatus,
         AddToQueue,
-        GetPlayerElo,
+        GetPlayerEloAndCoin,
         TransmitDBData,
+        CalculateEloCoinChanges,
     }
     class ActionItem
     {

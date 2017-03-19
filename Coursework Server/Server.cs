@@ -286,11 +286,11 @@ namespace CourseworkServer
                 case Protocol.LogIn:
                     queue.Enqueue(new ActionItem(Operation.CheckCredentials, s, sender));
                     break;
-                case Protocol.FriendStatus:
-                    queue.Enqueue(new ActionItem(Operation.CheckFriendStatus, s, sender));
-                    break;
                 case Protocol.AddToQueue:
                     queue.Enqueue(new ActionItem(Operation.AddToQueue, s, sender));
+                    break;
+                case Protocol.WonGame:
+                    queue.Enqueue(new ActionItem(Operation.CalculateEloCoinChanges, s, sender));
                     break;
                 case Protocol.ControlUnit:
                 case Protocol.DiscardFromDeck:
@@ -332,7 +332,7 @@ namespace CourseworkServer
         /// </summary>
         /// <param name="c">The player</param>
         /// <returns>The player's opponent</returns>
-        private Client GetOpponent(Client c)
+        public Client GetOpponent(Client c)
         {
             string opponentName = null;
             foreach (Match m in currentMatches)
@@ -413,7 +413,7 @@ namespace CourseworkServer
             {
                 if (c.userName == username) return c;
             }
-            throw new ArgumentException();
+            throw new ArgumentException(); //This will get called if I use the test ingameform
         }
     }
 }

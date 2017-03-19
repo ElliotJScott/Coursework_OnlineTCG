@@ -292,11 +292,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Daemon Prince of Tzeentch.png">
-      <Name>Daemon Prince of Tzeentch</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="CardArt\Defiler.png">
       <Name>Defiler</Name>
       <Importer>TextureImporter</Importer>
@@ -746,11 +741,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Psyker_ Catalyst.png">
-      <Name>Psyker_ Catalyst</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="CardArt\Psyker_ Channel Hive Mind.png">
       <Name>Psyker_ Channel Hive Mind</Name>
       <Importer>TextureImporter</Importer>
@@ -806,13 +796,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Psyker_ True Psychic Power.png">
-      <Name>Psyker_ True Psychic Power</Name>
+    <Compile Include="CardArt\Psyker_ Catalyst.png">
+      <Name>Psyker_ Catalyst</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Psyker_ Unleash Power.png">
-      <Name>Psyker_ Unleash Power</Name>
+    <Compile Include="CardArt\Daemon Prince of Tzeentch.png">
+      <Name>Daemon Prince of Tzeentch</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -846,8 +836,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="CardArt\Vehicle Camouflage.png">
-      <Name>Vehicle Camouflage</Name>
+    <Compile Include="CardArt\Camouflage.png">
+      <Name>Camouflage</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -938,6 +928,18 @@
   <ItemGroup>
     <Compile Include="Card Reddener.png">
       <Name>Card Reddener</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Missing Health.png">
+      <Name>Missing Health</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Remaining Health.png">
+      <Name>Remaining Health</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

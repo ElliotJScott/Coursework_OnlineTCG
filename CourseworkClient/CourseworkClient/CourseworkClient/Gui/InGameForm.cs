@@ -86,11 +86,11 @@ namespace CourseworkClient.Gui
             {
                 username = ((InGameForm)Primary.game.currentForm).enemyUsername;
             }
-            if (card.id > 0 && card.id < 10000)
+            if (card.id >= 0 && card.id < 10000)
             {
-                return string.Format("{0} attacked with {1}", username, card.card.name);
+                return string.Format("{0} attacked with {1} ID : {1}", username,card.card.name, card.id);
             }
-            else return string.Format("{0} played {1}", username, card.card.name);
+            else return string.Format("{0} played {1} ID : {2}", username, card.card.name, card.id);
         }
     }
     /// <summary>
@@ -224,7 +224,7 @@ namespace CourseworkClient.Gui
         public List<SmallCard> units = new List<SmallCard>();
         List<Card> discardPile = new List<Card>();
         public BigCard bigCard = null;
-        Button[] counterOptionButtons = new Button[0];
+        public Button[] counterOptionButtons = new Button[0];
         public bool bigCardChange = false;
         public int numEnemyCardsInHand;
         public bool cardsInEnemyDeck = true;
@@ -332,9 +332,9 @@ namespace CourseworkClient.Gui
                     Primary.game.WriteDataToStream(Protocol.ControlUnit, card.id.ToString());
                     break;
                 case Function.Counter:
-                    AddTechToChain(card.card.name, true);
+                    AddTechToChain(card);
                     Primary.game.WriteDataToStream(Protocol.PlayTech, card.card.name);
-                    break;
+                    return;
                 case Function.DeathInHonour:
                     KillUnit(card.id);
                     Primary.game.WriteDataToStream(Protocol.DeathInHonour, card.id.ToString());
@@ -343,7 +343,7 @@ namespace CourseworkClient.Gui
                 case Function.DefendWithUnit:
                     ResolveChainWithDefender(card.id, false);
                     Primary.game.WriteDataToStream(Protocol.DefendWithUnit, card.id.ToString());
-                    break;
+                    return;
                 case Function.DiscardCard:
                     hand.Remove(card);
                     Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, card.card.name);
@@ -404,6 +404,7 @@ namespace CourseworkClient.Gui
                     Primary.game.WriteDataToStream(Protocol.ReturnUnitToHand, card.id.ToString());
                     break;
             }
+            Primary.game.WriteDataToStream(Protocol.EndSelection);
             chain.RemoveLast();
             if (chain.Count > 0) ResolveChain();
         }
@@ -471,8 +472,7 @@ namespace CourseworkClient.Gui
                     if (c.id == id)
                     {
                         units.Remove(c);
-                        SmallCard f = new SmallCard(Card.getCard(c.card.name), new Vector2(0));
-                        f.id = GetNextHandID();
+                        SmallCard f = new SmallCard(Card.getCard(c.card.name), GetNextHandID(), new Vector2(0));
                         hand.Add(f);
                         List<int> upgradesToRemove = new List<int>();
                         for (int i = 0; i < upgradesInPlay.Count; i++)
@@ -611,7 +611,11 @@ namespace CourseworkClient.Gui
                 }
                 for (int i = 0; i < lists[x].Count; i++)
                 {
-                    lists[x][i].UpdateLocation(new Vector2(GetHandCardX(lists[x].Count, i), y));
+                    try
+                    {
+                        lists[x][i].UpdateLocation(new Vector2(GetHandCardX(lists[x].Count, i), y));
+                    }
+                    catch { }
                 }
             }
         }
@@ -628,7 +632,13 @@ namespace CourseworkClient.Gui
             sb.Draw(Primary.game.playSpace, new Rectangle((v.Width - Primary.game.playSpace.Width) / 2, -yOffset + 50, Primary.game.playSpace.Width, Primary.game.playSpace.Height), null, Color.White, (float)Math.PI, new Vector2(Primary.game.playSpace.Width, Primary.game.playSpace.Height), SpriteEffects.None, 1);
             sb.Draw(Primary.game.sideBar, new Rectangle(0, 0, v.Width / 6, v.Height), Color.White);
             sb.Draw(Primary.game.sideBar, new Rectangle((v.Width * 5) / 6, 0, v.Width / 6, v.Height), null, Color.White, 0, new Vector2(0, 0), SpriteEffects.FlipHorizontally, 1);
-            foreach (SmallCard c in hand) c.Draw(sb);
+            DrawHealthBar((v.Width - Primary.game.playSpace.Width) / 2, - yOffset + 50 - Primary.game.remainingHealth.Height, enemyHealth, sb);
+            DrawHealthBar((v.Width - Primary.game.playSpace.Width) / 2, (Primary.game.inGamePlayAreaBottom.Height + Primary.game.inGamePlayAreaTop.Height) - (yOffset + 50), playerHealth, sb);
+            try
+            {
+                foreach (SmallCard c in hand) c.Draw(sb);
+            }
+            catch { }
             Texture2D cb = Primary.game.cardBack;
             for (int i = 0; i < numEnemyCardsInHand; i++)
                 sb.Draw(cb, new Rectangle(GetHandCardX(numEnemyCardsInHand, i), GetEnemyHandCardY(), cb.Width, cb.Height), null, Color.White, (float)Math.PI, new Vector2(cb.Width, cb.Height), SpriteEffects.None, 1);
@@ -645,7 +655,22 @@ namespace CourseworkClient.Gui
                 int c = Color.White.B - (upgradeDeck.Count - 1) + i;
                 sb.Draw(cb, new Vector2(deckPlacementModifier + ((v.Width - Primary.game.playSpace.Width) / 2) - i, 9 + GetHandCardY() - i), new Color(c, c, c));
             }
-
+            for (int i = 0; i < discardPile.Count - 1; i++)
+            {
+                sb.Draw(cb, new Vector2(-deckPlacementModifier - cb.Width + ((v.Width + Primary.game.playSpace.Width) / 2) + i, GetUnitCardY()), Color.White);
+            }
+            if (discardPile.Count > 0)
+            {
+                CardBuilder.DrawCard(discardPile[discardPile.Count - 1], new Vector2(-deckPlacementModifier - cb.Width + ((v.Width + Primary.game.playSpace.Width) / 2) + (discardPile.Count - 1), GetUnitCardY()), false, sb, true, false);
+            }
+            for (int i = 0; i < enemyDiscardPile.Count - 1; i++)
+            {
+                sb.Draw(cb, new Vector2(-deckPlacementModifier - cb.Width + ((v.Width + Primary.game.playSpace.Width) / 2) + i, GetUnitCardY()), Color.White);
+            }
+            if (enemyDiscardPile.Count > 0)
+            {
+                CardBuilder.DrawCard(enemyDiscardPile[enemyDiscardPile.Count - 1], new Vector2(deckPlacementModifier + ((v.Width - Primary.game.playSpace.Width) / 2) - (enemyDiscardPile.Count - 1), GetEnemyUnitCardY()), false, sb, false, false);
+            }
             if (cardsInEnemyDeck)
             {
                 for (int i = 0; i < 20; i++)
@@ -687,7 +712,7 @@ namespace CourseworkClient.Gui
                 foreach (Button b in counterOptionButtons)
                 {
                     b.Draw(sb);
-                    b.Update();
+                    //b.Update();
                 }
             }
             catch
@@ -696,16 +721,31 @@ namespace CourseworkClient.Gui
             }
             DrawPlayerData(sb);
         }
+        public void DrawHealthBar(int x, int y, int hp, SpriteBatch sb)
+        {
+            Texture2D ps = Primary.game.playSpace;
+            Texture2D rs = Primary.game.remainingHealth;
+            Rectangle remain = new Rectangle(x, y, (ps.Width * hp) / startingHealth, rs.Height);
+            sb.Draw(rs, remain, Color.White);
+            sb.Draw(Primary.game.missingHealth, new Rectangle(x + remain.Width, y, ps.Width - remain.Width, rs.Height), Color.White);
+            string text = hp + "/" + startingHealth;
+            Vector2 v = Primary.game.mainFont.MeasureString(text) / 2;
+            Vector2 centre = new Vector2(x + (ps.Width / 2), y + (rs.Height / 2));
+            sb.DrawString(Primary.game.mainFont, text, centre - v, Color.White);
 
+        }
         public void DrawPlayerData(SpriteBatch sb)
         {
             Viewport v = Primary.game.GraphicsDevice.Viewport;
+            SpriteFont f = Primary.game.cardTextFont;
             int sw = v.Width;
             int sh = v.Height;
-            sb.DrawString(Primary.game.mainFont, string.Format("Your ({0}) current resources : {1}\nResources Per Turn : {2}", Primary.game.username, playerResource, playerResourcePT), new Vector2(sw - 200, 100), Color.Red);
-            sb.DrawString(Primary.game.mainFont, string.Format("The enemy's ({0}) current resources : {1}\nResources Per Turn : {2}", enemyUsername, enemyResource, enemyRPT), new Vector2(sw - 200, 200), Color.Red);
-            sb.DrawString(Primary.game.mainFont, string.Format("Your ({0}) current research : {1}\nResearch Per Turn : {2}", Primary.game.username, playerResearch, researchPT), new Vector2(sw - 200, 300), Color.Red);
-            sb.DrawString(Primary.game.mainFont, string.Format("The enemy's ({0}) current research : {1}\nResearch Per Turn : {2}", enemyUsername, enemyResearch, researchPT), new Vector2(sw - 200, 400), Color.Red);
+            int xpos = (sw * 171) / 192;
+            Color c = Color.LimeGreen;
+            sb.DrawString(f, string.Format("You ({0}):\nCurrent resources : {1}\nResources Per Turn : {2}", Primary.game.username, playerResource, playerResourcePT), new Vector2(xpos, 300), c);
+            sb.DrawString(f, string.Format("The enemy ({0}):\nCurrent resources : {1}\nResources Per Turn : {2}", enemyUsername, enemyResource, enemyRPT), new Vector2(xpos, 400), c);
+            sb.DrawString(f, string.Format("Current research : {1}\nResearch Per Turn : {2}", Primary.game.username, playerResearch, researchPT), new Vector2(xpos, 450), c);
+            sb.DrawString(f, string.Format("Current research : {1}\nResearch Per Turn : {2}", enemyUsername, enemyResearch, researchPT), new Vector2(xpos, 350), c);
         }
         /// <summary>
         /// Adds the appropriate buttons for the player to counter an enemy's attack appropriately
@@ -727,9 +767,10 @@ namespace CourseworkClient.Gui
         /// <param name="ticker">How many nodes have been drawn</param>
         void DrawChain(LinkedListNode<ChainItem> c, SpriteBatch sb, int ticker = 0)
         {
+            Viewport v = Primary.game.GraphicsDevice.Viewport;
             try
             {
-                sb.DrawString(Primary.game.mainFont, c.Value.ToString(), new Vector2(0, 20 * ticker), Color.Red);
+                sb.DrawString(Primary.game.mainFont, c.Value.ToString(), new Vector2((v.Width * 5)/6, (v.Height / 2) + 20 * ticker), Color.Red);
             }
             catch { }
             if (ticker < chain.Count - 1)
@@ -752,6 +793,10 @@ namespace CourseworkClient.Gui
             {
                 DrawUpgradeCard();
             }
+            foreach (SmallCard c in units)
+            {
+                c.tapped = false;
+            }
         }
         public bool haveSufficientResearch()
         {
@@ -763,8 +808,7 @@ namespace CourseworkClient.Gui
             Shuffle(upgradeDeck);
             if (upgradeDeck.Count > 0)
             {
-                SmallCard c = new SmallCard(upgradeDeck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
-                c.id = GetNextHandID();
+                SmallCard c = new SmallCard(upgradeDeck[0], GetNextHandID(), new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
                 hand.Add(c);
                 UpdateCardPositions();
                 upgradeDeck.RemoveAt(0);
@@ -782,7 +826,7 @@ namespace CourseworkClient.Gui
         internal void AddAttackingUnitToChain(int id, bool enemy)
         {
             SmallCard card = getCardFromId(id);
-            chain.AddLast(new ChainItem(card, enemy, false));
+            chain.AddLast(new ChainItem(card, !enemy, false));
         }
         /// <summary>
         /// Resolves the chain using a defending unit
@@ -851,11 +895,11 @@ namespace CourseworkClient.Gui
                 {
                     if (c.card.hasEffect("Tech Jammer"))
                     {
-                        if (chain.Last.Value.card.card.type == CardType.Tech) output.Add(c);
+                        if (chain.Last.Value.card.card.type == CardType.Tech && c.card.cost <= playerResource && !idsInChain.Contains(c.id)) output.Add(c);
                     }
                     else if (c.card.hasEffect("Ambush"))
                     {
-                        if (chain.Last.Value.card.card.type == CardType.Unit && chain.Last.Value.card.id >= 0) output.Add(c);
+                        if (chain.Last.Value.card.card.type == CardType.Unit && chain.Last.Value.card.id >= 0  && chain.Last.Value.card.id < 10000 && !idsInChain.Contains(c.id) && c.card.cost <= playerResource) output.Add(c);
                     }
                     else if (c.card.cost <= playerResource && !idsInChain.Contains(c.id)) output.Add(c);
                 }
@@ -878,13 +922,16 @@ namespace CourseworkClient.Gui
         /// </summary>
         /// <param name="s"></param>
         /// <param name="playerPlayed"></param>
-        internal void AddTechToChain(string s, bool playerPlayed)
+        internal void AddTechToChain(string s)
         {
-#warning change this later
             Card c = Card.getCard(s);
-            SmallCard smallCard = new SmallCard(c, GetNextID(), false);
+            SmallCard smallCard = new SmallCard(c, -1, false);
             bool needsSelection = GetNeedTechSelection(c); 
-            chain.AddLast(new ChainItem(smallCard, playerPlayed, needsSelection));
+            chain.AddLast(new ChainItem(smallCard, false, needsSelection));
+        }
+        internal void AddTechToChain(SmallCard c)
+        {
+            chain.AddLast(new ChainItem(c, true, GetNeedTechSelection(c.card)));
         }
         /// <summary>
         /// Gets whether a given card needs a selection when it is played
@@ -970,20 +1017,482 @@ namespace CourseworkClient.Gui
         /// <param name="attackerPlayerOwned">Whether the attacking unit is controlled by the player</param>
         public void CalculateCombat(SmallCard attacker, SmallCard defender, bool attackerPlayerOwned)
         {
+#warning CalculateCombat for two units
             if (attacker.id < 0 || defender.id < 0) throw new ArgumentException("Not good.");
             if (attacker.card.attack == null || defender.card.attack == null || attacker.card.health == null || defender.card.health == null) throw new ArgumentException("Very not good");
             int attackingAtk = attacker.card.attack.Value;
             int defendingAtk = defender.card.attack.Value;
-            //Adjust the attack values based on abilities
+
+            #region Attack Buffs and other similar things
+            if (attacker.card.hasEffect("Vehicle Crusher") && defender.card.hasEffect("Vehicle")) attackingAtk += 3;
+            if (defender.card.hasEffect("Vehicle Crusher") && attacker.card.hasEffect("Vehicle")) defendingAtk += 3;
+
+            if (attacker.card.hasEffect("Heavy Weapons Expert") && Card.getCard(defender.card.name).health >= 5) attackingAtk++;
+            if (defender.card.hasEffect("Heavy Weapons Expert") && Card.getCard(attacker.card.name).health >= 5) defendingAtk++;
+
+            if (defender.card.hasEffect("Shrouded")) defendingAtk += 4;
+
+            if (attacker.card.hasEffect("Furious Charge")) attackingAtk += 3;
+
+            if (attacker.card.hasEffect("Fleet"))
+            {
+                if (attackerPlayerOwned && units.Count >= 5) attackingAtk += 3;
+                else if (!attackerPlayerOwned && enemyUnits.Count >= 5) attackingAtk += 3; 
+            }
+            if (defender.card.hasEffect("Fleet"))
+            {
+                if (!attackerPlayerOwned && units.Count >= 5) defendingAtk += 3;
+                else if (attackerPlayerOwned && enemyUnits.Count >= 5) defendingAtk += 3;
+            }
+
+            if (attacker.card.hasEffect("Servant of Imotekh"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == "Imotekh the Stormlord") attackingAtk += 2;
+                        else if (c.card.name == "Immortals") attackingAtk++;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == "Imotekh the Stormlord") attackingAtk += 2;
+                        else if (c.card.name == "Immortals") attackingAtk++;
+                    }
+                }
+                attackingAtk--; //Because the loop above counts the card itself
+            }
+            if (defender.card.hasEffect("Servant of Imotekh"))
+            {
+                if (!attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == "Imotekh the Stormlord") defendingAtk += 2;
+                        else if (c.card.name == "Immortals") defendingAtk++;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == "Imotekh the Stormlord") defendingAtk += 2;
+                        else if (c.card.name == "Immortals") defendingAtk++;
+                    }
+                }
+                defendingAtk--; //Because the loop above counts the card itself
+            }
+            if (attacker.card.hasEffect("Guard"))
+            {
+                if (attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Leader")) attackingAtk++; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Leader")) attackingAtk++;
+            }
+            if (defender.card.hasEffect("Guard"))
+            {
+                if (!attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Leader")) defendingAtk++; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Leader")) defendingAtk++;
+            }
+            if (attacker.card.hasEffect("Tyrant"))
+            {
+                if (attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Guard")) attackingAtk += 2; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Guard")) attackingAtk += 2;
+            }
+            if (defender.card.hasEffect("Tyrant"))
+            {
+                if (!attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Guard")) defendingAtk += 2; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Leader")) defendingAtk += 2;
+            }
+            if (attacker.card.hasEffect("Lord of the Swarm"))
+            {
+                if (attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Brood")) attackingAtk++; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Brood")) attackingAtk++;
+            }
+            if (defender.card.hasEffect("Lord of the Swarm"))
+            {
+                if (!attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Brood")) defendingAtk++; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Brood")) defendingAtk++;
+            }
+
+            if (attacker.card.hasEffect("Telekinesis"))
+            {
+                if (attackerPlayerOwned) attackingAtk += enemyUnits.Count;
+                else attackingAtk += units.Count;
+            }
+            if (defender.card.hasEffect("Telekinesis"))
+            {
+                if (!attackerPlayerOwned) defendingAtk += enemyUnits.Count;
+                else defendingAtk += units.Count;
+            }
+
+            foreach (SmallCard c in units)
+            {
+                if (c.card.hasEffect("Catalyst"))
+                {
+                    if (attackerPlayerOwned) attackingAtk++;
+                    else defendingAtk++;
+                }
+                
+            }
+            foreach (SmallCard c in enemyUnits)
+            {
+                if (c.card.hasEffect("Catalyst"))
+                {
+                    if (!attackerPlayerOwned) attackingAtk++;
+                    else defendingAtk++;
+                }
+            }
+
+            if (attacker.card.hasEffect("Squad Leader"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == attacker.card.name) attackingAtk += 2;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == attacker.card.name) attackingAtk += 2;
+                    }
+                }
+            }
+            if (defender.card.hasEffect("Squad Leader"))
+            {
+                if (!attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == defender.card.name) defendingAtk += 2;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == defender.card.name) defendingAtk += 2;
+                    }
+                }
+            }
+
+            if (attacker.card.hasEffect("Squadron"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == attacker.card.name) attackingAtk++;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == attacker.card.name) attackingAtk++;
+                    }
+                }
+            }
+            if (defender.card.hasEffect("Squadron"))
+            {
+                if (!attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == defender.card.name) defendingAtk++;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == defender.card.name) defendingAtk++;
+                    }
+                }
+            }
+
+            if (attacker.card.hasEffect("Walker Squadron"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.hasEffect("Walker Squadron")) attackingAtk++;
+                    }
+                    attackingAtk--; //Since it counts itself    
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.hasEffect("Walker Squadron")) attackingAtk++;
+                    }
+                    attackingAtk--; //Since it counts itself    
+                }
+            }
+            if (defender.card.hasEffect("Walker Squadron"))
+            {
+                if (!attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.hasEffect("Walker Squadron")) defendingAtk++;
+                    }
+                    defendingAtk--; //Since it counts itself    
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.hasEffect("Walker Squadron")) defendingAtk++;
+                    }
+                    defendingAtk--; //Since it counts itself    
+                }
+            }
+
+            if (attacker.card.hasEffect("Heavy Venom Cannon")) attackingAtk += 3;
+            if (defender.card.hasEffect("Heavy Venom Cannon")) defendingAtk += 3;
+
+            if (attacker.card.hasEffect("Bonesword") && defender.card.hasEffect("Vehicle")) attackingAtk += 6;
+            if (defender.card.hasEffect("Bonesword") && attacker.card.hasEffect("Vehicle")) defendingAtk += 6;
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
+            if (attacker.card.hasEffect("Mind Shackles") && defender.card.hasEffect("Psyker")) attackingAtk *= 2;
+            if (defender.card.hasEffect("Mind Shackles") && attacker.card.hasEffect("Psyker")) defendingAtk *= 2;
+            #endregion
+
+            #region Attack debuffs and other similar things
+            if (attacker.card.hasEffect("Battle-Ready") && defendingAtk > 0 && !defender.card.hasEffect("Lightning Claws")) defendingAtk--;
+            if (defender.card.hasEffect("Battle-Ready") && attackingAtk > 0 && !attacker.card.hasEffect("Lightning Claws")) attackingAtk--;
+
+            if (attacker.card.hasEffect("High Armour") && defendingAtk < 2 && !defender.card.hasEffect("Lightning Claws")) defendingAtk = 0;
+            if (defender.card.hasEffect("High Armour") && attackingAtk < 2 && !attacker.card.hasEffect("Lightning Claws")) attackingAtk = 0;
+
+            if (attacker.card.hasEffect("Phase Shifter") && (defendingAtk < 3 || defender.card.hasEffect("Long Ranged Attacker"))) defendingAtk = 0;
+            if (defender.card.hasEffect("Phase Shifter") && (attackingAtk < 3 || attacker.card.hasEffect("Long Ranged Attacker"))) attackingAtk = 0;
+
+            if (attacker.card.hasEffect("Long Ranged Attacker")) defendingAtk = 0;
+
+            if (attacker.card.hasEffect("Terrify")) defendingAtk /= 2;
+
+            if (attacker.card.hasEffect("Shadow Ankh") && defender.card.hasEffect("Psyker")) defendingAtk /= 2;
+            if (defender.card.hasEffect("Shadow Ankh") && attacker.card.hasEffect("Psyker")) attackingAtk /= 2;
+
+            if (attacker.card.hasEffect("Iron Halo")) defendingAtk = 4;
+            if (defender.card.hasEffect("Iron Halo")) attackingAtk = 4;
+            #endregion
+
+            if (attacker.card.hasEffect("Deathtouch") && !defender.card.hasEffect("Unique")) attackingAtk = Math.Max(attackingAtk, defender.card.health.Value);
+
+            if (attacker.card.hasEffect("Channel Hive Mind") && defender.card.hasEffect("Psyker")) attackingAtk = defender.card.health.Value;
+            if (defender.card.hasEffect("Channel Hive Mind") && attacker.card.hasEffect("Psyker")) defendingAtk = attacker.card.health.Value;
+
+            if (attackingAtk < 2 && defender.card.hasEffect("Eternity Gate")) defendingAtk = attacker.card.health.Value;
+
+            if (attacker.card.hasEffect("Gauntlets of Ultramar")) attackingAtk = Math.Max(defender.card.health.Value / 2, attackingAtk);
+            if (defender.card.hasEffect("Gauntlets of Ultramar")) defendingAtk = Math.Max(attacker.card.health.Value / 2, defendingAtk);
+
+            if (defender.card.hasEffect("Psychic Hood") && attacker.card.hasEffect("Psyker")) attackingAtk = 0;
+            if (attacker.card.hasEffect("Psychic Hood") && defender.card.hasEffect("Psyker")) defendingAtk = 0;
+
             attacker.card.health -= defendingAtk;
             defender.card.health -= attackingAtk;
-            if (attacker.card.health < 0)
+
+            if (attacker.card.health <= 0)
             {
                 DiscardUnit(attacker, attackerPlayerOwned);
+
+                if (attacker.card.hasEffect("The Swarm"))
+                {
+                    if (attackerPlayerOwned) playerResource++;
+                    else enemyResource++;
+                }
+
+                if (attacker.card.hasEffect("Eject Button"))
+                {
+                    ReturnUnitToHand(defender.id, !attackerPlayerOwned);
+                }
+
+                if (attacker.card.hasEffect("Death Shock"))
+                {
+                    if (attackerPlayerOwned)                  
+                        foreach (SmallCard c in units) c.card.health += 2;
+                    else foreach(SmallCard c in enemyUnits) c.card.health += 2;
+                }
+
+                if (defender.card.hasEffect("The Wailing Doom"))
+                {
+                    CalculateCombat(new Card("Temp", CardType.Unit, 1, Rarity.Unobtainable, 3, 1), !attackerPlayerOwned);
+                }
+
+                if (defender.card.hasEffect("Multiply 1"))
+                {
+                    if (!attackerPlayerOwned) DrawACard();
+                    else if (cardsInEnemyDeck) numEnemyCardsInHand++;
+                }
+
+                if (defender.card.hasEffect("Multiply 2"))
+                {
+                    if (!attackerPlayerOwned) for (int i = 0; i < 2; i++) DrawACard();
+                    else if (cardsInEnemyDeck) numEnemyCardsInHand++;
+                }
+
+                if (defender.card.hasEffect("Staff of the Destroyer"))
+                {
+                    if (attackerPlayerOwned)
+                        foreach (SmallCard u in units) DealDamageToUnit(u.id, 1, true);
+                    else foreach (SmallCard u in enemyUnits) DealDamageToUnit(u.id, 1, false);
+                }    
+                            
+                if (defender.card.hasEffect("Raider"))
+                {
+                    if (attackerPlayerOwned && playerResource > 0) playerResource--;
+                    else if (!attackerPlayerOwned && enemyResource > 0) enemyResource--;
+                }
+
+                if (defender.card.hasEffect("Ritual Killing")) defender.card.attack++;
+
+                if (defender.card.hasEffect("Empathic Obliterator"))
+                {
+                    if (!attackerPlayerOwned)
+                    {
+                        foreach (SmallCard c in enemyUnits)
+                        {
+                            if (c.card.name == attacker.card.name) KillUnit(c.id);
+                        }
+                    }
+                    else
+                    {
+                        foreach (SmallCard c in units)
+                        {
+                            if (c.card.name == attacker.card.name) KillUnit(c.id);
+                        }
+                    }
+                }
+
+                if (defender.card.health > 0 && defender.card.hasEffect("Leech Essence"))
+                    defender.card.health += Card.getCard(attacker.card.name).health / 2;
             }
-            if (defender.card.health < 0)
+            else
+            {
+                if (attacker.card.hasEffect("Return to Sender") && defendingAtk >= 5)
+                {
+                    ReturnUnitToHand(attacker.id, attackerPlayerOwned);
+                }
+
+                if (defender.card.hasEffect("Mind Warp") && !attacker.card.hasEffect("Unique") && defender.card.cost > attacker.card.cost)
+                {
+                    if (!attackerPlayerOwned) MoveUnitFromEnemy(attacker.id);
+                    else MoveUnitToEnemy(attacker.id);
+                }
+
+                if (defender.card.hasEffect("Polymorph"))
+                {
+                    attacker.card.attack = Math.Max(attacker.card.attack.Value - 4, 1);
+                }
+            }
+            if (defender.card.health <= 0)
             {
                 DiscardUnit(defender, !attackerPlayerOwned);
+
+                if (defender.card.hasEffect("The Swarm"))
+                {
+                    if (!attackerPlayerOwned) playerResource++;
+                    else enemyResource++;
+                }
+
+                if (defender.card.hasEffect("Eject Button"))
+                {
+                    ReturnUnitToHand(attacker.id, attackerPlayerOwned);
+                }
+
+                if (defender.card.hasEffect("Death Shock"))
+                {
+                    if (!attackerPlayerOwned)
+                        foreach (SmallCard c in units) c.card.health += 2;
+                    else foreach (SmallCard c in enemyUnits) c.card.health += 2;
+                }
+
+                if (attacker.card.hasEffect("The Wailing Doom"))
+                {
+                    CalculateCombat(new Card("Temp", CardType.Unit, 1, Rarity.Unobtainable, 3, 1), attackerPlayerOwned);
+                }
+
+                if (attacker.card.hasEffect("Multiply 1"))
+                {
+                    if (attackerPlayerOwned) DrawACard();
+                    else if (cardsInEnemyDeck) numEnemyCardsInHand++;
+                }
+
+                if (attacker.card.hasEffect("Multiply 2"))
+                {
+                    if (attackerPlayerOwned) for (int i = 0; i < 2; i++) DrawACard();
+                    else if (cardsInEnemyDeck) numEnemyCardsInHand++;
+                }
+
+                if (attacker.card.hasEffect("Staff of the Destroyer"))
+                {
+                    if (!attackerPlayerOwned)
+                        foreach (SmallCard u in units) DealDamageToUnit(u.id, 1, true);
+                    else foreach (SmallCard u in enemyUnits) DealDamageToUnit(u.id, 1, false);
+                }
+
+                if (attacker.card.hasEffect("Raider"))
+                {
+                    if (!attackerPlayerOwned && playerResource > 0) playerResource--;
+                    else if (attackerPlayerOwned && enemyResource > 0) enemyResource--;
+                }
+
+                if (attacker.card.hasEffect("Ritual Killing")) attacker.card.attack++;
+
+                if (attacker.card.hasEffect("Empathic Obliterator"))
+                {
+                    if (attackerPlayerOwned)
+                    {
+                        foreach (SmallCard c in enemyUnits)
+                        {
+                            if (c.card.name == defender.card.name) KillUnit(c.id);
+                        }
+                    }
+                    else
+                    {
+                        foreach (SmallCard c in units)
+                        {
+                            if (c.card.name == defender.card.name) KillUnit(c.id);
+                        }
+                    }
+                }
+
+                if (attacker.card.health > 0 && attacker.card.hasEffect("Leech Essence"))
+                    attacker.card.health += Card.getCard(defender.card.name).health / 2;
+            }
+            else
+            {
+                if (defender.card.hasEffect("Return to Sender") && attackingAtk >= 5)
+                {
+                    ReturnUnitToHand(defender.id, !attackerPlayerOwned);
+                }
+
+                if (attacker.card.hasEffect("Mind Warp") && !defender.card.hasEffect("Unique") && attacker.card.cost > defender.card.cost)
+                {
+                    if (attackerPlayerOwned) MoveUnitFromEnemy(defender.id);
+                    else MoveUnitToEnemy(defender.id);
+                }
+
+                if (attacker.card.hasEffect("Polymorph"))
+                {
+                    defender.card.attack = Math.Max(defender.card.attack.Value - 4, 1);
+                }
             }
 
         }
@@ -1002,17 +1511,156 @@ namespace CourseworkClient.Gui
         /// <param name="attackerPlayerOwned">Whether the unit is controlled by the player</param>
         public void CalculateCombat(Card attacker, bool attackerPlayerOwned)
         {
-            int attack = attacker.attack.Value;
-            if (attackerPlayerOwned) enemyHealth -= attack;
-            else playerHealth -= attack;
+#warning CalculateCombat for one unit
+            int attackingAtk = attacker.attack.Value;
+
+            if (attacker.hasEffect("Fleet"))
+            {
+                if (attackerPlayerOwned && units.Count >= 5) attackingAtk += 3;
+                else if (!attackerPlayerOwned && enemyUnits.Count >= 5) attackingAtk += 3;
+            }
+
+            if (attacker.hasEffect("Servant of Imotekh"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == "Imotekh the Stormlord") attackingAtk += 2;
+                        else if (c.card.name == "Immortals") attackingAtk++;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == "Imotekh the Stormlord") attackingAtk += 2;
+                        else if (c.card.name == "Immortals") attackingAtk++;
+                    }
+                }
+                attackingAtk--; //Because the loop above counts the card itself
+            }
+
+            if (attacker.hasEffect("Guard"))
+            {
+                if (attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Leader")) attackingAtk++; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Leader")) attackingAtk++;
+            }
+
+            if (attacker.hasEffect("Tyrant"))
+            {
+                if (attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Guard")) attackingAtk += 2; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Guard")) attackingAtk += 2;
+            }
+
+            if (attacker.hasEffect("Lord of the Swarm"))
+            {
+                if (attackerPlayerOwned)
+                    foreach (SmallCard c in units) { if (c.card.hasEffect("Brood")) attackingAtk++; }
+                else foreach (SmallCard c in enemyUnits) if (c.card.hasEffect("Brood")) attackingAtk++;
+            }
+
+            if (attacker.hasEffect("Telekinesis"))
+            {
+                if (attackerPlayerOwned) attackingAtk += enemyUnits.Count;
+                else attackingAtk += units.Count;
+            }
+
+            foreach (SmallCard c in units)
+            {
+                if (c.card.hasEffect("Catalyst"))
+                {
+                    if (attackerPlayerOwned) attackingAtk++;
+                }
+
+            }
+            foreach (SmallCard c in enemyUnits)
+            {
+                if (c.card.hasEffect("Catalyst"))
+                {
+                    if (!attackerPlayerOwned) attackingAtk++;
+                }
+            }
+
+            if (attacker.hasEffect("Squad Leader"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == attacker.name) attackingAtk += 2;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == attacker.name) attackingAtk += 2;
+                    }
+                }
+            }
+
+            if (attacker.hasEffect("Squadron"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.name == attacker.name) attackingAtk++;
+                    }
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.name == attacker.name) attackingAtk++;
+                    }
+                }
+            }
+
+            if (attacker.hasEffect("Walker Squadron"))
+            {
+                if (attackerPlayerOwned)
+                {
+                    foreach (SmallCard c in units)
+                    {
+                        if (c.card.hasEffect("Walker Squadron")) attackingAtk++;
+                    }
+                    attackingAtk--; //Since it counts itself    
+                }
+                else
+                {
+                    foreach (SmallCard c in enemyUnits)
+                    {
+                        if (c.card.hasEffect("Walker Squadron")) attackingAtk++;
+                    }
+                    attackingAtk--; //Since it counts itself    
+                }
+            }
+
+            if (attacker.hasEffect("Heavy Venom Cannon")) attackingAtk += 3;
+
+            if (attacker.hasEffect("Lashwip")) attackingAtk += 5;
+
+            if (attackingAtk > 0 && attacker.hasEffect("Divination"))
+            {
+                if (attackerPlayerOwned) DrawACard();
+                else if (cardsInEnemyDeck) numEnemyCardsInHand++;
+            }
+
+            if (attackerPlayerOwned) enemyHealth -= attackingAtk;
+            else playerHealth -= attackingAtk;
 #warning add code for when a player wins/loses
             if (enemyHealth <= 0)
             {
-                throw new NotImplementedException();
+                Primary.game.WriteDataToStream(Protocol.WonGame);
+                Lock("You win!\n Waiting for the server to\ncalculate Elo and Coins");
             }
             else if (playerHealth <= 0)
             {
-                throw new NotImplementedException();
+                Lock("You lose!\n Waiting for the server to\ncalculate Elo and Coins");
             }
         }
         /// <summary>
@@ -1047,6 +1695,7 @@ namespace CourseworkClient.Gui
                             discardPile.Add(Card.getCard(upgrade.card.name));
                             upgradesInPlay.RemoveAt(i);
                         }
+                        break;
                     }
                 }
             }
@@ -1075,6 +1724,7 @@ namespace CourseworkClient.Gui
                             enemyDiscardPile.Add(Card.getCard(upgrade.card.name));
                             upgradesInPlay.RemoveAt(i);
                         }
+                        break;
                     }
                 }
             }
@@ -1085,7 +1735,7 @@ namespace CourseworkClient.Gui
         /// <returns>The next ID</returns>
         int GetNextID()
         {
-            return nextID++ - 1;
+            return ++nextID - 1;
         }
         /// <summary>
         /// Adds an upgrade from the chain to the correct unit
@@ -1106,7 +1756,7 @@ namespace CourseworkClient.Gui
         }
         public void AddUpgradeEffectsToCard(SmallCard unit, SmallCard upgrade)
         {
-            string[] effectBlacklist = { "Ultramarine Upgrade", "Chaos Space Marine Upgrade", "Eldar Upgrade", "Necron Upgrade", "Tyranid Upgrade", "Semi-Unique", "Unique"};
+            string[] effectBlacklist = { "Ultramarine Upgrade", "Chaos Space Marine Upgrade", "Eldar Upgrade", "Necron Upgrade", "Tyranid Upgrade", "Upgrade", "Semi-Unique", "Unique"};
             //foreach (string s in upgrade.card.getEffectNames())
             //{
             //    if (!unit.card.hasEffect(s))
@@ -1139,9 +1789,10 @@ namespace CourseworkClient.Gui
         /// Moves a unit from the enemy to the player
         /// </summary>
         /// <param name="s">The id to move (as a string)</param>
-        internal void MoveUnitFromEnemy(string s)
+        internal void MoveUnitFromEnemy(int id)
         {
-            SmallCard c = getCardFromId(Convert.ToInt32(s));
+#warning move upgrades
+            SmallCard c = getCardFromId(id);
             enemyUnits.Remove(c);
             units.Add(c);
         }
@@ -1149,9 +1800,10 @@ namespace CourseworkClient.Gui
         /// Moves a unit to the enemy to the player
         /// </summary>
         /// <param name="s">The id to move (as a string)</param>
-        internal void MoveUnitToEnemy(string s)
+        internal void MoveUnitToEnemy(int id)
         {
-            SmallCard c = getCardFromId(Convert.ToInt32(s));
+#warning move upgrades
+            SmallCard c = getCardFromId(id);
             enemyUnits.Add(c);
             units.Remove(c);
         }
@@ -1190,7 +1842,7 @@ namespace CourseworkClient.Gui
             {
                 foreach (SmallCard c in enemyUpgrades) if (c.id == id) return c;
             }
-            else if (playerOwned != false)
+            if (playerOwned != false)
             {
                 foreach (SmallCard c in playerUpgrades) if (c.id == id) return c;
             }
@@ -1206,6 +1858,10 @@ namespace CourseworkClient.Gui
             numEnemyCardsInHand += cardsInEnemyDeck ? 1 : 0;
             enemyResource += enemyRPT;
             enemyResearch += researchPT;
+            foreach (SmallCard c in enemyUnits)
+            {
+                c.tapped = false;
+            }
         }
         public void DiscardCardFromHand(Card c)
         {
@@ -1215,6 +1871,7 @@ namespace CourseworkClient.Gui
                 {
                     hand.Remove(f);
                     discardPile.Add(c);
+                    break;
                         
                 }
             }
@@ -1234,14 +1891,18 @@ namespace CourseworkClient.Gui
                 UpdateCardPositions();
                 UpdateYOffset();
                 bigCard?.Update();
-                foreach (SmallCard c in hand) c.Update();
-                foreach (SmallCard c in units) c.Update();
-                foreach (SmallCard c in enemyUnits) c.Update();
+                try {
+                    foreach (SmallCard c in hand) c.Update();
+                    foreach (SmallCard c in units) c.Update();
+                    foreach (SmallCard c in enemyUnits) c.Update();
+                }
+                catch { }
                 if (bigCard != null && myTurn && chain.Count == 0) UpdateButtonPressable();
                 else UpdateButtons(false, false, false);
+
                 if (chain.Count > 0)
                 {
-                    if (!chain.Last.Value.playerPlayed)
+                    //if (!chain.Last.Value.playerPlayed)
                     {
                         try
                         {
@@ -1256,7 +1917,7 @@ namespace CourseworkClient.Gui
                         }
                     }
                 }
-                else
+                if (chain.Count == 0)
                 {
                     if (myTurn) endTurnButton.Update();
                 }
@@ -1269,8 +1930,9 @@ namespace CourseworkClient.Gui
         /// </summary>
         void UpdateButtonPressable()
         {
+#warning change this to use the location enum later
             int location = GetDrawnCardLocation();
-            if (location == 2 || location == 3 || location == 4)
+            if (location == 2 || location == 3 || location == 4 || location == -1)
             {
                 UpdateButtons(false, false, false);
                 return;
@@ -1279,9 +1941,24 @@ namespace CourseworkClient.Gui
             SmallCard smallCard = GetDrawnSmallCard();
             if (smallCard.Equals(null)) throw new InvalidOperationException();
             bool play = false, discard = false, attack = false;
-            if (card.hasEffect("Corrupt") && location == 0) discard = true;
-            if (card.type == 0 && !smallCard.tapped && myTurn && location == 1) attack = true;
-            if (playerResource >= card.cost && units.Count < maxUnitsInPlay && location == 0) play = true;
+            if (card.hasEffect("Corrupt") && location == 0 && card.type == CardType.Tech) discard = true;
+            if (card.type == CardType.Unit && !smallCard.tapped && myTurn && location == 1) attack = true;
+            //if (playerResource >= card.cost && units.Count < maxUnitsInPlay && location == 0) play = true;
+            if (playerResource >= card.cost)
+            {
+                switch (card.type)
+                {
+                    case CardType.Unit:
+                        if (units.Count < maxUnitsInPlay && location == 0) play = true;
+                        break;
+                    case CardType.Tech:
+                        if (!card.hasEffect("Tech Jammer") && !card.hasEffect("Ambush")) play = true;
+                        break;
+                    case CardType.Upgrade:
+                        if (units.Count > 0) play = true;
+                        break;
+                }
+            }
             UpdateButtons(play, attack, discard);
         }
 #warning ResolveChain method
@@ -1311,7 +1988,6 @@ namespace CourseworkClient.Gui
                                 counterOptionButtons = getSelectionButtons(GetSelectionFromUpgrade(item.card.card));
                                 break;
                         }
-#warning add selection for the player based on the card- will leave for the moment
                     }
                     else WaitOnEnemySelection();
                     return;
@@ -1321,7 +1997,7 @@ namespace CourseworkClient.Gui
                     switch (item.card.card.type)
                     {
                         case CardType.Unit:
-                            if (item.card.id < 0 || item.card.id >= 10000)
+                            if (item.card.id >= 10000 || item.card.id == -1)
                             {
                                 PlayUnit(item.card.card, item.playerPlayed);
                             }
@@ -1338,24 +2014,35 @@ namespace CourseworkClient.Gui
                     }
                 }
             }
-            chain.RemoveLast();
+            try
+            {
+                chain.RemoveLast();
+            }
+            catch { }
             if (chain.Count > 0) ResolveChain();
         }
 
         private SelectionItem GetSelectionFromUpgrade(Card card)
         {
-
-            string effectName = "";
-            foreach (string s in races)
+            if (card.hasEffect("Upgrade"))
             {
-                if (card.hasEffect(s))
-                {
-                    effectName = s + " Upgrade";
-                    break;
-                }
+                return new SelectionItem(new Selection(1, Function.EquipUpgrade, true, new SelectionCondition(true, Location.InUnits, CardType.Unit)), "Select a unit to equip " + card.name + " to.");
             }
-            if (effectName == "") throw new ArgumentException();
-            return new SelectionItem(new Selection(1, Function.EquipUpgrade, true, new SelectionCondition(true, Location.InUnits, CardType.Unit, 1000, null, Effect.GetEffect(effectName))), "Select a unit to equip " + card.name + " to.");
+            else
+            {
+                string effectName = "";
+                foreach (string s in races)
+                {
+                    if (card.hasEffect(s + " Upgrade"))
+                    {
+                        effectName = s;
+                        break;
+                    }
+                }
+                if (effectName == "") throw new ArgumentException();
+                return new SelectionItem(new Selection(1, Function.EquipUpgrade, true, new SelectionCondition(true, Location.InUnits, CardType.Unit, 1000, null, Effect.GetEffect(effectName))), "Select a unit to equip " + card.name + " to.");
+
+            }
         }
 
         /// <summary>
@@ -1370,6 +2057,56 @@ namespace CourseworkClient.Gui
                 numEnemyCardsInHand--;
             }
             else DiscardCardFromHand(card);
+            if (card.hasEffect("Tech Jammer"))
+            {
+                chain.Last.Previous.Value.state = PlayState.Countered;
+            }
+            else if (card.hasEffect("Pot of Greed") || card.hasEffect("Ambush"))
+            {
+                if (playerPlayed)
+                {
+                    for (int i = 0; i < 2; i++)
+                        DrawACard();
+                }
+                else numEnemyCardsInHand += 2;
+            }
+            else if (card.hasEffect("Recharge"))
+            {
+                if (playerPlayed)
+                {
+                    foreach (SmallCard c in hand)
+                    {
+                        deck.Add(c.card);
+                    }
+                    hand.Clear();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        DrawACard();
+                    }
+#warning fix the issue of no cards in the deck here if possible
+                }
+                else numEnemyCardsInHand = 4;
+            }
+            else if (card.hasEffect("Assassinate"))
+            {
+                if (playerPlayed) enemyRPT = enemyRPT > 0 ? enemyRPT - 1 : 0;
+                else playerResourcePT = playerResourcePT > 0 ? playerResourcePT - 1 : 0;
+            }
+            else if (card.hasEffect("Industrial Investment"))
+            {
+                if (playerPlayed) playerResourcePT++;
+                else enemyRPT++;
+            }
+            else if (card.hasEffect("Dark Hole"))
+            {
+                foreach (SmallCard c in units) KillUnit(c.id);
+                foreach (SmallCard c in enemyUnits) KillUnit(c.id);
+            }
+            else if (card.hasEffect("Eureka!"))
+            {
+                DrawUpgradeCard();
+                if (cardsInEnemyUpgradeDeck) numEnemyCardsInHand++;
+            }
 #warning not finished yet, doesn't matter just yet though
         }
         /// <summary>
@@ -1381,18 +2118,33 @@ namespace CourseworkClient.Gui
         {
             if (playerPlayed)
             {
-                SmallCard c = new SmallCard(card, new Vector2(GetHandCardX(units.Count, units.Count - 1) - (Primary.game.cardOutlineSmall.Width / 2), GetUnitCardY()));
+                SmallCard c = new SmallCard(card, GetNextID(), new Vector2(GetHandCardX(units.Count, units.Count - 1) - (Primary.game.cardOutlineSmall.Width / 2), GetUnitCardY()));
                 units.Add(c);
-                c.id = GetNextID();
-
+                c.tapped = !card.hasEffect("Assault");
                 UpdateCardPositions();
+                foreach (SmallCard f in units)
+                {
+                    if (f.card.hasEffect("Corrupting Aura") && c.card.hasEffect("Ultramarine") && !c.card.hasEffect("Uncorruptable"))
+                    {
+                        ReplaceUnit(c.id);
+                        break;
+                    }
+                }
             }
             else
             {
-                SmallCard c = new SmallCard(card, new Vector2(GetHandCardX(units.Count, units.Count - 1) - (Primary.game.cardOutlineSmall.Width / 2), GetEnemyUnitCardY()));
+                SmallCard c = new SmallCard(card, GetNextID(), new Vector2(GetHandCardX(units.Count, units.Count - 1) - (Primary.game.cardOutlineSmall.Width / 2), GetEnemyUnitCardY()));
                 enemyUnits.Add(c);
-                c.id = GetNextID();
+                c.tapped = !card.hasEffect("Assault");
                 numEnemyCardsInHand--;
+                foreach (SmallCard f in enemyUnits)
+                {
+                    if (f.card.hasEffect("Corrupting Aura") && c.card.hasEffect("Ultramarine") && !c.card.hasEffect("Uncorruptable"))
+                    {
+                        ReplaceUnit(c.id);
+                        break;
+                    }
+                }
             }
         }
         /// <summary>
@@ -1422,6 +2174,7 @@ namespace CourseworkClient.Gui
         /// <returns>The location of the currently draw card (Probably should change this to use the Location enum)</returns>
         private int GetDrawnCardLocation()
         {
+#warning use the location enum here later
             foreach (SmallCard c in hand)
                 if (c.drawnBig) return 0;
             foreach (SmallCard c in units)
@@ -1501,7 +2254,7 @@ namespace CourseworkClient.Gui
                             Primary.game.WriteDataToStream(Protocol.PlayUnit, c.card.name);
                             break;
                         case CardType.Tech:
-                            AddTechToChain(c.card.name, true);
+                            AddTechToChain(c);
                             Primary.game.WriteDataToStream(Protocol.PlayTech, c.card.name);
                             break;
                         case CardType.Upgrade:
@@ -1553,8 +2306,7 @@ namespace CourseworkClient.Gui
         {
             if (deck.Count > 0)
             {
-                SmallCard c = new SmallCard(deck[0], new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
-                c.id = GetNextHandID();
+                SmallCard c = new SmallCard(deck[0], GetNextHandID(), new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
                 hand.Add(c);
                 UpdateCardPositions();
                 deck.RemoveAt(0);
@@ -1569,7 +2321,7 @@ namespace CourseworkClient.Gui
         /// Gets the next SmallCard id for a card in the player's hand
         /// </summary>
         /// <returns>The next id</returns>
-        public int GetNextHandID() => nextHandID++ - 1;
+        public int GetNextHandID() => ++nextHandID - 1;
         
         /// <summary>
         /// Draws a specific card from the deck
@@ -1577,8 +2329,7 @@ namespace CourseworkClient.Gui
         /// <param name="c">The card to draw</param>
         public void DrawSpecificCard(Card c)
         {
-            SmallCard f = new SmallCard(c, new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
-            f.id = GetNextHandID();
+            SmallCard f = new SmallCard(c, GetNextHandID(), new Vector2(GetHandCardX(hand.Count + 1, hand.Count), GetHandCardY()));
             hand.Add(f);
             UpdateCardPositions();
             deck.Remove(c);

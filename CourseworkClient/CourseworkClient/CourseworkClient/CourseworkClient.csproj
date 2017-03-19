@@ -82,6 +82,7 @@
     <Compile Include="FriendManager.cs" />
     <Compile Include="Gui\CardText.cs" />
     <Compile Include="Gui\ChatBox.cs" />
+    <Compile Include="Gui\EndGameForm.cs" />
     <Compile Include="Gui\IFormItem.cs" />
     <Compile Include="Gui\InGameForm.cs" />
     <Compile Include="Gui\BigCard.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Primary.cs" />
     <Compile Include="Gui\TextField.cs" />
+    <Compile Include="Gui\StoreForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
