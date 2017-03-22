@@ -431,4 +431,76 @@ namespace CourseworkClient.Gui
             Primary.game.WriteDataToStream(Protocol.EndTurn);
         }
     }
+
+    class BasicPackButton : Button
+    {
+        public BasicPackButton(Rectangle r, string s) : base(r, s) { }
+        public override void OnPress()
+        {
+            Primary.game.WriteDataToStream(Protocol.BasicPack);
+            Primary.game.currentForm.Lock("Opening pack...");
+        }
+    }
+    class PremiumPackButton : Button
+    {
+        public PremiumPackButton(Rectangle r, string s) : base(r, s) { }
+        public override void OnPress()
+        {
+            Primary.game.WriteDataToStream(Protocol.PremiumPack);
+            Primary.game.currentForm.Lock("Opening pack...");
+        }
+    }
+
+    class SaveDeckButton : TexturedButton
+    {
+        public SaveDeckButton(Rectangle r, string s) : base(r, Primary.game.buttonTexture)
+        {
+            buttonText = "Save";
+            canBePressed = true;
+        }
+        public override void Update()
+        {
+            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+            bool b = true;
+            foreach (Deck d in currentForm.decks)
+            {
+                if (d.mainDeck.Count != 30 || d.upgrades.Count < 3 || d.upgrades.Count > 7)
+                    b = false;
+            }
+            canBePressed = b;
+            base.Update();
+        }
+        public override void OnPress()
+        {
+#warning Not finished yet- need to transmit to server
+            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+            Deck.decks = currentForm.decks;
+        }
+    }
+    class DeckButton : TexturedButton
+    {     
+        int decknum;
+        public DeckButton(Rectangle r, int d, int numdecks) : base(r, Primary.game.buttonTexture)
+        {
+            decknum = d;
+            canBePressed = d <= numdecks;
+        }
+        public override void Update()
+        {
+            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+            canBePressed = decknum <= currentForm.decks.Count;
+        }
+        public override void OnPress()
+        {
+            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+            if (decknum == currentForm.decks.Count)
+            {
+                currentForm.decks.Add(new Deck());
+            }
+            else
+            {
+                currentForm.currentDeck = decknum;
+            }
+        }
+    }
 }

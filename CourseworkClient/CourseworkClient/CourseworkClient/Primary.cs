@@ -610,6 +610,17 @@ namespace CourseworkClient
                     if (currentForm.GetType() == typeof(InGameForm))
                         currentForm = new EndGameForm();
                     break;
+                case Protocol.PackCards:
+                    string[] g = s.Split('|');
+                    Card[] cards = new Card[g.Length];
+                    for (int i = 0; i < g.Length; i++)
+                    {
+                        Card c = Card.getCard(g[i]);
+                        Deck.allOwnedCards.AddAdditionalCard(c);
+                        cards[i] = c;
+                    }
+                    currentForm = new PackOpeningForm(cards);
+                    break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());
                     ExitGame();

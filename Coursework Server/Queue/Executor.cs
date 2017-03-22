@@ -153,6 +153,7 @@ namespace CourseworkServer
                     }
                     break;
                 #endregion
+                #region CalculateEloCoinChanges
                 case Operation.CalculateEloCoinChanges:
                     Client winner = currentItem.sender;
                     Client loser = Server.server.GetOpponent(winner);
@@ -167,6 +168,58 @@ namespace CourseworkServer
                     Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loser.elo, loserCoin, loser.userName);
                     winner.SendData(Server.addProtocolToArray(Server.toByteArray(winner.elo + "a" + winnerCoin), Protocol.EloAndCoins));
                     loser.SendData(Server.addProtocolToArray(Server.toByteArray(loser.elo + "a" + loserCoin), Protocol.EloAndCoins));
+                    break;
+                #endregion
+                #region BasicPack
+                case Operation.BasicPack:
+                    {
+                        string[] cards = Server.server.GetPackCards(0.25, 0.15);
+                        Server.server.UpdatePackCardsOnDB(currentItem.sender, cards);
+                        TransmitObjectArray(cards, currentItem.sender, Protocol.PackCards);
+                    }
+                    break;
+                #endregion
+                #region PremiumPack
+                case Operation.PremiumPack:
+                    {
+                        string[] cards = Server.server.GetPackCards(0.4, 0.3);
+                        Server.server.UpdatePackCardsOnDB(currentItem.sender, cards);
+                        TransmitObjectArray(cards, currentItem.sender, Protocol.PackCards);
+                    }
+                    break;
+                #endregion
+                case Operation.ClearDBDeckCards:
+                    {
+                        int deckid = Convert.ToInt32(currentItem.data);
+                        if (deckid >= 0)
+                            Server.server.dbHandler.DoParameterizedSQLCommand("delete from deckcards where deckid = @p1", deckid);
+                    }
+                    break;
+                case Operation.AddCardToDeck:
+                    {
+                        string s = (string)currentItem.data;
+                        string[] f = s.Split('|');
+                        string cardName = f[1];
+                        int deckid = Convert.ToInt32(f[0]);
+                        int quantity = Convert.ToInt32(f[2]);
+                        if (deckid < 0)
+                        {
+                            object[][] o = Server.server.dbHandler.DoParameterizedSQLQuery("select accountid from accounts where username = @p1", currentItem.sender.userName);
+                            int accountid = Convert.ToInt32(o[0][0]);
+                            Server.server.dbHandler.DoParameterizedSQLCommand("insert into decks values (@p1, 0)", accountid);
+                            object[][] d = Server.server.dbHandler.DoParameterizedSQLQuery("select deckid from decks where accountid = @p1 and allcards = 0");
+                            int x = -1;
+                            foreach (object[] r in d)
+                            {
+                                x = Math.Max(x, Convert.ToInt32(r[0]));
+                            }
+                            currentItem.sender.SendData(Server.addProtocolToArray(new byte[] { (byte)x }, Protocol.NewDBDeckID));
+                            deckid = x;
+                        }
+                        int cardID = (int)(Server.server.dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardname = @p1", cardName)[0][0]);
+                        Server.server.dbHandler.DoParameterizedSQLCommand("insert into deckcards values(@p1, @p2, @p3)", cardID, deckid, quantity);
+
+                    }
                     break;
             }
         }

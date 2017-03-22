@@ -28,6 +28,7 @@ namespace CourseworkServer
         const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
         public static string connectionString; //The correct connection string out of the two available ones
         static bool isReadingForCommand = false;
+        Random rnd = new Random();
 
         /// <summary>
         /// The entry point of the program
@@ -292,6 +293,18 @@ namespace CourseworkServer
                 case Protocol.WonGame:
                     queue.Enqueue(new ActionItem(Operation.CalculateEloCoinChanges, s, sender));
                     break;
+                case Protocol.BasicPack:
+                    queue.Enqueue(new ActionItem(Operation.BasicPack, s, sender));
+                    break;
+                case Protocol.PremiumPack:
+                    queue.Enqueue(new ActionItem(Operation.PremiumPack, s, sender));
+                    break;
+                case Protocol.UpdatedDecks:
+                    queue.Enqueue(new ActionItem(Operation.ClearDBDeckCards, s, sender));
+                    break;
+                case Protocol.NewDeckCards:
+                    queue.Enqueue(new ActionItem(Operation.AddCardToDeck, s, sender));
+                    break;
                 case Protocol.ControlUnit:
                 case Protocol.DiscardFromDeck:
                 case Protocol.DiscardFromUpgradeDeck:
@@ -414,6 +427,56 @@ namespace CourseworkServer
                 if (c.userName == username) return c;
             }
             throw new ArgumentException(); //This will get called if I use the test ingameform
+        }
+        public string[] GetPackCards(double uncommonChance, double veryRareChance)
+        {
+            object[][] commons = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
+            object[][] uncommons = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
+            object[][] rares = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
+            object[][] veryRares = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
+            int uChance = (int)(100 * uncommonChance);
+            int vrChance = (int)(100 * veryRareChance);
+            string[] output = new string[5];
+            for (int i = 0; i < 4; i++)
+            {
+                bool uc = rnd.Next(99) < uChance;
+                object[][] o;
+                if (uc) o = uncommons;
+                else o = commons;
+                int index = rnd.Next(o.GetLength(0));
+                object[] f = o[index];
+                output[i] = (string)f[0];
+            }
+            bool vr = rnd.Next(99) < vrChance;
+            object[][] l;
+            if (vr) l = veryRares;
+            else l = rares;
+            int ind = rnd.Next(l.GetLength(0));
+            object[] j = l[ind];
+            output[4] = (string)j[0];
+            return output;
+        }
+        public void UpdatePackCardsOnDB(Client sender, string[] cardNames)
+        {
+            object[][] d = dbHandler.DoParameterizedSQLQuery("select decks.deckid from accounts join decks on decks.accountid = accounts.accountid and accounts.username = @p1 and decks.allcards = 1", sender.userName);
+            int deckid = (int)d[0][0];
+            foreach (string s in cardNames)
+            {
+                object[][] p = dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardame = @p1", s);
+                int cardid = (int)p[0][0];
+                object[][] c = dbHandler.DoParameterizedSQLQuery("select count(*) from deckcards where cardid = @p1 and deckid = @p2", cardid, deckid);
+                int count = (int)c[0][0];
+                if (count == 0)
+                {
+                    dbHandler.DoParameterizedSQLCommand("insert into deckcards values(@p1, @p2, 1)", cardid, deckid);
+                }
+                else
+                {
+                    object[][] f = dbHandler.DoParameterizedSQLQuery("select cardquantity from deckcards where cardid = @p1 and deckid = @p2", cardid, deckid);
+                    int num = (int)f[0][0];
+                    dbHandler.DoParameterizedSQLCommand("update deckcards set cardquantity = @p1 where cardid = @p2 and deckid = @p3", num + 1, cardid, deckid);
+                }
+            }
         }
     }
 }

@@ -22,6 +22,7 @@ namespace CourseworkClient.Gui
         MainMenuToDeckManager,
         DeckManagerToMainMenu,
         EndGameToMainMenu,
+        PackOpeningToMainMenu,
     }
     class FormBuilder
     {
@@ -49,6 +50,7 @@ namespace CourseworkClient.Gui
                 case FormChangeButtonTypes.QueueSelectToMainMenu:
                 case FormChangeButtonTypes.StoreToMainMenu:
                 case FormChangeButtonTypes.EndGameToMainMenu:
+                case FormChangeButtonTypes.PackOpeningToMainMenu:
                     return new MainMenuForm();
                     
                 default:

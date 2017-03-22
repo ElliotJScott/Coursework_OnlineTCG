@@ -55,5 +55,11 @@
         ReturnUnitToHand,
         WonGame,
         EloAndCoins,
+        BasicPack,
+        PremiumPack,
+        PackCards,
+        UpdatedDecks,
+        NewDeckCards,
+        NewDBDeckID,
     }
 }

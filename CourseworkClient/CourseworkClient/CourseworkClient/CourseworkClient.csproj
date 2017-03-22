@@ -82,12 +82,15 @@
     <Compile Include="FriendManager.cs" />
     <Compile Include="Gui\CardText.cs" />
     <Compile Include="Gui\ChatBox.cs" />
+    <Compile Include="Gui\DeckCardItem.cs" />
+    <Compile Include="Gui\DeckManagerForm.cs" />
     <Compile Include="Gui\EndGameForm.cs" />
     <Compile Include="Gui\IFormItem.cs" />
     <Compile Include="Gui\InGameForm.cs" />
     <Compile Include="Gui\BigCard.cs" />
     <Compile Include="Gui\MainMenuForm.cs" />
     <Compile Include="Gui\OptionsMenuForm.cs" />
+    <Compile Include="Gui\PackOpeningForm.cs" />
     <Compile Include="Gui\QueueSelectForm.cs" />
     <Compile Include="Gui\NumericalTextField.cs" />
     <Compile Include="Gui\ScrollableTextPane.cs" />

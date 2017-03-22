@@ -8,7 +8,7 @@ namespace CourseworkClient
     /// <summary>
     /// Defines a card in a deck and the quantity in it
     /// </summary>
-    public struct DeckItem
+    public class DeckItem
     {
         public Card card;
         public int quantity;
@@ -35,7 +35,7 @@ namespace CourseworkClient
         /// Creates a new deck with an id
         /// </summary>
         /// <param name="id">The primary key of the deck in the database</param>
-        public Deck(int id)
+        public Deck(int id = -1)
         {
             dbID = id;
         }
@@ -51,6 +51,7 @@ namespace CourseworkClient
             foreach (DeckItem d in m) mainDeck.Add(d);
             foreach (DeckItem d in u) upgrades.Add(d);
         }
+
         /// <summary>
         /// Adds a card to a pre-existing deck
         /// </summary>
@@ -82,5 +83,34 @@ namespace CourseworkClient
 
             }
         }
+
+        public void AddAdditionalCard(Card c)
+        {
+            foreach (List<DeckItem> d in new List<DeckItem>[] { mainDeck, upgrades })
+            {
+                foreach (DeckItem f in d)
+                {
+                    if (f.card == c)
+                    {
+                        f.quantity++;
+                        return;
+                    }
+                }
+            }
+            AddCardToDeck(c, dbID);
+        }
+
+        public int GetCardQuantity(Card c)
+        {
+            foreach (List<DeckItem> f in new List<DeckItem>[] { mainDeck, upgrades })
+            {
+                foreach (DeckItem d in f)
+                {
+                    if (d.card == c) return d.quantity;
+                }
+            }
+            return 0;
+        }
     }
+
 }

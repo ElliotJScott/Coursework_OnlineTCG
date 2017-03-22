@@ -25,6 +25,10 @@ namespace CourseworkServer
         GetPlayerEloAndCoin,
         TransmitDBData,
         CalculateEloCoinChanges,
+        BasicPack,
+        PremiumPack,
+        ClearDBDeckCards,
+        AddCardToDeck,
     }
     class ActionItem
     {
