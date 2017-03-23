@@ -106,8 +106,8 @@ namespace CourseworkClient
             Log("Creating instance of game");
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 900;
-            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = 1080;
             Window.Title = "Hearthclone";
             graphics.IsFullScreen = false;
         }

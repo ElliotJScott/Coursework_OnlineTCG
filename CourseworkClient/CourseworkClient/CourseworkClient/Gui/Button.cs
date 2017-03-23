@@ -461,20 +461,28 @@ namespace CourseworkClient.Gui
         }
         public override void Update()
         {
-            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
-            bool b = true;
-            foreach (Deck d in currentForm.decks)
+            try
             {
-                if (d.GetDeckCount(true) != 30 || d.GetDeckCount(false) < 3 || d.GetDeckCount(false) > 7)
-                    b = false;
+                DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+                bool b = true;
+                foreach (Deck d in currentForm.decks)
+                {
+                    if (d.GetDeckCount(true) != 30 || d.GetDeckCount(false) < 3 || d.GetDeckCount(false) > 7)
+                        b = false;
+                }
+                canBePressed = b;
+                base.Update();
             }
-            canBePressed = b;
-            base.Update();
+            catch { }
         }
         public override void OnPress()
         {
             DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
             Deck.decks = currentForm.decks;
+            foreach (Deck d in currentForm.decks)
+            {
+                Primary.game.WriteDataToStream(Protocol.UpdatedDecks, d.dbID.ToString());
+            }
             currentForm.TransmitDecks();
             currentForm.Lock("Saving Decks...");
         }
@@ -495,9 +503,13 @@ namespace CourseworkClient.Gui
         }
         public override void Update()
         {
-            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
-            canBePressed = decknum <= currentForm.decks.Count;
-            base.Update();
+            try
+            {
+                DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+                canBePressed = decknum <= currentForm.decks.Count;
+                base.Update();
+            }
+            catch { }
         }
         public override void OnPress()
         {

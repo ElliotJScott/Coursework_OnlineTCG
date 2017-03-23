@@ -43,7 +43,6 @@ Content\CardArt\Chaos Terminator Squad.xnb
 Content\CardArt\Daemon Prince of Khorne.xnb
 Content\CardArt\Daemon Prince of Nurgle.xnb
 Content\CardArt\Daemon Prince of Slaanesh.xnb
-Content\CardArt\Daemon Prince of Tzeentch.xnb
 Content\CardArt\Defiler.xnb
 Content\CardArt\Destroyer Squadron.xnb
 Content\CardArt\Devastator Squad.xnb
@@ -133,7 +132,6 @@ Content\CardArt\Lightning Claws.xnb
 Content\CardArt\Phase-Shifter.xnb
 Content\CardArt\Power Sword.xnb
 Content\CardArt\Psychic Hood.xnb
-Content\CardArt\Psyker_ Catalyst.xnb
 Content\CardArt\Psyker_ Channel Hive Mind.xnb
 Content\CardArt\Psyker_ Death Shock.xnb
 Content\CardArt\Psyker_ Divination.xnb
@@ -145,12 +143,15 @@ Content\CardArt\Psyker_ Polymorph.xnb
 Content\CardArt\Psyker_ Sacrifice.xnb
 Content\CardArt\Psyker_ Summon Creature.xnb
 Content\CardArt\Psyker_ Telekinesis.xnb
+Content\CardArt\Psyker_ Catalyst.xnb
+Content\CardArt\Daemon Prince of Tzeentch.xnb
 Content\CardArt\Ritual Killing.xnb
 Content\CardArt\Shadow Ankh.xnb
 Content\CardArt\Squad Leader.xnb
 Content\CardArt\Squadron Firepower.xnb
 Content\CardArt\Squadron Mobility.xnb
 Content\CardArt\Terminator Armour.xnb
+Content\CardArt\Camouflage.xnb
 Content\CardArt\Recharge.xnb
 Content\CardArt\Heavy Venom Cannon.xnb
 Content\CardArt\Power Extraction.xnb
@@ -163,10 +164,9 @@ Content\DiscardButton.xnb
 Content\PlayButton.xnb
 Content\Card Back Temp.xnb
 Content\Card Back.xnb
-Content\Mainfont.xnb
-Content\Cardtextfont.xnb
 Content\Card Reddener.xnb
 Content\Missing Health.xnb
 Content\Remaining Health.xnb
-Content\CardArt\Camouflage.xnb
 Content\CardCountCircle.xnb
+Content\Mainfont.xnb
+Content\Cardtextfont.xnb
