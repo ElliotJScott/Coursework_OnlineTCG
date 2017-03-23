@@ -145,15 +145,12 @@ Content\CardArt\Psyker_ Polymorph.xnb
 Content\CardArt\Psyker_ Sacrifice.xnb
 Content\CardArt\Psyker_ Summon Creature.xnb
 Content\CardArt\Psyker_ Telekinesis.xnb
-Content\CardArt\Psyker_ True Psychic Power.xnb
-Content\CardArt\Psyker_ Unleash Power.xnb
 Content\CardArt\Ritual Killing.xnb
 Content\CardArt\Shadow Ankh.xnb
 Content\CardArt\Squad Leader.xnb
 Content\CardArt\Squadron Firepower.xnb
 Content\CardArt\Squadron Mobility.xnb
 Content\CardArt\Terminator Armour.xnb
-Content\CardArt\Vehicle Camouflage.xnb
 Content\CardArt\Recharge.xnb
 Content\CardArt\Heavy Venom Cannon.xnb
 Content\CardArt\Power Extraction.xnb
@@ -171,3 +168,5 @@ Content\Cardtextfont.xnb
 Content\Card Reddener.xnb
 Content\Missing Health.xnb
 Content\Remaining Health.xnb
+Content\CardArt\Camouflage.xnb
+Content\CardCountCircle.xnb

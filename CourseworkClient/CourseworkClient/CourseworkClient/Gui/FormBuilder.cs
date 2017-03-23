@@ -44,13 +44,15 @@ namespace CourseworkClient.Gui
                 case FormChangeButtonTypes.MainMenuToQueueSelect:
                     return new QueueSelectForm();
                 case FormChangeButtonTypes.MainMenuToDeckManager:
-#warning This will most certainly need to be changed
-                    return new InGameForm(Deck.decks[Primary.game.selectedDeckNum], true, "Test");
+                    return new DeckManagerForm();
+                case FormChangeButtonTypes.MainMenuToStore:
+                    return new StoreForm();
                 case FormChangeButtonTypes.OptionsToMainMenu:
                 case FormChangeButtonTypes.QueueSelectToMainMenu:
                 case FormChangeButtonTypes.StoreToMainMenu:
                 case FormChangeButtonTypes.EndGameToMainMenu:
                 case FormChangeButtonTypes.PackOpeningToMainMenu:
+                case FormChangeButtonTypes.DeckManagerToMainMenu:
                     return new MainMenuForm();
                     
                 default:

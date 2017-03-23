@@ -413,7 +413,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Daemon Prince of Tzeentch.xnb</Output>
-      <Time>2016-12-16T20:13:46.1136146+00:00</Time>
+      <Time>2016-12-16T22:26:32.8564134+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Defiler.png</Source>
@@ -1223,7 +1223,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Catalyst.xnb</Output>
-      <Time>2016-12-16T22:26:32.8103086+00:00</Time>
+      <Time>2016-12-16T22:26:32.8529058+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Psyker_ Channel Hive Mind.png</Source>
@@ -1325,24 +1325,6 @@
       <Time>2016-12-16T22:26:32.8493965+00:00</Time>
     </Item>
     <Item>
-      <Source>CardArt\Psyker_ True Psychic Power.png</Source>
-      <Name>CardArt\Psyker_ True Psychic Power</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ True Psychic Power.xnb</Output>
-      <Time>2016-12-16T22:26:32.8529058+00:00</Time>
-    </Item>
-    <Item>
-      <Source>CardArt\Psyker_ Unleash Power.png</Source>
-      <Name>CardArt\Psyker_ Unleash Power</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Psyker_ Unleash Power.xnb</Output>
-      <Time>2016-12-16T22:26:32.8564134+00:00</Time>
-    </Item>
-    <Item>
       <Source>CardArt\Ritual Killing.png</Source>
       <Name>CardArt\Ritual Killing</Name>
       <Importer>TextureImporter</Importer>
@@ -1395,15 +1377,6 @@
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Terminator Armour.xnb</Output>
       <Time>2016-12-16T22:26:32.8774596+00:00</Time>
-    </Item>
-    <Item>
-      <Source>CardArt\Vehicle Camouflage.png</Source>
-      <Name>CardArt\Vehicle Camouflage</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Vehicle Camouflage.xnb</Output>
-      <Time>2016-12-16T22:26:32.8809675+00:00</Time>
     </Item>
     <Item>
       <Source>CardArt\Recharge.png</Source>
@@ -1557,6 +1530,24 @@
       <Options>None</Options>
       <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Remaining Health.xnb</Output>
       <Time>2017-03-17T17:12:01.123435+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardArt\Camouflage.png</Source>
+      <Name>CardArt\Camouflage</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardArt\Camouflage.xnb</Output>
+      <Time>2016-12-16T22:26:32.8809675+00:00</Time>
+    </Item>
+    <Item>
+      <Source>CardCountCircle.png</Source>
+      <Name>CardCountCircle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardCountCircle.xnb</Output>
+      <Time>2017-03-22T22:35:53.7057454+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

@@ -66,6 +66,7 @@ namespace CourseworkClient
         public Texture2D cardBack;
         public Texture2D cardTappedIndicator;
         public Texture2D remainingHealth, missingHealth;
+        public Texture2D cardCountCircle;
         public SpriteFont mainFont, cardTextFont;
         public static Primary game;
         public Form currentForm;
@@ -173,6 +174,7 @@ namespace CourseworkClient
             cardTappedIndicator = Content.Load<Texture2D>("Card Reddener");
             remainingHealth = Content.Load<Texture2D>("Remaining Health");
             missingHealth = Content.Load<Texture2D>("Missing Health");
+            cardCountCircle = Content.Load<Texture2D>("CardCountCircle");
             Log("Finished loading content");
         }
         /// <summary>
@@ -446,8 +448,6 @@ namespace CourseworkClient
         /// <param name="s">The data received</param>
         private void HandleData(Protocol p, string s)
         {
-            //Console.WriteLine("{0} : {1}", p, s);
-            if ((byte)p > (byte)Protocol.UsernameNotTaken) Log("Handling received data : " + p + " | " + s);
             switch (p)
             {
                 case Protocol.UsernameTaken:
@@ -620,6 +620,28 @@ namespace CourseworkClient
                         cards[i] = c;
                     }
                     currentForm = new PackOpeningForm(cards);
+                    break;
+                case Protocol.NewDBDeckID:
+                    string[] r = s.Split('|');
+                    int newid = Convert.ToInt32(r[0]);
+                    int oldid = Convert.ToInt32(r[1]);
+                    foreach (Deck d in Deck.decks)
+                    {
+                        if (d.dbID == oldid)
+                        {
+                            d.dbID = newid;
+                            break;
+                        }
+                    }
+                    DeckManagerForm cf = (DeckManagerForm)currentForm;
+                    foreach (Deck d in cf.decks)
+                    {
+                        if (d.dbID == oldid)
+                        {
+                            d.dbID = newid;
+                            cf.TransmitDecks(newid);
+                        }
+                    }
                     break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());

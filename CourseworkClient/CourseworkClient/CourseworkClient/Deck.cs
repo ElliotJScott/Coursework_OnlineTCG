@@ -51,7 +51,30 @@ namespace CourseworkClient
             foreach (DeckItem d in m) mainDeck.Add(d);
             foreach (DeckItem d in u) upgrades.Add(d);
         }
-
+        public int GetDeckCount(bool md)
+        {
+            int x = 0;
+            List<DeckItem> d = md ? mainDeck : upgrades;
+            foreach (DeckItem r in d) x += r.quantity;
+            return x;
+        }
+        public void DecreaseQuantity(Card c, int x)
+        {
+            foreach (List<DeckItem> f in new List<DeckItem>[] { mainDeck, upgrades })
+            {
+                foreach (DeckItem d in f)
+                {
+                    if (d.card == c)
+                    {
+                        d.quantity -= x;
+                        if (d.quantity <= 0)
+                        {
+                            f.Remove(d);
+                        }
+                    }
+                }
+            }
+        }
         /// <summary>
         /// Adds a card to a pre-existing deck
         /// </summary>
@@ -111,6 +134,7 @@ namespace CourseworkClient
             }
             return 0;
         }
+
     }
 
 }

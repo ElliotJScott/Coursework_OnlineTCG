@@ -300,10 +300,10 @@ namespace CourseworkServer
                     queue.Enqueue(new ActionItem(Operation.PremiumPack, s, sender));
                     break;
                 case Protocol.UpdatedDecks:
-                    queue.Enqueue(new ActionItem(Operation.ClearDBDeckCards, s, sender));
+                    queue.Enqueue(new ActionItem(Operation.ClearDBDeckCards, s.Substring(1), sender));
                     break;
                 case Protocol.NewDeckCards:
-                    queue.Enqueue(new ActionItem(Operation.AddCardToDeck, s, sender));
+                    queue.Enqueue(new ActionItem(Operation.AddCardToDeck, s.Substring(1), sender));
                     break;
                 case Protocol.ControlUnit:
                 case Protocol.DiscardFromDeck:
@@ -431,9 +431,9 @@ namespace CourseworkServer
         public string[] GetPackCards(double uncommonChance, double veryRareChance)
         {
             object[][] commons = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
-            object[][] uncommons = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
-            object[][] rares = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
-            object[][] veryRares = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
+            object[][] uncommons = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 1");
+            object[][] rares = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 2");
+            object[][] veryRares = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 3");
             int uChance = (int)(100 * uncommonChance);
             int vrChance = (int)(100 * veryRareChance);
             string[] output = new string[5];
@@ -462,7 +462,7 @@ namespace CourseworkServer
             int deckid = (int)d[0][0];
             foreach (string s in cardNames)
             {
-                object[][] p = dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardame = @p1", s);
+                object[][] p = dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardname = @p1", s);
                 int cardid = (int)p[0][0];
                 object[][] c = dbHandler.DoParameterizedSQLQuery("select count(*) from deckcards where cardid = @p1 and deckid = @p2", cardid, deckid);
                 int count = (int)c[0][0];

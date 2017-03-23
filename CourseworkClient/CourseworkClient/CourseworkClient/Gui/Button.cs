@@ -70,6 +70,7 @@ namespace CourseworkClient.Gui
         public override void OnPress()
         {
             Primary.game.currentForm = FormBuilder.BuildNewForm(type);
+            if (Primary.game.currentForm.GetType() == typeof(DeckManagerForm)) ((DeckManagerForm)Primary.game.currentForm).UpdateDeckCardItems();
         }
 
     }
@@ -245,7 +246,7 @@ namespace CourseworkClient.Gui
                 InGameForm currentForm = ((InGameForm)Primary.game.currentForm);
                 BigCard bigcard = currentForm.bigCard;
                 Card card = bigcard.card;
-                currentForm.DiscardSelectedCard();
+                //currentForm.DiscardSelectedCard();
                 Primary.game.WriteDataToStream(Protocol.DiscardTech, card.name);
                 currentForm.bigCard = null;
               
@@ -464,7 +465,7 @@ namespace CourseworkClient.Gui
             bool b = true;
             foreach (Deck d in currentForm.decks)
             {
-                if (d.mainDeck.Count != 30 || d.upgrades.Count < 3 || d.upgrades.Count > 7)
+                if (d.GetDeckCount(true) != 30 || d.GetDeckCount(false) < 3 || d.GetDeckCount(false) > 7)
                     b = false;
             }
             canBePressed = b;
@@ -472,9 +473,15 @@ namespace CourseworkClient.Gui
         }
         public override void OnPress()
         {
-#warning Not finished yet- need to transmit to server
             DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
             Deck.decks = currentForm.decks;
+            currentForm.TransmitDecks();
+            currentForm.Lock("Saving Decks...");
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
     }
     class DeckButton : TexturedButton
@@ -484,11 +491,13 @@ namespace CourseworkClient.Gui
         {
             decknum = d;
             canBePressed = d <= numdecks;
+            buttonText = "Deck " + (d + 1);
         }
         public override void Update()
         {
             DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
             canBePressed = decknum <= currentForm.decks.Count;
+            base.Update();
         }
         public override void OnPress()
         {
@@ -497,10 +506,13 @@ namespace CourseworkClient.Gui
             {
                 currentForm.decks.Add(new Deck());
             }
-            else
-            {
-                currentForm.currentDeck = decknum;
-            }
+            currentForm.currentDeck = decknum;       
+            currentForm.UpdateDeckCardItems();
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
     }
 }

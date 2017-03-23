@@ -9,21 +9,24 @@ namespace CourseworkClient.Gui
 {
     class DeckCardItem : GuiItem
     {
-        Card card;
+        BigCard card;
         int num;
         Vector2 pos;
         bool inAllCards;
-        public DeckCardItem(Card c, int n, Vector2 p, bool b)
+        public DeckCardItem(Card c, Vector2 p, bool b)
         {
-            card = c;
-            num = n;
+            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
             pos = p;
+            card = new BigCard(c, pos);
+            if (inAllCards) num = Deck.allOwnedCards.GetCardQuantity(c) - currentForm.decks[currentForm.currentDeck].GetCardQuantity(c);
+            else num = currentForm.decks[currentForm.currentDeck].GetCardQuantity(c);
             inAllCards = b;
+            boundingBox = card.boundingBox;
         }
         public override void Draw(SpriteBatch sb)
         {
-            CardBuilder.DrawCard(card, pos, true, sb, true, false);
-            Texture2D tex = changethislater;
+            card.Draw(sb);
+            Texture2D tex = Primary.game.cardCountCircle;
             sb.Draw(tex,pos - new Vector2(tex.Width / 2, tex.Height / 2), Color.White);
             Vector2 v = Primary.game.mainFont.MeasureString(num.ToString());
             sb.DrawString(Primary.game.mainFont, num.ToString(), pos - (v / 2), Color.Black);
@@ -31,20 +34,28 @@ namespace CourseworkClient.Gui
 
         public override void Update()
         {
-            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
-            if (Clicked() && num > 0)
-            {
-                num--;
+            try {
+                card.Update();
+                DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+                if (Clicked() && num > 0)
+                {
+                    num--;
+                    if (inAllCards)
+                    {
+                        currentForm.decks[currentForm.currentDeck].AddAdditionalCard(card.card);
+                    }
+                    else
+                    {
+                        currentForm.decks[currentForm.currentDeck].DecreaseQuantity(card.card, 1);
+                    }
+                    currentForm.UpdateDeckCardItems();
+                }
                 if (inAllCards)
                 {
-                    currentForm.decks[currentForm.currentDeck].AddAdditionalCard(card);
-
+                    num = Deck.allOwnedCards.GetCardQuantity(card.card) - currentForm.decks[currentForm.currentDeck].GetCardQuantity(card.card);
                 }
             }
-            if (inAllCards)
-            {
-                num = Deck.allOwnedCards.GetCardQuantity(card) - currentForm.decks[currentForm.currentDeck].GetCardQuantity(card);
-            }
+            catch { }
         }
     }
 }

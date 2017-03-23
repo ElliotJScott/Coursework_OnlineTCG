@@ -547,7 +547,6 @@ namespace CourseworkClient.Gui
         /// <param name="p">Whether the player's discard pile will be used</param>
         internal void AddCardToEnemyHand(string s, bool p)
         {
-#warning this might be fine
             List<Card> list = !p ? discardPile : enemyDiscardPile;
             foreach (Card c in list)
             {
@@ -1003,7 +1002,6 @@ namespace CourseworkClient.Gui
             Selection s = EffectSelection.GetTechSelection(c);
             if (s.Equals(null)) throw new ArgumentException();
             else return new SelectionItem(s, "Make a selection");
-#warning this is probably ok now but might not be
         }
         internal void WaitOnEnemySelection()
         {
@@ -1652,7 +1650,6 @@ namespace CourseworkClient.Gui
 
             if (attackerPlayerOwned) enemyHealth -= attackingAtk;
             else playerHealth -= attackingAtk;
-#warning add code for when a player wins/loses
             if (enemyHealth <= 0)
             {
                 Primary.game.WriteDataToStream(Protocol.WonGame);
@@ -2107,7 +2104,6 @@ namespace CourseworkClient.Gui
                 DrawUpgradeCard();
                 if (cardsInEnemyUpgradeDeck) numEnemyCardsInHand++;
             }
-#warning not finished yet, doesn't matter just yet though
         }
         /// <summary>
         /// Plays a given unit
@@ -2216,24 +2212,7 @@ namespace CourseworkClient.Gui
             else if (m.Y > (9 * v.Height) / 10 && yOffset + yAccel <= maxYOffset) yOffset += yAccel;
             UpdateCardPositions();
         }
-        /// <summary>
-        /// Adds to the chain to discard the currently selected card
-        /// </summary>
-        public void DiscardSelectedCard()
-        {
-#warning need to modify this
-            foreach (SmallCard c in hand)
-            {
-                if (c.drawnBig)
-                {
-                    hand.Remove(c);
-                    //discardPile.Add(Card.getCard(c.card.name));
-                    c.drawnBig = false;
-                    chain.AddLast(new ChainItem(c, true, true));
-                    break;
-                }
-            }
-        }
+
         /// <summary>
         /// Adds to the chain to play the currently selected card and transmits it
         /// </summary>

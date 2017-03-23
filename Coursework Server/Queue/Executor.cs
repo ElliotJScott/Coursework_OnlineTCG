@@ -213,8 +213,8 @@ namespace CourseworkServer
                             {
                                 x = Math.Max(x, Convert.ToInt32(r[0]));
                             }
-                            currentItem.sender.SendData(Server.addProtocolToArray(new byte[] { (byte)x }, Protocol.NewDBDeckID));
-                            deckid = x;
+                            currentItem.sender.SendData(Server.addProtocolToArray(Server.toByteArray(x + "|" + deckid), Protocol.NewDBDeckID));
+                            break;
                         }
                         int cardID = (int)(Server.server.dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardname = @p1", cardName)[0][0]);
                         Server.server.dbHandler.DoParameterizedSQLCommand("insert into deckcards values(@p1, @p2, @p3)", cardID, deckid, quantity);
