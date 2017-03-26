@@ -67,6 +67,7 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -78,20 +79,18 @@
     <Compile Include="Gui\CardBuilder.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Effect.cs" />
-    <Compile Include="Friend.cs" />
-    <Compile Include="FriendManager.cs" />
     <Compile Include="Gui\CardText.cs" />
-    <Compile Include="Gui\ChatBox.cs" />
     <Compile Include="Gui\DeckCardItem.cs" />
     <Compile Include="Gui\DeckManagerForm.cs" />
     <Compile Include="Gui\EndGameForm.cs" />
     <Compile Include="Gui\IFormItem.cs" />
     <Compile Include="Gui\InGameForm.cs" />
     <Compile Include="Gui\BigCard.cs" />
+    <Compile Include="Gui\LeaderboardForm.cs" />
     <Compile Include="Gui\MainMenuForm.cs" />
     <Compile Include="Gui\OptionsMenuForm.cs" />
     <Compile Include="Gui\PackOpeningForm.cs" />
-    <Compile Include="Gui\QueueSelectForm.cs" />
+    <Compile Include="Gui\QueueForm.cs" />
     <Compile Include="Gui\NumericalTextField.cs" />
     <Compile Include="Gui\ScrollableTextPane.cs" />
     <Compile Include="Gui\ScrollArrow.cs" />
@@ -109,6 +108,11 @@
     <Compile Include="Primary.cs" />
     <Compile Include="Gui\TextField.cs" />
     <Compile Include="Gui\StoreForm.cs" />
+    <Compile Include="Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -141,6 +145,13 @@
       <ProductName>Windows Installer 4.5</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

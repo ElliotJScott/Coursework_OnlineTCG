@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace CourseworkClient.Gui
 {
@@ -107,23 +108,7 @@ namespace CourseworkClient.Gui
             //throw new NotImplementedException();
         }
     }
-    /// <summary>
-    /// Adds the player to the queue when pressed
-    /// </summary>
-    class AddToQueueButton : FormChangeButton
-    {
-        int queueID;
-        public AddToQueueButton(Rectangle rect, string text, int id, FormChangeButtonTypes f = FormChangeButtonTypes.QueueSelectToMainMenu) : base(rect, text, f)
-        {
-            queueID = id;
-        }
 
-        public override void OnPress()
-        {
-            Primary.game.WriteDataToStream(Protocol.AddToQueue, queueID.ToString());
-            Primary.game.currentForm = FormBuilder.BuildNewForm(FormChangeButtonTypes.QueueSelectToMainMenu);
-        }
-    }
     /// <summary>
     /// Sends the credentials to check their validity when pressed
     /// </summary>
@@ -161,36 +146,7 @@ namespace CourseworkClient.Gui
             Primary.game.Exit();
         }
     }
-    /// <summary>
-    /// Not implemented yet.
-    /// </summary>
-    class SendButton : Button
-    {
-        public SendButton(Rectangle rect)
-        {
-            boundingBox = rect;
-            buttonText = "Send";
-        }
-        public override void OnPress()
-        {
-            System.Windows.Forms.MessageBox.Show("Not implemented yet!");
-        }
-    }
-    /// <summary>
-    /// Not implemented yet.
-    /// </summary>
-    class AddFriendButton : Button
-    {
-        public AddFriendButton(Rectangle rect)
-        {
-            boundingBox = rect;
-            buttonText = "Add Friend";
-        }
-        public override void OnPress()
-        {
-            System.Windows.Forms.MessageBox.Show("Not implemented yet!");
-        }
-    }
+
     /// <summary>
     /// For buttons that have textures other than the default or can't always be pressed
     /// </summary>
@@ -242,10 +198,12 @@ namespace CourseworkClient.Gui
         {
             if (canBePressed)
             {
-#warning not finished yet- add selection options and transmit this information
                 InGameForm currentForm = ((InGameForm)Primary.game.currentForm);
                 BigCard bigcard = currentForm.bigCard;
                 Card card = bigcard.card;
+                currentForm.DiscardCardFromHand(card);
+                Selection s = new Selection(1, Function.ReplaceUnit, true, SelectionCondition.corruptable, SelectionCondition.ultramarine);
+                currentForm.counterOptionButtons = currentForm.getSelectionButtons(new SelectionItem(s, "Select a unit to corrupt"));
                 //currentForm.DiscardSelectedCard();
                 Primary.game.WriteDataToStream(Protocol.DiscardTech, card.name);
                 currentForm.bigCard = null;
@@ -358,12 +316,12 @@ namespace CourseworkClient.Gui
             currentForm.counterOptionButtons = new Button[0];
             if (currentForm.chain.Last.Value.playerPlayed)
             {
-                if (currentForm.chain.Last.Value.card.card.type != CardType.Unit)
+                if (currentForm.chain.Last.Value.card.card.type == CardType.Upgrade)
                 {
-                    currentForm.DiscardCardFromHand(currentForm.chain.Last.Value.card.card);
+                    currentForm.DiscardCardFromHand(currentForm.chain.Last.Value.card);
                     Primary.game.WriteDataToStream(Protocol.RemoveCardFromEnemyHand, currentForm.chain.Last.Value.card.card.name);                   
-                    currentForm.chain.RemoveLast();
                 }
+                currentForm.chain.RemoveLast();          
                 Primary.game.WriteDataToStream(Protocol.EndSelection);
                 try { currentForm.ResolveChain(); } catch { }
             }
@@ -433,22 +391,52 @@ namespace CourseworkClient.Gui
         }
     }
 
-    class BasicPackButton : Button
+    class BasicPackButton : TexturedButton
     {
-        public BasicPackButton(Rectangle r, string s) : base(r, s) { }
+        const int cost = 50;
+        public BasicPackButton(Rectangle r, string s) : base(r, Primary.game.buttonTexture)
+        {
+            buttonText = s;
+            canBePressed = Primary.game.coins >= cost;
+        }
         public override void OnPress()
         {
-            Primary.game.WriteDataToStream(Protocol.BasicPack);
-            Primary.game.currentForm.Lock("Opening pack...");
+            if (canBePressed)
+            {
+                Primary.game.coins -= cost;
+                Primary.game.WriteDataToStream(Protocol.BasicPack);
+                Primary.game.currentForm.Lock("Opening pack...");
+            }
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
+
         }
     }
-    class PremiumPackButton : Button
+    class PremiumPackButton : TexturedButton
     {
-        public PremiumPackButton(Rectangle r, string s) : base(r, s) { }
+        const int cost = 80;
+        public PremiumPackButton(Rectangle r, string s) : base(r, Primary.game.buttonTexture)
+        {
+            buttonText = s;
+            canBePressed = Primary.game.coins >= cost;
+        }
         public override void OnPress()
         {
-            Primary.game.WriteDataToStream(Protocol.PremiumPack);
-            Primary.game.currentForm.Lock("Opening pack...");
+            if (canBePressed)
+            {
+                Primary.game.coins -= cost;
+                Primary.game.WriteDataToStream(Protocol.PremiumPack);
+                Primary.game.currentForm.Lock("Opening pack...");
+            }
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            base.Draw(sb);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
+
         }
     }
 
@@ -483,8 +471,9 @@ namespace CourseworkClient.Gui
             {
                 Primary.game.WriteDataToStream(Protocol.UpdatedDecks, d.dbID.ToString());
             }
-            currentForm.TransmitDecks();
             currentForm.Lock("Saving Decks...");
+            currentForm.TransmitDecks();
+            
         }
         public override void Draw(SpriteBatch sb)
         {
@@ -518,13 +507,82 @@ namespace CourseworkClient.Gui
             {
                 currentForm.decks.Add(new Deck());
             }
-            currentForm.currentDeck = decknum;       
+            currentForm.currentDeck = decknum;
+            currentForm.deckPageNumber = 0;     
             currentForm.UpdateDeckCardItems();
         }
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
+        }
+    }
+    class FullScreenButton : Button
+    {
+        Color bc, tc;
+        public FullScreenButton(Rectangle r) : base(r, Primary.game.graphics.IsFullScreen ? "Full Screen" : "Not Full Screen")
+        {
+            bc = Primary.game.graphics.IsFullScreen ? Color.Orange : Color.White;
+            tc = Primary.game.graphics.IsFullScreen ? Color.White : Color.Black;
+        }
+        public override void OnPress()
+        {
+            Primary.game.graphics.ToggleFullScreen();
+            Settings.Default.Fullscreen = !Settings.Default.Fullscreen;
+            bc = Primary.game.graphics.IsFullScreen ? Color.Orange : Color.White;
+            tc = Primary.game.graphics.IsFullScreen ? Color.White : Color.Black;
+            if (buttonText == "Full Screen") buttonText = "Not Full Screen";
+            else buttonText = "Full Screen";
+            Settings.Default.Save();
+        }
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(texture, boundingBox, bc);
+            sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X + 5, boundingBox.Y + 5), tc);
+
+        }
+    }
+    class UpdateResolutionButton : Button
+    {
+        public UpdateResolutionButton(Rectangle r) : base(r, "Update Resolution") { }
+        public override void OnPress()
+        {
+            OptionsMenuForm currentForm = (OptionsMenuForm)Primary.game.currentForm;
+            int x = Convert.ToInt32(currentForm.resolutionFields[0].text);
+            int y = Convert.ToInt32(currentForm.resolutionFields[1].text);
+            if (x >= 800)
+            {
+                Settings.Default.Resolution = new System.Drawing.Point(x, Settings.Default.Resolution.Y);
+                Primary.game.graphics.PreferredBackBufferWidth = x;
+            }
+            if (y >= 600)
+            {
+                Settings.Default.Resolution = new System.Drawing.Point(Settings.Default.Resolution.X, y);
+                Primary.game.graphics.PreferredBackBufferHeight = y;
+            }
+            Primary.game.graphics.ApplyChanges();
+            Settings.Default.Save();
+        }
+    }
+    class CurrentDeckButton : Button
+    {
+        public CurrentDeckButton(Rectangle r) : base(r, "Set as current deck") { }
+
+        public override void OnPress()
+        {
+            DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
+            Primary.game.selectedDeckNum = currentForm.currentDeck;
+        }
+    }
+    class LeaderboardButton : Button
+    {
+
+        public LeaderboardButton(Rectangle r) : base(r, "Leaderboards") { }
+
+        public override void OnPress()
+        {
+            Primary.game.WriteDataToStream(Protocol.GetTopPlayers);
+            Primary.game.currentForm.Lock("Getting leaderboards...");
         }
     }
 }

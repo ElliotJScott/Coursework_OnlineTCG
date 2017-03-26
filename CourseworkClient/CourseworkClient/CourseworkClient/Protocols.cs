@@ -13,7 +13,6 @@
         GoodCredentials,
         UsernameTaken,
         AddToQueue,
-        FriendStatus,
         LoggedIn,
         EnterMatch,
         CardData,
@@ -50,9 +49,9 @@
         RemoveCardFromEnemyHand,
         HealHalf,
         HealFull,
-        PowerExtraction,
         AddCardFromDiscard,
         ReturnUnitToHand,
+        ResourceAndResearch,
         WonGame,
         EloAndCoins,
         BasicPack,
@@ -61,5 +60,9 @@
         UpdatedDecks,
         NewDeckCards,
         NewDBDeckID,
+        RemoveFromQueue,
+        QueueTime,
+        GetTopPlayers,
+        TopPlayers,
     }
 }

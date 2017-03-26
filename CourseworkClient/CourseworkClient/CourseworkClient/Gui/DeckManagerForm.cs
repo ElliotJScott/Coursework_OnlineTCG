@@ -13,10 +13,11 @@ namespace CourseworkClient.Gui
         public int currentDeck;
         public int allCardPageNumber = 0;
         public int deckPageNumber = 0;
-        public const int allCardsAcross = 1;
+        public const int allCardsAcross = 4;
         public const int cardsDown = 2;
-        public const int deckCardsAcross = 1;
+        public const int deckCardsAcross = 2;
         public const int numDeckSlots = 8;
+        const int arrowScale = 1;
         public List<DeckCardItem> allCardItems = new List<DeckCardItem>();
         public List<DeckCardItem> deckCardItems = new List<DeckCardItem>();
         public ScrollArrow[] arrows;
@@ -26,17 +27,26 @@ namespace CourseworkClient.Gui
             background = Primary.game.mainMenuBackground;
             formItems.Add(new FormChangeButton(new Rectangle(0, 0, 100, 50), "Main Menu", FormChangeButtonTypes.DeckManagerToMainMenu));
             formItems.Add(new SaveDeckButton(new Rectangle(0, 60, 100, 50), "Save"));
+            formItems.Add(new CurrentDeckButton(new Rectangle(0, 120, 100, 50)));
+            foreach (Deck d in Deck.decks)
+            {
+                Deck m = new Deck(d.dbID);
+                foreach (DeckItem r in d.mainDeck)
+                    m.mainDeck.Add(new DeckItem(r.card, r.quantity));
+                foreach (DeckItem r in d.upgrades)
+                    m.upgrades.Add(new DeckItem(r.card, r.quantity));
+                decks.Add(m);
+            }
             for (int i = 0; i < numDeckSlots; i++)
             {
                 formItems.Add(new DeckButton(new Rectangle(Primary.game.GraphicsDevice.Viewport.Width - 100, i * 50, 100, 50), i, decks.Count));
             }
-            decks = Deck.decks;
             currentDeck = Primary.game.selectedDeckNum;
             arrows = new ScrollArrow[] {
-                new ScrollArrow(new Rectangle(25, 700, Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Left),
-                new ScrollArrow(new Rectangle((220 * allCardsAcross) + 25, 700, Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Right),
-                new ScrollArrow(new Rectangle((220 * allCardsAcross) + 175, 700, Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Left),
-                new ScrollArrow(new Rectangle((220 * (allCardsAcross + deckCardsAcross)) + 175, 700, Primary.game.greenArrowTexture.Width, Primary.game.greenArrowTexture.Height), Orientation.Right),
+                new ScrollArrow(new Rectangle(150, 700, arrowScale*Primary.game.greenArrowTexture.Width, arrowScale*Primary.game.greenArrowTexture.Height), Orientation.Left),
+                new ScrollArrow(new Rectangle((220 * allCardsAcross) + 25, 700, arrowScale*Primary.game.greenArrowTexture.Width, arrowScale*Primary.game.greenArrowTexture.Height), Orientation.Right),
+                new ScrollArrow(new Rectangle((220 * allCardsAcross) + 175, 700, arrowScale*Primary.game.greenArrowTexture.Width, arrowScale*Primary.game.greenArrowTexture.Height), Orientation.Left),
+                new ScrollArrow(new Rectangle((220 * (allCardsAcross + deckCardsAcross)) + 175, 700, arrowScale*Primary.game.greenArrowTexture.Width, arrowScale*Primary.game.greenArrowTexture.Height), Orientation.Right),
             };
             
         }
@@ -86,7 +96,7 @@ namespace CourseworkClient.Gui
                     d[i].Draw(sb);
             foreach (ScrollArrow r in arrows)
                 r.Draw(sb);
-            sb.DrawString(Primary.game.mainFont, string.Format("Cards in main deck : {0}\nCards in upgrade deck : {1}", decks[currentDeck].GetDeckCount(true), decks[currentDeck].GetDeckCount(false)), new Vector2(800, 650), Color.White);
+            sb.DrawString(Primary.game.mainFont, string.Format("Cards in main deck : {0}\nCards in upgrade deck : {1}", decks[currentDeck].GetDeckCount(true), decks[currentDeck].GetDeckCount(false)), new Vector2(1100, 650), Color.White);
 
 
         }
@@ -104,32 +114,39 @@ namespace CourseworkClient.Gui
                     }
                 }
             }
-            foreach (Deck d in decks)
+            for (int i = initNum; i < decks.Count; i++)
             {
-                if (d.dbID < 0)
+                if (decks[i].dbID < 0)
                 {
-                    Primary.game.WriteDataToStream(Protocol.NewDeckCards, d.dbID + "|" + d.mainDeck[0].card.name + "|" + d.mainDeck[0].quantity);
+                    Primary.game.WriteDataToStream(Protocol.NewDeckCards, decks[i].dbID + "|" + decks[i].mainDeck[0].card.name + "|" + decks[i].mainDeck[0].quantity);
                     return;
                 }
                 else
                 {
-                    foreach (List<DeckItem> l in new List<DeckItem>[] { d.mainDeck, d.upgrades })
+                    foreach (List<DeckItem> l in new List<DeckItem>[] { decks[i].mainDeck, decks[i].upgrades })
                     {
                         foreach (DeckItem r in l)
                         {
-                            Primary.game.WriteDataToStream(Protocol.NewDeckCards, d.dbID + "|" + r.card.name + "|" + r.quantity);
+                            Primary.game.WriteDataToStream(Protocol.NewDeckCards, decks[i].dbID + "|" + r.card.name + "|" + r.quantity);
                         }
                     }
                 }
-                Unlock();
 
             }
+            Unlock();
 
         }
         public void UpdateDeckCardItems()
         {
             allCardItems.Clear();
             deckCardItems.Clear();
+            foreach (Deck d in decks)
+            {
+                d.mainDeck.Sort();
+                d.upgrades.Sort();
+                Deck.allOwnedCards.mainDeck.Sort();
+                Deck.allOwnedCards.upgrades.Sort();
+            }
             int startingAllCardIndex = allCardPageNumber * allCardsAcross * cardsDown;
             int startingDeckIndex = deckPageNumber * deckCardsAcross * cardsDown;
             {
@@ -144,14 +161,14 @@ namespace CourseworkClient.Gui
                         if (upgrade) index -= Deck.allOwnedCards.mainDeck.Count;
                         if (index >= source.Count)
                         {
-                            index = 0;
+                            index -= source.Count;
                             source = Deck.allOwnedCards.upgrades;
                             upgrade = true;
                         }
                         allCardItems.Add(new DeckCardItem(source[index].card, new Vector2(120 + (i * 220), 25 + (j * 320)), true));
                         if (upgrade && index == source.Count - 1) break;
                     }
-                    if (allCardItems.Count == Deck.allOwnedCards.mainDeck.Count + Deck.allOwnedCards.upgrades.Count) break;
+                    if (allCardItems.Count + startingAllCardIndex == Deck.allOwnedCards.mainDeck.Count + Deck.allOwnedCards.upgrades.Count) break;
                 }
             }
             {
@@ -164,9 +181,9 @@ namespace CourseworkClient.Gui
 
                         int index = j + (cardsDown * i) + startingDeckIndex;
                         if (upgrade) index -= decks[currentDeck].mainDeck.Count;
-                        if (index > source.Count || source.Count == 0)
+                        if (index >= source.Count || source.Count == 0)
                         {
-                            index = 0;
+                            index = Math.Max(index - source.Count, 0);
                             source = decks[currentDeck].upgrades;
                             upgrade = true;
 
@@ -178,7 +195,7 @@ namespace CourseworkClient.Gui
                         catch { }
                         if (upgrade && index == source.Count - 1) break;
                     }
-                    if (deckCardItems.Count == decks[currentDeck].mainDeck.Count + decks[currentDeck].upgrades.Count) break;
+                    if (deckCardItems.Count + startingDeckIndex == decks[currentDeck].mainDeck.Count + decks[currentDeck].upgrades.Count) break;
                 }
             }
         }

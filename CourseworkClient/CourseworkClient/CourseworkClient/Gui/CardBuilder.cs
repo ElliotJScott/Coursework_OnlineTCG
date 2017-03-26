@@ -27,6 +27,7 @@ namespace CourseworkClient.Gui
         public static void DrawCard(Card c, Vector2 pos, bool big, SpriteBatch sb, bool playerPlayed, bool tapped) //Note this doesn't include the text which only applies to the big cards
         {
             #region Inner and Outer Texture Setting
+            Vector2 original = new Vector2(pos.X, pos.Y);
             Texture2D innerTexture = null;
             Texture2D cardOutline;
             if (big)
@@ -64,19 +65,23 @@ namespace CourseworkClient.Gui
             }
             #endregion
             float rotation = playerPlayed ? 0f : ((float)Math.PI);
-            pos += !playerPlayed && !big? new Vector2(cardOutline.Width, cardOutline.Height) : new Vector2(0);
-            Vector2 cardCentre = new Vector2(0, 0);
+            pos += !playerPlayed && !big? new Vector2(cardOutline.Width / 2, cardOutline.Height / 2) : new Vector2(0);
+            Vector2 cardCentre = playerPlayed || big ? new Vector2(0) : new Vector2(innerTexture.Width / 2, innerTexture.Height / 2);
             sb.Draw(innerTexture, new Rectangle((int)pos.X, (int)pos.Y, innerTexture.Width, innerTexture.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
             int disp = big ? 13 : 6;
             Texture2D cardArt = Primary.game.GetCardArt(c.name);
-            int artX = big ? (int)pos.X + cardArtDispX : (int)pos.X + (cardArtDispX / 2);
-            int artY = big ? (int)pos.Y + cardArtDispY : (int)pos.Y + (cardArtDispY / 2);
-            if (!playerPlayed && !big)
+            int artX, artY;
+            if (playerPlayed || big)
             {
-                artX += cardArt.Width;
-                artY += cardArt.Height;
+                artX = big ? (int)pos.X + cardArtDispX + (cardArt.Width / 2): (int)pos.X + (cardArtDispX / 2) + (cardArt.Width / 4);
+                artY = big ? (int)pos.Y + cardArtDispY + (cardArt.Height / 2): (int)pos.Y + (cardArtDispY / 2) + (cardArt.Height / 4);
             }
-            sb.Draw(cardArt, new Rectangle(artX, artY, big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
+            else
+            {
+                artX = (int)pos.X;
+                artY = (int)pos.Y + 22;
+            }
+            sb.Draw(cardArt, new Rectangle(artX, artY, big ? cardArt.Width : cardArt.Width / 2, big ? cardArt.Height : cardArt.Height / 2), null, Color.White, rotation, new Vector2(cardArt.Width / 2, cardArt.Height / 2), SpriteEffects.None, 1);
             if (big)
             {
                 if (c.name.Length > maxCharsPerNameLine)
@@ -103,25 +108,29 @@ namespace CourseworkClient.Gui
                 {
                     InGameForm currentForm = (InGameForm)Primary.game.currentForm;
                     List<string> upgradeNames = new List<string>();
-                    SmallCard sc = currentForm.GetDrawnSmallCard();
-                    foreach (Upgrade u in currentForm.upgradesInPlay)
+                    try
                     {
-                        if (u.unitID == sc.id)
+                        SmallCard sc = currentForm.GetDrawnSmallCard();
+                        foreach (Upgrade u in currentForm.upgradesInPlay)
                         {
-                            upgradeNames.Add(currentForm.GetUpgradeFromID(u.upgradeID, null).card.name);
+                            if (u.unitID == sc.id)
+                            {
+                                upgradeNames.Add(currentForm.GetUpgradeFromID(u.upgradeID, null).card.name);
+                            }
+                        }
+                        sb.DrawString(Primary.game.mainFont, "Equipped Upgrades:", new Vector2((int)pos.X, cardOutline.Height + (int)pos.Y), Color.Red);
+                        for (int i = 0; i < upgradeNames.Count; i++)
+                        {
+                            sb.DrawString(Primary.game.mainFont, upgradeNames[i], new Vector2((int)pos.X, 5 + (i * 20) + cardOutline.Height + (int)pos.Y), Color.Red);
                         }
                     }
-                    sb.DrawString(Primary.game.mainFont, "Equipped Upgrades:", new Vector2((int)pos.X, cardOutline.Height + (int)pos.Y), Color.Red);
-                    for (int i = 0; i < upgradeNames.Count; i++)
-                    {
-                        sb.DrawString(Primary.game.mainFont, upgradeNames[i], new Vector2((int)pos.X, ((i + 1) * 100) + cardOutline.Height + (int)pos.Y), Color.Red);
-                    }
+                    catch { }
                 }
             }
             sb.Draw(cardOutline, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), null, Color.White, rotation, cardCentre, SpriteEffects.None, 1);
             if (tapped && !big)
             {
-                sb.Draw(Primary.game.cardTappedIndicator, new Rectangle((int)pos.X, (int)pos.Y, cardOutline.Width, cardOutline.Height), Color.White);
+                sb.Draw(Primary.game.cardTappedIndicator, new Rectangle((int)original.X, (int)original.Y, cardOutline.Width, cardOutline.Height), Color.White);
             }
         }
         /// <summary>

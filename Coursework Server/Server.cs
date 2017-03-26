@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace CourseworkServer
@@ -78,7 +79,7 @@ namespace CourseworkServer
         /// <returns>The range of elos</returns>
         public static int GetRangeFromTime(double t)
         {
-            return (int)(50 * Math.Atan((t / 15) - 6) + 120);
+            return (int)(130 + (70 * Math.Atan((t - 30) / 10)));
         }
         /// <summary>
         /// Checks if there is a valid match that could be created out of all of the players queued
@@ -91,6 +92,7 @@ namespace CourseworkServer
                 {
                     Console.WriteLine(i + ": " + server.connectedClients[i].userName + " is in queue. Time: " + server.connectedClients[i].queuetime + ". Range = " + GetRangeFromTime(server.connectedClients[i].queuetime));
                     server.connectedClients[i].queuetime++;
+                    server.connectedClients[i].SendData(addProtocolToArray(toByteArray(server.connectedClients[i].queuetime.ToString()), Protocol.QueueTime));
                     for (int j = 0; j < i; j++)
                     {
                         if (server.connectedClients[j].status == Status.InQueue)
@@ -99,6 +101,10 @@ namespace CourseworkServer
                             if (Math.Abs(server.connectedClients[i].elo - server.connectedClients[j].elo) <= range)
                             {
                                 CreateMatch(server.connectedClients[i], server.connectedClients[j]);
+                                server.connectedClients[i].status = Status.InGame;
+                                server.connectedClients[j].status = Status.InGame;
+                                server.connectedClients[i].queuetime = 0;
+                                server.connectedClients[j].queuetime = 0;
                             }
                         }
                     }
@@ -164,10 +170,6 @@ namespace CourseworkServer
         /// </summary>
         public Server()
         {
-            if (!File.Exists("Messages.txt"))
-            {
-                File.Create("Messages.txt");
-            }
             Console.WriteLine("Initialising Server");
             listener = new Listener();
             connectedClients = new List<Client>();
@@ -197,6 +199,13 @@ namespace CourseworkServer
         public void user_UserDisconnected(Client user)
         {
             Console.WriteLine("Removing user");
+            if (user.status == Status.InGame)
+            {
+                Client c = GetOpponent(user);
+                queue.Enqueue(new ActionItem(Operation.EloCoinChangesForLeaver, string.Format("{0}|{1}|{2}|{3}|{4}|{5}", user.userName, user.elo, user.coins, c.userName, c.elo, c.coins), user));
+                Match m = GetMatch(user);
+                currentMatches.Remove(m);
+            }
             connectedClients.Remove(user);
         }
         /// <summary>
@@ -260,35 +269,42 @@ namespace CourseworkServer
                     break;
             }
         }
+        public void user_DataReceived(Client sender, byte[] data)
+        {
+            string s = byteArrayToString(data);
+            List<string> l = s.Split('`').ToList();
+            foreach (string x in l)
+            {
+                if (x != null && x.Length != 0) HandleData(sender, (Protocol)x[0], x.Substring(1));
+            }
+
+        }
+        static string byteArrayToString(byte[] b)
+        {
+            string output = "";
+            foreach (byte a in b)
+            {
+                output += (char)a;
+            }
+            return output;
+        }
         /// <summary>
         /// Called whenever data is received from a client
         /// </summary>
         /// <param name="sender">The client sending the data</param>
-        /// <param name="data">The data sent</param>
-        private void user_DataReceived(Client sender, byte[] data)
+        /// <param name="s">The data sent</param>
+        private void HandleData(Client sender, Protocol p, string s)
         {
-            Protocol p = (Protocol)data[0];
-
-            Console.WriteLine(p);
-            foreach (byte b in data) Console.Write(" " + b);
-            //SendData(data, sender);
-            char[] chars = new char[data.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                chars[i] = (char)data[i];
-            }
-            string s = new string(chars);
-            Console.WriteLine(s);
             switch (p)
             {
                 case Protocol.CreateAccount:
                     queue.Enqueue(new ActionItem(Operation.AddNewAccount, s, sender, Priority.high));
                     break;
                 case Protocol.LogIn:
-                    queue.Enqueue(new ActionItem(Operation.CheckCredentials, s, sender));
+                    queue.Enqueue(new ActionItem(Operation.CheckCredentials, s, sender, Priority.high));
                     break;
                 case Protocol.AddToQueue:
-                    queue.Enqueue(new ActionItem(Operation.AddToQueue, s, sender));
+                    queue.Enqueue(new ActionItem(Operation.AddToQueue, s, sender, Priority.high));
                     break;
                 case Protocol.WonGame:
                     queue.Enqueue(new ActionItem(Operation.CalculateEloCoinChanges, s, sender));
@@ -300,10 +316,16 @@ namespace CourseworkServer
                     queue.Enqueue(new ActionItem(Operation.PremiumPack, s, sender));
                     break;
                 case Protocol.UpdatedDecks:
-                    queue.Enqueue(new ActionItem(Operation.ClearDBDeckCards, s.Substring(1), sender));
+                    queue.Enqueue(new ActionItem(Operation.ClearDBDeckCards, s, sender));
                     break;
                 case Protocol.NewDeckCards:
-                    queue.Enqueue(new ActionItem(Operation.AddCardToDeck, s.Substring(1), sender));
+                    queue.Enqueue(new ActionItem(Operation.AddCardToDeck, s, sender));
+                    break;
+                case Protocol.RemoveFromQueue:
+                    queue.Enqueue(new ActionItem(Operation.RemoveFromQueue, s, sender));
+                    break;
+                case Protocol.GetTopPlayers:
+                    queue.Enqueue(new ActionItem(Operation.GetTopPlayers, s, sender));
                     break;
                 case Protocol.ControlUnit:
                 case Protocol.DiscardFromDeck:
@@ -332,11 +354,11 @@ namespace CourseworkServer
                 case Protocol.RemoveCardFromEnemyHand:
                 case Protocol.HealHalf:
                 case Protocol.HealFull:
-                case Protocol.PowerExtraction:
                 case Protocol.AddCardFromDiscard:
                 case Protocol.ReturnUnitToHand:
+                case Protocol.ResourceAndResearch:
                     //If the data does not need to be processed by the server
-                    GetOpponent(sender).SendData(data);
+                    GetOpponent(sender).SendData(addProtocolToArray(toByteArray(s), p));
                     break;
             }
         }
@@ -414,6 +436,14 @@ namespace CourseworkServer
                 if (c.userName == username) return true;
             }
             return false;
+        }
+
+        public Match GetMatch(Client c)
+        {
+            foreach (Match m in currentMatches)
+                if (m.players.Contains(c.userName))
+                    return m;
+            throw new ArgumentException();
         }
         /// <summary>
         /// Gets the connected client with the given username

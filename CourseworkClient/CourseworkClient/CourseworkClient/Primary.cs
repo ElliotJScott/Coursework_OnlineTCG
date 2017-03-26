@@ -42,7 +42,7 @@ namespace CourseworkClient
     }
     public class Primary : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public Random rng = new Random();
         public KeyPressHandler keypresshandler = new KeyPressHandler();
@@ -70,7 +70,6 @@ namespace CourseworkClient
         public SpriteFont mainFont, cardTextFont;
         public static Primary game;
         public Form currentForm;
-        public FriendManager friendManager;
         public List<CardArtItem> cardArt = new List<CardArtItem>();
         TcpClient client;
         MemoryStream readMemoryStream, writeMemoryStream;
@@ -106,10 +105,10 @@ namespace CourseworkClient
             Log("Creating instance of game");
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 720;
-            graphics.PreferredBackBufferWidth = 1080;
+            graphics.PreferredBackBufferHeight = Settings.Default.Resolution.Y;
+            graphics.PreferredBackBufferWidth = Settings.Default.Resolution.X;
             Window.Title = "Hearthclone";
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = Settings.Default.Fullscreen;
         }
 
         /// <summary>
@@ -128,7 +127,6 @@ namespace CourseworkClient
             IsMouseVisible = true;
             ratio = CalculateRatio();
             new Thread(new ThreadStart(ConnectClient)).Start();
-            //friendManager = new FriendManager();
             base.Initialize();
             Log("Finished initialising");
         }
@@ -462,9 +460,6 @@ namespace CourseworkClient
                     username = ((TextField)(((LoginScreenForm)currentForm).formItems[0])).text;
                     currentForm = new MainMenuForm();
                     break;
-                case Protocol.FriendStatus:
-                    //Add more stuff here later
-                    break;
                 case Protocol.LoggedIn:
                     try
                     {
@@ -581,8 +576,7 @@ namespace CourseworkClient
                     ((InGameForm)currentForm).DealDamageToUnit(Convert.ToInt32(s), 3, false);
                     break;
                 case Protocol.DeathInHonour:
-                    ((InGameForm)currentForm).KillUnit(Convert.ToInt32(s));
-#warning put the damage component in later. Remember to put it in before the line above
+                    ((InGameForm)currentForm).DeathInHonour(Convert.ToInt32(s), false);
                     break;
                 case Protocol.RemoveCardFromEnemyHand:
                     ((InGameForm)currentForm).numEnemyCardsInHand--;
@@ -594,17 +588,17 @@ namespace CourseworkClient
                 case Protocol.HealFull:
                     ((InGameForm)currentForm).HealUnit(Convert.ToInt32(s), 1, false);
                     break;
-                case Protocol.PowerExtraction:
-                    ((InGameForm)currentForm).enemyResource += 2;
-                    break;
                 case Protocol.AddCardFromDiscard:
                     ((InGameForm)currentForm).AddCardToEnemyHand(s, false);
                     break;
                 case Protocol.ReturnUnitToHand:
                     ((InGameForm)currentForm).ReturnUnitToHand(Convert.ToInt32(s), false);
                     break;
+                case Protocol.ResourceAndResearch:
+                    ((InGameForm)currentForm).UpdateEnemyResources(s);
+                    break;
                 case Protocol.EloAndCoins:
-                    string[] x = s.Split('a');
+                    string[] x = s.Split('|');
                     elo = Convert.ToInt32(x[0]);
                     coins = Convert.ToInt32(x[1]);
                     if (currentForm.GetType() == typeof(InGameForm))
@@ -636,12 +630,22 @@ namespace CourseworkClient
                     DeckManagerForm cf = (DeckManagerForm)currentForm;
                     foreach (Deck d in cf.decks)
                     {
-                        if (d.dbID == oldid)
+                        if (d.dbID == newid)
                         {
-                            d.dbID = newid;
                             cf.TransmitDecks(newid);
                         }
                     }
+                    break;
+                case Protocol.QueueTime:
+                    try
+                    {
+                        ((QueueForm)currentForm).timeInQueue = Convert.ToInt32(s);
+                    }
+                    catch { }
+                    break;
+                case Protocol.TopPlayers:
+                    currentForm = new LeaderboardForm(s);
+                    currentForm.Unlock();
                     break;
                 default:
                     ShowMessage("Unexpected Protocol: " + p.ToString());
@@ -755,12 +759,16 @@ namespace CourseworkClient
         /// <param name="b">The data to send</param>
         public void SendData(byte[] b)
         {
+            byte[] a = new byte[b.Length + 2];
+            a[0] = (byte)'`';
+            a[a.Length - 1] = (byte)'`';
+            for (int i = 1; i < a.Length - 1; i++) a[i] = b[i - 1];
             try
             {
-                Log("Sending Data length " + b.Length);
+                Log("Sending Data length " + a.Length);
                 lock (client.GetStream())
                 {
-                    client.GetStream().BeginWrite(b, 0, b.Length, null, null);
+                    client.GetStream().BeginWrite(a, 0, a.Length, null, null);
                 }
             }
             catch

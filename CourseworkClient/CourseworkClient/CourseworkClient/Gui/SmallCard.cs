@@ -116,7 +116,7 @@ namespace CourseworkClient.Gui
                     {
                         foreach (SmallCard c in ((SelectionForm)Primary.game.currentForm).cards) StopDrawBig(c);
                         drawnBig = true;
-                        ((SelectionForm)Primary.game.currentForm).bigCard = new BigCard(card, new Vector2(200, 200));
+                        ((SelectionForm)Primary.game.currentForm).bigCard = new BigCard(card, new Vector2((Primary.game.GraphicsDevice.Viewport.Width * 3)/4, 200));
                     }
                 }
                 wasDrawnBig = false;

@@ -8,7 +8,7 @@ namespace CourseworkClient
     /// <summary>
     /// Defines a card in a deck and the quantity in it
     /// </summary>
-    public class DeckItem
+    public class DeckItem : IComparable
     {
         public Card card;
         public int quantity;
@@ -17,7 +17,48 @@ namespace CourseworkClient
             card = c;
             quantity = q;
         }
+        /// <summary>
+        /// Compares two deckitems for sorting purposes
+        /// </summary>
+        /// <param name="obj">The deckitem to compare to</param>
+        /// <returns>Negative if this should come first, 0 if they are equal, positive if the parameter should come first</returns>
+        public int CompareTo(object obj)
+        {
+            if (obj.GetType() != GetType()) throw new ArgumentException();
+            DeckItem d = (DeckItem)obj;
+            if (card.type == CardType.Upgrade)
+            {
+                if (d.card.type != CardType.Upgrade) return 1;
+                else return card.name.CompareTo(d.card.name);
+            }
+            if (card.type == CardType.Tech)
+            {
+                switch (d.card.type)
+                {
+                    case CardType.Upgrade:
+                        return -1;
+                    case CardType.Tech:
+                        return card.name.CompareTo(d.card.name);
+                    case CardType.Unit:
+                        return 1;
+                }
+            }
+            if (card.type == CardType.Unit)
+            {
+                if (d.card.type != CardType.Unit) return -1;
+                else
+                {
+                    foreach (string s in Gui.InGameForm.races)
+                    {
+                        if (card.hasEffect(s) && d.card.hasEffect(s)) return card.name.CompareTo(d.card.name);
+                        else if (card.hasEffect(s)) return -1;
+                        else if (d.card.hasEffect(s)) return 1;
+                    }
 
+                }
+            }
+            return card.name.CompareTo(d.card.name);
+        }
     }
     public class Deck
     {
@@ -70,7 +111,9 @@ namespace CourseworkClient
                         if (d.quantity <= 0)
                         {
                             f.Remove(d);
+                           
                         }
+                        return;
                     }
                 }
             }
@@ -106,7 +149,15 @@ namespace CourseworkClient
 
             }
         }
-
+        public int GetNumWithEffect(Effect e)
+        {
+            int x = 0;
+            foreach (List<DeckItem> f in new List<DeckItem>[] { mainDeck, upgrades })
+                foreach (DeckItem d in f)
+                    if (d.card.effects.Contains(e))
+                        x++;
+            return x;
+        }
         public void AddAdditionalCard(Card c)
         {
             foreach (List<DeckItem> d in new List<DeckItem>[] { mainDeck, upgrades })
@@ -119,8 +170,13 @@ namespace CourseworkClient
                         return;
                     }
                 }
+                if (c.type != CardType.Upgrade)
+                {
+                    mainDeck.Add(new DeckItem(c, 1));
+                    return;
+                }
             }
-            AddCardToDeck(c, dbID);
+            upgrades.Add(new DeckItem(c, 1));
         }
 
         public int GetCardQuantity(Card c)

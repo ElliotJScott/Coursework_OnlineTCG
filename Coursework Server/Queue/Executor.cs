@@ -46,7 +46,7 @@ namespace CourseworkServer
                 #region AddNewAccount 
                 case Operation.AddNewAccount: //Checks if the username sent is in use or not and returns the result to the sender. If the account does not exist it is created.
                     {
-                        string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(1).Split('|');
+                        string[] usernameAndPasswordHash = ((string)currentItem.data).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1", usernameAndPasswordHash[0]);
                         if ((int)data[0][0] == 0)
                         {
@@ -65,7 +65,7 @@ namespace CourseworkServer
                 #region CheckCredentials
                 case Operation.CheckCredentials: //Checks if the given username and password are correct or if the player is already logged in. Returns the result of this. If the player is not logged in their decks, all the cards in the game and other details are sent to them.
                     {
-                        string[] usernameAndPasswordHash = ((string)currentItem.data).Substring(1).Split('|');
+                        string[] usernameAndPasswordHash = ((string)currentItem.data).Split('|');
                         object[][] data = Server.server.dbHandler.DoParameterizedSQLQuery("select count(*) from Accounts where Username = @p1 and PasswordHash = @p2", usernameAndPasswordHash[0], usernameAndPasswordHash[1]);
                         if ((int)data[0][0] == 0)
                         {
@@ -88,9 +88,7 @@ namespace CourseworkServer
                 #region AddToQueue
                 case Operation.AddToQueue: //Adds the sender to the queue to play a game
                     {
-                        int qs = Convert.ToInt32(((string)currentItem.data).Substring(1));
                         currentItem.sender.status = Status.InQueue;
-                        currentItem.sender.queueStatus = qs;
                         currentItem.sender.queuetime = 0;
                     }
                     break;
@@ -105,7 +103,7 @@ namespace CourseworkServer
                         int coins = (int)o[1];
                         currentItem.sender.elo = elo;
                         currentItem.sender.coins = coins;
-                        currentItem.sender.SendData(Server.addProtocolToArray(Server.toByteArray(elo + "a" + coins), Protocol.EloAndCoins));
+                        currentItem.sender.SendData(Server.addProtocolToArray(Server.toByteArray(elo + "|" + coins), Protocol.EloAndCoins));
                     }
                     break;
                 #endregion
@@ -155,24 +153,32 @@ namespace CourseworkServer
                 #endregion
                 #region CalculateEloCoinChanges
                 case Operation.CalculateEloCoinChanges:
-                    Client winner = currentItem.sender;
-                    Client loser = Server.server.GetOpponent(winner);
-                    int diff = winner.elo - loser.elo;
-                    int g = 100 + (int)Math.Pow((double)diff / 60, 3d);
-                    g = Math.Min(g, loser.elo);
-                    winner.elo += g;
-                    loser.elo -= g;
-                    int winnerCoin = 35 + (int)(g * 1.2d);
-                    int loserCoin = 15 + (int)(g * 0.8d);
-                    Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", winner.elo, winnerCoin, winner.userName);
-                    Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loser.elo, loserCoin, loser.userName);
-                    winner.SendData(Server.addProtocolToArray(Server.toByteArray(winner.elo + "a" + winnerCoin), Protocol.EloAndCoins));
-                    loser.SendData(Server.addProtocolToArray(Server.toByteArray(loser.elo + "a" + loserCoin), Protocol.EloAndCoins));
+                    {
+                        Client winner = currentItem.sender;
+                        Client loser = Server.server.GetOpponent(winner);
+                        double diff = winner.elo - loser.elo;
+                        int g = (int)(100 * Math.Exp(diff * -0.003));
+                        g = Math.Min(g, loser.elo);
+                        winner.elo += g;
+                        loser.elo -= g;
+                        int winnerCoin = 35 + (int)(g * 1.2d);
+                        int loserCoin = 15 + (int)(g * 0.8d);
+                        winner.coins += winnerCoin;
+                        loser.coins += loserCoin;
+                        winner.status = Status.Online;
+                        loser.status = Status.Online;
+                        Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", winner.elo, winner.coins, winner.userName);
+                        Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loser.elo, loser.coins, loser.userName);
+                        winner.SendData(Server.addProtocolToArray(Server.toByteArray(winner.elo + "|" + winnerCoin), Protocol.EloAndCoins));
+                        loser.SendData(Server.addProtocolToArray(Server.toByteArray(loser.elo + "|" + loserCoin), Protocol.EloAndCoins));
+                    }
                     break;
                 #endregion
                 #region BasicPack
                 case Operation.BasicPack:
                     {
+                        currentItem.sender.coins -= 50;
+                        Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set gold = @p1 where username = @p2", currentItem.sender.coins, currentItem.sender.userName);
                         string[] cards = Server.server.GetPackCards(0.25, 0.15);
                         Server.server.UpdatePackCardsOnDB(currentItem.sender, cards);
                         TransmitObjectArray(cards, currentItem.sender, Protocol.PackCards);
@@ -182,6 +188,8 @@ namespace CourseworkServer
                 #region PremiumPack
                 case Operation.PremiumPack:
                     {
+                        currentItem.sender.coins -= 80;
+                        Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set gold = @p1 where username = @p2", currentItem.sender.coins, currentItem.sender.userName);
                         string[] cards = Server.server.GetPackCards(0.4, 0.3);
                         Server.server.UpdatePackCardsOnDB(currentItem.sender, cards);
                         TransmitObjectArray(cards, currentItem.sender, Protocol.PackCards);
@@ -207,7 +215,7 @@ namespace CourseworkServer
                             object[][] o = Server.server.dbHandler.DoParameterizedSQLQuery("select accountid from accounts where username = @p1", currentItem.sender.userName);
                             int accountid = Convert.ToInt32(o[0][0]);
                             Server.server.dbHandler.DoParameterizedSQLCommand("insert into decks values (@p1, 0)", accountid);
-                            object[][] d = Server.server.dbHandler.DoParameterizedSQLQuery("select deckid from decks where accountid = @p1 and allcards = 0");
+                            object[][] d = Server.server.dbHandler.DoParameterizedSQLQuery("select deckid from decks where accountid = @p1 and allcards = 0", accountid);
                             int x = -1;
                             foreach (object[] r in d)
                             {
@@ -219,6 +227,46 @@ namespace CourseworkServer
                         int cardID = (int)(Server.server.dbHandler.DoParameterizedSQLQuery("select cardid from cards where cardname = @p1", cardName)[0][0]);
                         Server.server.dbHandler.DoParameterizedSQLCommand("insert into deckcards values(@p1, @p2, @p3)", cardID, deckid, quantity);
 
+                    }
+                    break;
+                case Operation.RemoveFromQueue:
+                    currentItem.sender.status = Status.Online;
+                    currentItem.sender.queuetime = 0;
+                    break;
+                case Operation.EloCoinChangesForLeaver:
+                    {
+                        string[] x = ((string)currentItem.data).Split('|');
+                        int winnerElo = Convert.ToInt32(x[4]);
+                        int loserElo = Convert.ToInt32(x[1]);
+                        int diff = winnerElo - loserElo;
+                        int g = (int)(100 * Math.Exp(diff * -0.003));
+                        g = Math.Min(g, loserElo);
+                        winnerElo += g;
+                        loserElo -= g;
+                        int winnerCoin = (Convert.ToInt32(x[5])) + 35 + (int)(g * 1.2d);
+                        int loserCoin = (Convert.ToInt32(x[2])) + 15 + (int)(g * 0.8d);
+                        Client f = Server.server.GetClient(x[3]);
+                        f.elo = winnerElo;
+                        f.coins = winnerCoin;
+                        f.status = Status.Online;
+                        Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", winnerElo, winnerCoin, f.userName);
+                        Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loserElo, loserCoin, x[0]);
+                        f.SendData(Server.addProtocolToArray(Server.toByteArray(winnerElo + "|" + winnerCoin), Protocol.EloAndCoins));
+                    }
+                    break;
+                case Operation.GetTopPlayers:
+                    {
+                        object[][] o = Server.server.dbHandler.DoParameterizedSQLQuery("select top 15 username, elo from accounts order by elo desc");
+                        string x = "";
+                        foreach (object[] r in o)
+                        {
+                            foreach (object m in r)
+                            {
+                                x += m.ToString() + "|"; 
+                            }
+                        }
+                        x = x.Remove(x.Length - 1);
+                        currentItem.sender.SendData(Server.addProtocolToArray(Server.toByteArray(x), Protocol.TopPlayers));
                     }
                     break;
             }

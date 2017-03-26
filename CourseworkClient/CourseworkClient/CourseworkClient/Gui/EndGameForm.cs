@@ -22,7 +22,7 @@ namespace CourseworkClient.Gui
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
-            sb.DrawString(Primary.game.mainFont, string.Format("Your {0} elo - {1}\nYour coins - {2}", Primary.game.username, Primary.game.elo, Primary.game.coins), new Vector2(500, 500), Color.Black);
+            sb.DrawString(Primary.game.mainFont, string.Format("Your ({0}) elo - {1}\nYour coins - {2}", Primary.game.username, Primary.game.elo, Primary.game.coins), new Vector2(500, 500), Color.White);
         }
     }
 }

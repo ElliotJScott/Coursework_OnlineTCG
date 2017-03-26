@@ -13,6 +13,7 @@ namespace CourseworkClient.Gui
         public BigCard bigCard;
         public List<SmallCard> cards = new List<SmallCard>();
         public Function function;
+        string text;
         /// <summary>
         /// Creates a new SelectionForm with a pre-existing SelectionItem
         /// </summary>
@@ -24,6 +25,7 @@ namespace CourseworkClient.Gui
             gameForm = form;
             bigCard = null;
             PopulateCards(s);
+            text = s.text;
             Viewport v = Primary.game.GraphicsDevice.Viewport;
             formItems.Add(new sBackButton(new Rectangle( ((v.Width * 7)/8) - (Primary.game.buttonTexture.Width / 2), 200 + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height ) ) );
             formItems.Add(new sSelectButton(new Rectangle(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 210 + Primary.game.buttonTexture.Height + (v.Height - Primary.game.buttonTexture.Height) / 2, Primary.game.buttonTexture.Width, Primary.game.buttonTexture.Height)));
@@ -83,7 +85,9 @@ namespace CourseworkClient.Gui
             }
             if (bigCard != null)
                 bigCard.Draw(sb);
-
+            Viewport v = Primary.game.GraphicsDevice.Viewport;
+            if (text != null)
+                sb.DrawString(Primary.game.mainFont, text, new Vector2(((v.Width * 7) / 8) - (Primary.game.buttonTexture.Width / 2), 220 + (2 * Primary.game.buttonTexture.Height) + (v.Height - Primary.game.buttonTexture.Height) / 2), Color.White);
         }
         public override void Update()
         {

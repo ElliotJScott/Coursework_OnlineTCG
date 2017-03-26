@@ -374,3 +374,4 @@ C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\Coursewo
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Missing Health.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\Remaining Health.xnb
 C:\Users\Lisa\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\Content\CardCountCircle.xnb
+C:\Users\Robert\Source\Repos\Coursework\CourseworkClient\CourseworkClient\CourseworkClient\bin\x86\Debug\CourseworkClient.exe.config

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace CourseworkClient
 {
@@ -8,12 +9,12 @@ namespace CourseworkClient
     {
         public bool selected = false;
         public string text = "";
-        readonly int maxLength;
-        bool drawBar = false;
-        readonly bool hideText;
-        readonly string caption;
-        int drawBarTimer = 0;
-        const int drawBarTimePeriod = 40;
+        public readonly int maxLength;
+        public bool drawBar = false;
+        public readonly bool hideText;
+        public readonly string caption;
+        public int drawBarTimer = 0;
+        public const int drawBarTimePeriod = 40;
 
         /// <summary>
         /// Creates a new TextField

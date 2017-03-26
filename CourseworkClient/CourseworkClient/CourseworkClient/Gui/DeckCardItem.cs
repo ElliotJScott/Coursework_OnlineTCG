@@ -39,16 +39,27 @@ namespace CourseworkClient.Gui
                 DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;
                 if (Clicked() && num > 0)
                 {
-                    num--;
                     if (inAllCards)
                     {
-                        currentForm.decks[currentForm.currentDeck].AddAdditionalCard(card.card);
+                        int f = currentForm.decks[currentForm.currentDeck].GetCardQuantity(card.card);
+                        bool b = true;
+                        if (f >= 4) b = false;
+                        if (f >= 2 && card.card.hasEffect("Semi-Unique")) b = false;
+                        if (f >= 1 && card.card.hasEffect("Unique")) b = false;
+                        if (currentForm.decks[currentForm.currentDeck].GetNumWithEffect(Effect.GetEffect("Leader")) >= 2 && card.card.hasEffect("Leader")) b = false;
+                        if (b)
+                        {
+                            currentForm.decks[currentForm.currentDeck].AddAdditionalCard(card.card);
+                        }
+                        num = Deck.allOwnedCards.GetCardQuantity(card.card) - currentForm.decks[currentForm.currentDeck].GetCardQuantity(card.card);
                     }
                     else
                     {
+                        num--;
                         currentForm.decks[currentForm.currentDeck].DecreaseQuantity(card.card, 1);
                     }
                     currentForm.UpdateDeckCardItems();
+                    return;
                 }
                 if (inAllCards)
                 {

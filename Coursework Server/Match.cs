@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseworkServer
 {
+#pragma warning disable
     class Match
     {
         public string[] players;
@@ -20,6 +21,10 @@ namespace CourseworkServer
             players = new string[] { player1.userName, player2.userName };
             gameTime = 0;
             
+        }
+        public override bool Equals(object obj)
+        {
+            return players.Equals(((Match)obj).players);
         }
     }
 }

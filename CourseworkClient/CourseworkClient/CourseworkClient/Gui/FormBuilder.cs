@@ -15,14 +15,15 @@ namespace CourseworkClient.Gui
         CreateAccountToLogIn,
         MainMenuToOptions,
         OptionsToMainMenu,
-        MainMenuToQueueSelect,
-        QueueSelectToMainMenu,
+        MainMenuToQueue,
+        QueueToMainMenu,
         MainMenuToStore,
         StoreToMainMenu,
         MainMenuToDeckManager,
         DeckManagerToMainMenu,
         EndGameToMainMenu,
         PackOpeningToMainMenu,
+        LeaderboardToMainMenu,
     }
     class FormBuilder
     {
@@ -41,18 +42,22 @@ namespace CourseworkClient.Gui
                     return new CreateAccountForm();
                 case FormChangeButtonTypes.MainMenuToOptions:
                     return new OptionsMenuForm();
-                case FormChangeButtonTypes.MainMenuToQueueSelect:
-                    return new QueueSelectForm();
+                case FormChangeButtonTypes.MainMenuToQueue:
+                    Primary.game.WriteDataToStream(Protocol.AddToQueue);
+                    return new QueueForm();
                 case FormChangeButtonTypes.MainMenuToDeckManager:
                     return new DeckManagerForm();
                 case FormChangeButtonTypes.MainMenuToStore:
                     return new StoreForm();
+                case FormChangeButtonTypes.QueueToMainMenu:
+                    Primary.game.WriteDataToStream(Protocol.RemoveFromQueue);
+                    return new MainMenuForm();
                 case FormChangeButtonTypes.OptionsToMainMenu:
-                case FormChangeButtonTypes.QueueSelectToMainMenu:
                 case FormChangeButtonTypes.StoreToMainMenu:
                 case FormChangeButtonTypes.EndGameToMainMenu:
                 case FormChangeButtonTypes.PackOpeningToMainMenu:
                 case FormChangeButtonTypes.DeckManagerToMainMenu:
+                case FormChangeButtonTypes.LeaderboardToMainMenu:
                     return new MainMenuForm();
                     
                 default:

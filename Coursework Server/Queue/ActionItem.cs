@@ -29,6 +29,9 @@ namespace CourseworkServer
         PremiumPack,
         ClearDBDeckCards,
         AddCardToDeck,
+        RemoveFromQueue,
+        EloCoinChangesForLeaver,
+        GetTopPlayers,
     }
     class ActionItem
     {

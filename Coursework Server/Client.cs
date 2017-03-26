@@ -26,7 +26,6 @@ namespace CourseworkServer
         public event OnConnect DisconnectEvent;
         public event OnDataReceived DataReceivedEvent;
         public string userName = "";
-        public int queueStatus = 0;
         public int queuetime = 0;
         public int elo;
         public int coins;
@@ -79,7 +78,6 @@ namespace CourseworkServer
             for (int i = 0; i < length; i++)
             {
                 d[i] = buffer[i];
-                Console.WriteLine(d[i]);
             }
             tcpClient.GetStream().BeginRead(buffer, 0, bufferSize, DataReceived, null);
             DataReceivedEvent?.Invoke(this, d);
