@@ -25,9 +25,7 @@ namespace CourseworkServer
         BinaryReader reader;
         BinaryWriter writer;
         public Random rng = new Random();
-        const string laptopConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=\"C:\\Users\\Lisa\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True";
-        const string desktopConnectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True";
-        public static string connectionString; //The correct connection string out of the two available ones
+        public const string connectionString = "Data Source=.\\SQLEXPRESS;AttachDbFilename=\"C:\\Users\\Robert\\Source\\Repos\\Coursework\\Coursework Server\\CourseworkDB.mdf\";Integrated Security=True;User Instance=True"; //The correct connection string out of the two available ones
         static bool isReadingForCommand = false;
         Random rnd = new Random();
 
@@ -37,26 +35,7 @@ namespace CourseworkServer
         /// <param name="args">Has no effect</param>
         static void Main(string[] args)
         {
-            #region Change this before hand-in: this is so that it works on both my desktop and laptop
-            Console.WriteLine("Use Laptop or Desktop connection string? L/D");
-            switch (Console.ReadLine())
-            {
-                case "l":
-                case "L":
-                    connectionString = laptopConnectionString;
-                    break;
-                case "d":
-                case "D":
-                    connectionString = desktopConnectionString;
-                    break;
-                default:
-                    Console.WriteLine("Invalid input");
-                    Main(args);
-                    break;
-            }
-            #endregion
             server = new Server();
-            Console.Clear();
             Console.WriteLine("Server online");
             while (true)
             {
@@ -90,8 +69,8 @@ namespace CourseworkServer
             {
                 if (server.connectedClients[i].status == Status.InQueue)
                 {
-                    Console.WriteLine(i + ": " + server.connectedClients[i].userName + " is in queue. Time: " + server.connectedClients[i].queuetime + ". Range = " + GetRangeFromTime(server.connectedClients[i].queuetime));
                     server.connectedClients[i].queuetime++;
+                    Console.WriteLine(i + ": " + server.connectedClients[i].userName + " is in queue. Time: " + server.connectedClients[i].queuetime + ". Range = " + GetRangeFromTime(server.connectedClients[i].queuetime));
                     server.connectedClients[i].SendData(addProtocolToArray(toByteArray(server.connectedClients[i].queuetime.ToString()), Protocol.QueueTime));
                     for (int j = 0; j < i; j++)
                     {
@@ -170,10 +149,8 @@ namespace CourseworkServer
         /// </summary>
         public Server()
         {
-            Console.WriteLine("Initialising Server");
             listener = new Listener();
             connectedClients = new List<Client>();
-            Console.WriteLine("Initialising writers and readers");
             readStream = new MemoryStream();
             writeStream = new MemoryStream();
             reader = new BinaryReader(readStream);
@@ -269,6 +246,11 @@ namespace CourseworkServer
                     break;
             }
         }
+        /// <summary>
+        /// Called when data is received from a client
+        /// </summary>
+        /// <param name="sender">The client sending the data</param>
+        /// <param name="data">The data received</param>
         public void user_DataReceived(Client sender, byte[] data)
         {
             string s = byteArrayToString(data);
@@ -279,6 +261,11 @@ namespace CourseworkServer
             }
 
         }
+        /// <summary>
+        /// Converts to a string from an array of bytes where each byte is the ascii of each character
+        /// </summary>
+        /// <param name="b">The inputted array of bytes</param>
+        /// <returns>The string from the bytes</returns>
         static string byteArrayToString(byte[] b)
         {
             string output = "";
@@ -438,6 +425,11 @@ namespace CourseworkServer
             return false;
         }
 
+        /// <summary>
+        /// Gets the match that the given client is currently playing
+        /// </summary>
+        /// <param name="c">The given client</param>
+        /// <returns>The client's match</returns>
         public Match GetMatch(Client c)
         {
             foreach (Match m in currentMatches)
@@ -458,6 +450,12 @@ namespace CourseworkServer
             }
             throw new ArgumentException(); //This will get called if I use the test ingameform
         }
+        /// <summary>
+        /// Gets the cards in a pack
+        /// </summary>
+        /// <param name="uncommonChance">The chance to get an uncommon as a fraction of 1</param>
+        /// <param name="veryRareChance">The chance to get a very rare as a fraction of 1</param>
+        /// <returns>A string array of the names of the cards in the pack</returns>
         public string[] GetPackCards(double uncommonChance, double veryRareChance)
         {
             object[][] commons = dbHandler.DoParameterizedSQLQuery("select cardname from cards where cardrarity = 0");
@@ -486,6 +484,27 @@ namespace CourseworkServer
             output[4] = (string)j[0];
             return output;
         }
+        /// <summary>
+        /// Deletes a match after it has finished
+        /// </summary>
+        /// <param name="c">A client playing the match</param>
+        public void RemoveMatch(Client c)
+        {
+            foreach (Match m in currentMatches)
+            {
+                if (m.players.Contains(c.userName))
+                {
+                    Console.WriteLine("Removing match between " + m.players[0] + " and " + m.players[1]);
+                    currentMatches.Remove(m);
+                    return;
+                }
+            }
+        }
+        /// <summary>
+        /// Updates a users deck with their newly acquired cards from a pack
+        /// </summary>
+        /// <param name="sender">The user who purchased the pack</param>
+        /// <param name="cardNames">The names of the cards in the pack</param>
         public void UpdatePackCardsOnDB(Client sender, string[] cardNames)
         {
             object[][] d = dbHandler.DoParameterizedSQLQuery("select decks.deckid from accounts join decks on decks.accountid = accounts.accountid and accounts.username = @p1 and decks.allcards = 1", sender.userName);

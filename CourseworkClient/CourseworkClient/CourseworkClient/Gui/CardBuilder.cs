@@ -121,7 +121,7 @@ namespace CourseworkClient.Gui
                         sb.DrawString(Primary.game.mainFont, "Equipped Upgrades:", new Vector2((int)pos.X, cardOutline.Height + (int)pos.Y), Color.Red);
                         for (int i = 0; i < upgradeNames.Count; i++)
                         {
-                            sb.DrawString(Primary.game.mainFont, upgradeNames[i], new Vector2((int)pos.X, 5 + (i * 20) + cardOutline.Height + (int)pos.Y), Color.Red);
+                            sb.DrawString(Primary.game.mainFont, upgradeNames[i], new Vector2((int)pos.X, 35 + (i * 20) + cardOutline.Height + (int)pos.Y), Color.Red);
                         }
                     }
                     catch { }

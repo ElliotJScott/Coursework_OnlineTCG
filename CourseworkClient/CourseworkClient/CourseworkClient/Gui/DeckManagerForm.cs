@@ -22,12 +22,15 @@ namespace CourseworkClient.Gui
         public List<DeckCardItem> deckCardItems = new List<DeckCardItem>();
         public ScrollArrow[] arrows;
 
+        /// <summary>
+        /// Creates a new DeckManagerForm
+        /// </summary>
         public DeckManagerForm()
         {
             background = Primary.game.mainMenuBackground;
-            formItems.Add(new FormChangeButton(new Rectangle(0, 0, 100, 50), "Main Menu", FormChangeButtonTypes.DeckManagerToMainMenu));
-            formItems.Add(new SaveDeckButton(new Rectangle(0, 60, 100, 50), "Save"));
-            formItems.Add(new CurrentDeckButton(new Rectangle(0, 120, 100, 50)));
+            formItems.Add(new FormChangeButton(new Rectangle(0, 0, 150, 50), "Main Menu", FormChangeButtonTypes.DeckManagerToMainMenu));
+            formItems.Add(new SaveDeckButton(new Rectangle(0, 60, 150, 50), "Save"));
+            formItems.Add(new CurrentDeckButton(new Rectangle(0, 120, 150, 50)));
             foreach (Deck d in Deck.decks)
             {
                 Deck m = new Deck(d.dbID);
@@ -100,6 +103,10 @@ namespace CourseworkClient.Gui
 
 
         }
+        /// <summary>
+        /// Sends changes to the decks to the server
+        /// </summary>
+        /// <param name="initID">The initial database id of the decks to start at</param>
         public void TransmitDecks(int initID = -1)
         {
             int initNum = 0;
@@ -136,6 +143,9 @@ namespace CourseworkClient.Gui
             Unlock();
 
         }
+        /// <summary>
+        /// Updates the DeckCardItems on the Deck manager form
+        /// </summary>
         public void UpdateDeckCardItems()
         {
             allCardItems.Clear();
@@ -165,7 +175,7 @@ namespace CourseworkClient.Gui
                             source = Deck.allOwnedCards.upgrades;
                             upgrade = true;
                         }
-                        allCardItems.Add(new DeckCardItem(source[index].card, new Vector2(120 + (i * 220), 25 + (j * 320)), true));
+                        allCardItems.Add(new DeckCardItem(source[index].card, new Vector2(160 + (i * 220), 25 + (j * 320)), true));
                         if (upgrade && index == source.Count - 1) break;
                     }
                     if (allCardItems.Count + startingAllCardIndex == Deck.allOwnedCards.mainDeck.Count + Deck.allOwnedCards.upgrades.Count) break;
@@ -190,7 +200,7 @@ namespace CourseworkClient.Gui
                         }
                         try
                         {
-                            deckCardItems.Add(new DeckCardItem(source[index].card, new Vector2(160 + ((i + allCardsAcross) * 220), 25 + (j * 320)), false));
+                            deckCardItems.Add(new DeckCardItem(source[index].card, new Vector2(200 + ((i + allCardsAcross) * 220), 25 + (j * 320)), false));
                         }
                         catch { }
                         if (upgrade && index == source.Count - 1) break;

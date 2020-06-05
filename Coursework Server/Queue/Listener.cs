@@ -8,7 +8,7 @@ namespace CourseworkServer
     {
         public TcpListener listener;
         public event OnConnect userAdded;
-        public const int port = 1337;
+        public const int port = 1338;
         /// <summary>
         /// Creates a new listener to listen for any ip address on the port trying to connect
         /// </summary>

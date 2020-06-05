@@ -110,7 +110,7 @@ namespace CourseworkServer
                 #region TransmitDBData
                 case Operation.TransmitDBData: //Transmits all of the cards, their effects and all the sender's deck to them. Finally sends to them that it is fine to enter the game.
                     {
-                        object[][] allCards = Server.server.dbHandler.DoParameterizedSQLQuery("select cardname, cardtype, cardrarity, cardattack, carddefence, cardcost from cards");
+                        object[][] allCards = Server.server.dbHandler.DoParameterizedSQLQuery("select cardname, cardtype, cardrarity, cardattack, cardhealth, cardcost from cards");
                         object[][] allEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select effectname, effectdescription, effectcolour from effect");
                         object[][] allCardEffects = Server.server.dbHandler.DoParameterizedSQLQuery("select cards.cardname, effect.effectname from cardeffect join cards on cards.cardid = cardeffect.cardid join effect on effect.effectid = cardeffect.effectid");
                         object[][] allDecks = Server.server.dbHandler.DoParameterizedSQLQuery("select decks.deckid, decks.allcards from Accounts join decks on decks.accountid = accounts.accountid and accounts.username = @p1", currentItem.sender.userName);
@@ -167,6 +167,7 @@ namespace CourseworkServer
                         loser.coins += loserCoin;
                         winner.status = Status.Online;
                         loser.status = Status.Online;
+                        Server.server.RemoveMatch(winner);
                         Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", winner.elo, winner.coins, winner.userName);
                         Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loser.elo, loser.coins, loser.userName);
                         winner.SendData(Server.addProtocolToArray(Server.toByteArray(winner.elo + "|" + winnerCoin), Protocol.EloAndCoins));
@@ -249,6 +250,7 @@ namespace CourseworkServer
                         f.elo = winnerElo;
                         f.coins = winnerCoin;
                         f.status = Status.Online;
+                        Server.server.RemoveMatch(f);
                         Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", winnerElo, winnerCoin, f.userName);
                         Server.server.dbHandler.DoParameterizedSQLCommand("update accounts set elo = @p1, gold = @p2 where username = @p3", loserElo, loserCoin, x[0]);
                         f.SendData(Server.addProtocolToArray(Server.toByteArray(winnerElo + "|" + winnerCoin), Protocol.EloAndCoins));

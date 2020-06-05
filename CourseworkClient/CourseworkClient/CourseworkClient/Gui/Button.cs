@@ -381,6 +381,9 @@ namespace CourseworkClient.Gui
             Primary.game.currentForm = ((SelectionForm)Primary.game.currentForm).gameForm;
         }
     }
+    /// <summary>
+    /// Ends the users turn
+    /// </summary>
     class EndTurnButton : Button
     {
         public EndTurnButton(Rectangle r) : base(r, "End Turn") { }
@@ -390,7 +393,9 @@ namespace CourseworkClient.Gui
             Primary.game.WriteDataToStream(Protocol.EndTurn);
         }
     }
-
+    /// <summary>
+    /// Purchases a basic pack
+    /// </summary>
     class BasicPackButton : TexturedButton
     {
         const int cost = 50;
@@ -415,6 +420,9 @@ namespace CourseworkClient.Gui
 
         }
     }
+    /// <summary>
+    /// Purchases a premium pack
+    /// </summary>
     class PremiumPackButton : TexturedButton
     {
         const int cost = 80;
@@ -439,7 +447,9 @@ namespace CourseworkClient.Gui
 
         }
     }
-
+    /// <summary>
+    /// Saves changes to the user's decks
+    /// </summary>
     class SaveDeckButton : TexturedButton
     {
         public SaveDeckButton(Rectangle r, string s) : base(r, Primary.game.buttonTexture)
@@ -481,6 +491,9 @@ namespace CourseworkClient.Gui
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
     }
+    /// <summary>
+    /// Changes what deck is currently selected/creates a new deck
+    /// </summary>
     class DeckButton : TexturedButton
     {     
         int decknum;
@@ -517,6 +530,9 @@ namespace CourseworkClient.Gui
             sb.DrawString(Primary.game.mainFont, buttonText, new Vector2(boundingBox.X, boundingBox.Y), canBePressed ? Color.Black : Color.White);
         }
     }
+    /// <summary>
+    /// Toggles whether the game is full screen
+    /// </summary>
     class FullScreenButton : Button
     {
         Color bc, tc;
@@ -542,6 +558,9 @@ namespace CourseworkClient.Gui
 
         }
     }
+    /// <summary>
+    /// Commits any changes to the resolution made
+    /// </summary>
     class UpdateResolutionButton : Button
     {
         public UpdateResolutionButton(Rectangle r) : base(r, "Update Resolution") { }
@@ -564,9 +583,12 @@ namespace CourseworkClient.Gui
             Settings.Default.Save();
         }
     }
+    /// <summary>
+    /// Sets the deck being used as the deck to use in game
+    /// </summary>
     class CurrentDeckButton : Button
     {
-        public CurrentDeckButton(Rectangle r) : base(r, "Set as current deck") { }
+        public CurrentDeckButton(Rectangle r) : base(r, "Set current") { }
 
         public override void OnPress()
         {
@@ -574,6 +596,9 @@ namespace CourseworkClient.Gui
             Primary.game.selectedDeckNum = currentForm.currentDeck;
         }
     }
+    /// <summary>
+    /// Requests the top players from the server
+    /// </summary>
     class LeaderboardButton : Button
     {
 

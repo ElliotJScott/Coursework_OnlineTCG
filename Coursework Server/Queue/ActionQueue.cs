@@ -17,7 +17,6 @@ namespace CourseworkServer
         /// </summary>
         public ActionQueue()
         {
-            Console.WriteLine("Queue set up");
             Thread t = new Thread(new ThreadStart(BeginDelegating));
             t.Start();
         }

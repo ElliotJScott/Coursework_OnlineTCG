@@ -7,12 +7,21 @@ using Microsoft.Xna.Framework;
 
 namespace CourseworkClient.Gui
 {
+    /// <summary>
+    /// These are the items in the deck manager form
+    /// </summary>
     class DeckCardItem : GuiItem
     {
         BigCard card;
         int num;
         Vector2 pos;
         bool inAllCards;
+        /// <summary>
+        /// Creates a new DeckCardItem
+        /// </summary>
+        /// <param name="c">The card to draw</param>
+        /// <param name="p">The location to draw this at</param>
+        /// <param name="b">Whether it is in all cards or in a deck</param>
         public DeckCardItem(Card c, Vector2 p, bool b)
         {
             DeckManagerForm currentForm = (DeckManagerForm)Primary.game.currentForm;

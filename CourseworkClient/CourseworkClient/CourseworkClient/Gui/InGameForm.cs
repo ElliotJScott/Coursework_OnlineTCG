@@ -7,11 +7,10 @@ using Microsoft.Xna.Framework;
 namespace CourseworkClient.Gui
 {
     /// <summary>
-    /// The state of an item in the chain
+    /// The state of an item in the chain. This could be a bool but making it this enum makes it more clear what is happening.
     /// </summary>
     enum PlayState
     {
-        Success,
         Countered,
         NotExecuted,
     }
@@ -88,9 +87,9 @@ namespace CourseworkClient.Gui
             }
             if (card.id >= 0 && card.id < 10000)
             {
-                return string.Format("{0} attacked with {1} ID : {1}", username,card.card.name, card.id);
+                return string.Format("{0} attacked with {1}", username, card.card.name);
             }
-            else return string.Format("{0} played {1} ID : {2}", username, card.card.name, card.id);
+            else return string.Format("{0} played {1}", username, card.card.name);
         }
     }
     /// <summary>
@@ -2170,7 +2169,6 @@ namespace CourseworkClient.Gui
                     {
                         DrawACard();
                     }
-#warning fix the issue of no cards in the deck here if possible
                 }
                 else numEnemyCardsInHand = 4;
             }
